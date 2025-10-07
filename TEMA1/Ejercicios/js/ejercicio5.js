@@ -1,4 +1,6 @@
 function actualizarEstilo() {
+    //tambien lo puedo hacer con un if lo que pasa que tengo que poner addeventlstener pa que me fuera
+
     // Obtiene el elemento con id "texto", que será el texto al que se aplicarán los estilos
     const texto = document.getElementById("texto");
 

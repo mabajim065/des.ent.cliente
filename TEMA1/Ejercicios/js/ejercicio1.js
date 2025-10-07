@@ -1,5 +1,5 @@
-// Solicita un dato al usuario
-const dato = prompt("Introduce un dato:");
+// pedir un dato al usuario
+const dato = prompt("Mete  un dato:");
 
-// Muestra el dato en el párrafo con id 'resultado'
+// Muestra el dato en el resultado
 document.getElementById("resultado").textContent = dato;
