@@ -1,0 +1,105 @@
+:root {
+    --rosa-principal: #f5cadc;
+    --rosa-oscuro: #d48daa;
+    --rosa-suave: #fef8fb;
+    --blanco: #ffffff;
+    --gris-texto: #343a40;
+}
+
+/* GENERAL */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--rosa-suave);
+    color: var(--gris-texto);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HEADER */
+.header-custom {
+    background: linear-gradient(135deg, var(--rosa-principal), var(--blanco));
+    color: var(--gris-texto);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header-custom h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gris-texto);
+}
+
+.header-custom p {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 500;
+}
+
+/* INTRO SECTION */
+.intro {
+    background-color: var(--blanco);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.intro:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+}
+
+.profile-img {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(212, 141, 170, 0.3);
+}
+
+/* BOTONES */
+.btn-custom {
+    background: linear-gradient(135deg, var(--rosa-oscuro), var(--rosa-principal));
+    color: var(--blanco);
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom:hover {
+    background: var(--rosa-principal);
+    color: var(--gris-texto);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* FOOTER */
+.footer-custom {
+    background-color: var(--blanco);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 180px;
+        height: 180px;
+    }
+}
