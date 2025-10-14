@@ -24,6 +24,8 @@ console.log(sumaNombres);
  *********/
 //vamos a crear otro array con los dias de la semana
 let dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+// mostramos en el html
+document.getElementById('dias').innerHTML = dias.join(', ');
 // hacemos lo mismo pero con los dias
 console.log(dias);
 console.log(dias.map(dia => dia.length));
@@ -33,3 +35,5 @@ let sumaDias = dias.reduce((acumulador, elemento) => {
 }, 0);
 // Muestra la suma de la longitud de los dias
 console.log(sumaDias);
+
+docu
