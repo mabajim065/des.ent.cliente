@@ -46,7 +46,7 @@ const calcular = (operacion) => {
   resultado.textContent = `Resultado: ${res}`;
 };
 
-// asigno los botones a cada operacion
+// pongo  los botones  enlazadons a cada operacion
 document.getElementById("sumar").addEventListener("click", () => calcular("sumar"));
 document.getElementById("restar").addEventListener("click", () => calcular("restar"));
 document.getElementById("multiplicar").addEventListener("click", () => calcular("multiplicar"));
