@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Ejercicio 3 - Map Ciudades</title>
@@ -7,22 +8,64 @@
   <script src="../js/ejercicio8.js" defer></script>
   <style>
     /* Estilos simples para que se vea mejor */
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px; line-height: 1.4; }
-    .ciudad { padding: 6px 8px; border-bottom: 1px solid #eee; display:flex; justify-content:space-between; align-items:center; }
-    .acciones { display:flex; gap:8px; }
-    button { cursor: pointer; padding: 6px 10px; border-radius:6px; border:1px solid #ccc; background:#f8f8f8; }
-    input[type="text"], input[type="number"] { padding:6px; border-radius:6px; border:1px solid #ccc; }
-    .resaltado-rojo { color: red; font-weight: 700; }
-    .resaltado-verde { color: green; font-weight: 700; }
-    .info { margin-top: 12px; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px;
+      line-height: 1.4;
+    }
+
+    .ciudad {
+      padding: 6px 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #f8f8f8;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .resaltado-rojo {
+      color: red;
+      font-weight: 700;
+    }
+
+    .resaltado-verde {
+      color: green;
+      font-weight: 700;
+    }
+
+    .info {
+      margin-top: 12px;
+    }
   </style>
 </head>
+
 <body>
   <h1>Ejercicio 3: Map de ciudades y habitantes</h1>
 
-  <p>En este ejercicio usamos un <strong>Map</strong> para guardar ciudades como clave y número de habitantes como valor. La lista se renderiza automáticamente al cargar la página.</p>
+  <p>En este ejercicio usamos un <strong>Map</strong> para guardar ciudades como clave y número de habitantes como
+    valor. La lista se renderiza automáticamente al cargar la página.</p>
 
-  <!-- Zona para añadir una ciudad nueva -->
+
   <section>
     <h2>Añadir ciudad</h2>
     <label for="nuevaCiudad">Nombre ciudad:</label>
@@ -36,7 +79,6 @@
 
   <hr>
 
-  <!-- Botones de acciones -->
   <section>
     <h2>Acciones</h2>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -47,17 +89,17 @@
       <button id="btnLimpiarResaltados">Quitar resaltados</button>
     </div>
 
-    <!-- Resultado breve de las acciones -->
+
     <p class="info" id="infoAccion"></p>
   </section>
 
   <hr>
 
-  <!-- Aquí se mostrará la lista dinámica de ciudades -->
+
   <section>
     <h2>Listado de ciudades</h2>
-    <!-- Lista vacía: el JS la rellenará -->
     <div id="listaCiudades"></div>
   </section>
 </body>
+
 </html>
