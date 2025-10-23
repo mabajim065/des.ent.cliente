@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Juego clase</title>
+</head>
+
+<body>
+    <h1>Adivina la palabra secreta</h1>
+    <!--lo primero que hago es pedir a los usuarios que metan una palabra cada uno-->
+    <label for="jugador1">Jugador 1:</label>
+    <input type="text" id="jugador1" placeholder="Pon tu palabra">
+
+    <label for="jugador2">Jugador 2:</label>
+    <input type="text" id="jugador2" placeholder="Pon tu palabra">
+
+    <label for="jugador3">Jugador 3:</label>
+    <input type="text" id="jugador3" placeholder="Pon tu palabra">
+
+    <!-- boton que llame a la funcion de jugar-->
+    <button onclick="jugar()">Jugar</button>
+
+
+    <script>
+        // creo la constantes de las puntuaciones de cada letra y la constante de la contraseña 
+        const palabraSecreta = "L4ultimavezKtelod1go";
+        const puntoVocal = 1;
+        const puntoConsonante = 2;
+        const puntoNumero = 3;
+
+        function calculoPuntuacion(palabra) {
+            let puntuacion = 0;
+            // creo un array que se vaya rellenando con las letras que se acierten
+            let letrasAcertadas = [];
+            //vocales en mayuscula y en minuscula
+            const vocales = "aeiou";
+
+            //voy a usa un for para recorrer tod la palabra para ver si las letras estan en la contraseña
+            for (let i = 0; i < palabra.length; i++) {
+                const letra = palabra[i];
+
+                // si la plabara secreta tiene  la etra la metemos en las letras acertadas
+                if (palabraSecreta.includes(letra)) {
+                    letrasAcertadas.push(letra);
+                    //ara dependiendod e lo que haya voy sumando puntos
+                    if (vocales.includes(letra)) {
+                        puntuacion += puntoVocal;
+                        //
+                    } else if (/\d/.test(letra)) {
+                        puntuacion += puntoNumero;
+                    } else {
+                        puntuacion += puntoConsonante;
+                    }
+                }
+            }
+            return { puntuacion, letrasAcertadas };
+        }
+
+
+
+        // comprobamos que no superen las 20 lineas
+        if (jugador1.length > 20 || jugador2.length > 20 || jugador3.length > 20) {
+            alert("No puede tener mas de 20 letras");
+            return;
+        }
+        // ara vamos a clacular el resultado de cada uno con la funcion de calculoPuntuacion
+        const resultado1 = calculoPuntuacion(jugador1);
+        const resultado2 = calculoPuntuacion(jugador2);
+        const resultado3 = calculoPuntuacion(jugador3);
+    </script>
+
+</body>
+
+</html>

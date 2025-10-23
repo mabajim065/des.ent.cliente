@@ -12,28 +12,25 @@
     <label>Introduce un correo electrónico:</label><br>
     <input type="text" id="correo" placeholder="ejemplo@correo.com"><br><br>
 
-    <button onclick="mostrarCorreoProtegido()">Proteger correo</button>
+    <button onclick="mostrarCorreoAMedias()">Proteger correo</button>
 
     <h3>Resultado:</h3>
     <p id="resultado"></p>
 
     <script>
-        function protege_email(email) {
+        function protegeEmail(email) {
             const [nombre, dominio] = email.split("@");
             const parteVisible = nombre.substring(0, 3); // mostramos los 3 primeros caracteres
             return parteVisible + "...@" + dominio;
         }
 
-        function mostrarCorreoProtegido() {
+        function mostrarCorreoAMedias() {
             const correo = document.getElementById("correo").value.trim();
-            const resultado = protege_email(correo);
+            const resultado = protegeEmail(correo);
             document.getElementById("resultado").textContent = resultado;
             console.log(resultado);
         }
 
-        // Ejemplo en consola
-        console.log(protege_email("rob_hood@example.com"));
-        // Salida esperada: "rob...@example.com"
     </script>
 </body>
 

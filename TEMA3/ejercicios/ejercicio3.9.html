@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ejercicio 9 - Capitalizar palabras</title>
+</head>
+
+<body>
+    <h1>Ejercicio 9</h1>
+    <div class="card">
+
+        <label for="inputText">Texto a transformar: </label>
+        <input id="inputText" type="text" placeholder="ej. hola chicos, estoy probando">
+
+        <div>
+            <button id="boton">Pulsar aquí</button>
+        </div>
+
+        <div id="result" aria-live="polite"></div>
+    </div>
+
+    <script>
+        // Función para poner en mayúscula la primera letra de cada palabra
+        function ponerEnMayusculas(str) {
+            if (!str) return '';
+            //EL  STR.REPLACE SIRVE PARA BUSCAR Y REEMPLAZAR
+            return str.replace(/\b\w/g, function (letra) {
+                return letra.toUpperCase();
+            });
+        }
+
+        const input = document.getElementById('inputText');
+        const boton = document.getElementById('boton');
+        const result = document.getElementById('result');
+
+        function mostrarResultado() {
+            const texto = input.value;
+            const transformado = ponerEnMayusculas(texto);
+            result.textContent = 'Resultado: ' + transformado;
+        }
+
+        boton.addEventListener('click', mostrarResultado);
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') mostrarResultado();
+        });
+
+        // Exportar la función para probar en consola
+        window.ponerEnMayusculas = ponerEnMayusculas;
+    </script>
+</body>
+
+</html>
