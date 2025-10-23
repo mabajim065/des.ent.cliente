@@ -1,0 +1,35 @@
+<!--  4. Escriba una función de JavaScript para extraer un número específico de
+caracteres de una cadena.  -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Extraer caracteres</title>
+</head>
+
+<body>
+    <h2>Extraer un número en concreto</h2>
+
+    <label>Introduce una cadena:</label><br>
+    <input type="text" id="cadena" placeholder="Escribe aquí"><br><br>
+
+    <label>Cantidad de caracteres que quieres extraer:</label><br>
+    <input type="number" id="cantidad" min="1"><br><br>
+
+    <button onclick="extraer()">Extraer</button>
+
+    <h3>Resultado:</h3>
+    <p id="resultado"></p>
+
+    <script>
+        function extraer() {
+            const cadena = document.getElementById("cadena").value;
+            const cantidad = parseInt(document.getElementById("cantidad").value);
+            const resultado = cadena.substring(0, cantidad);
+            document.getElementById("resultado").textContent = resultado;
+        }
+    </script>
+</body>
+
+</html>

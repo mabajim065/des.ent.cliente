@@ -6,12 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, 
 initial-scale=1.0">
-    <title>Ejemplo 1</title>
-    <script type="text/JavaScript" src="../Ejemplos/ejemplo1.html"></script>
+    <title>JavaScript en diferente documento</title>
 </head>
 
 <body>
-    <p eval> </p>
+    <script>
+        let cad = "maria:tiene:sueño:hoy:102928";
+        let tfo;
+        cad = cad.toUpperCase();
+        alert(cad);
+        splitTodosCampos = cad.split(":");
+        split1Campo = cad.split(":", 1);
+        alert(splitTodosCampos);
+        alert(split1Campo);
+        tfo = splitTodosCampos[2];
+        //Cambio en el telefono los números 3 por 9s
+        tfo = tfo.replace("2", "9");
+        alert(tfo);
+        //Muestro el quinto número del teléfono
+        alert(tfo.charAt(4));
+        alert("holahola caracola");
+    </script>
 </body>
 
 </html>
