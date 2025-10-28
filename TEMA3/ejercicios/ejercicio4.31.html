@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - FASE 4: Ejercicio 31 (Máximo de Tres)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0faff; color: #333; }
+        h1 { color: #008CBA; border-bottom: 2px solid #008CBA; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio 31: Número Más Alto de Tres (Objeto Math)</h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba una función de JavaScript para obtener el número más alto de tres números diferentes.
+    </p>
+
+    <h2>Revisa la Consola del Navegador (F12)</h2>
+    <p>La solución utiliza el método <code>Math.max()</code>, parte del **Objeto predefinido Math**.</p>
+
+    <script>
+        /**
+         * Encuentra el valor más alto entre tres números.
+         * @param {number} num1 Primer número.
+         * @param {number} num2 Segundo número.
+         * @param {number} num3 Tercer número.
+         * @returns {number} El número más alto.
+         */
+        function maximoDeTres(num1, num2, num3) {
+            // Math.max() encuentra el valor más alto entre todos los argumentos pasados.
+            return Math.max(num1, num2, num3);
+        }
+
+        // --- Pruebas ---
+        const resultado1 = maximoDeTres(10, 50, 20);
+        const resultado2 = maximoDeTres(120, 95, 80);
+        const resultado3 = maximoDeTres(3, 3, 10); // Funciona incluso si no son "diferentes"
+
+        console.log(`--- Ejercicio 31 (Máximo de Tres) ---`);
+        
+        console.log(`1. Números (10, 50, 20) -> Resultado: ${resultado1}`); // 50
+        console.log(`2. Números (120, 95, 80) -> Resultado: ${resultado2}`); // 120
+        console.log(`3. Números (3, 3, 10) -> Resultado: ${resultado3}`); // 10
+    </script>
+
+</body>
+</html>

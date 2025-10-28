@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - FASE 4: Ejercicio 8a (Diferencia entre Fechas)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0faff; color: #333; }
+        h1 { color: #008CBA; border-bottom: 2px solid #008CBA; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>⏱Ejercicio 8a: Diferencia entre Fechas en Días (Objeto Date)</h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba una función de JavaScript para obtener la diferencia entre dos fechas en días.
+    </p>
+
+    <h2>Revisa la Consola del Navegador (F12)</h2>
+    [cite_start]<p>La solución utiliza el método <code>getTime()</code> del **Objeto Date** [cite: 97, 98] para trabajar con la diferencia en milisegundos y luego la convierte a días.</p>
+
+    <script>
+        /**
+         * Calcula la diferencia absoluta en días entre dos fechas.
+         * @param {Date | string} fecha1 Primera fecha (puede ser objeto Date o cadena válida).
+         * @param {Date | string} fecha2 Segunda fecha.
+         * @returns {number} La diferencia en días.
+         */
+        function diferenciaFechasEnDias(fecha1, fecha2) {
+            [cite_start]// Se convierten las entradas a objetos Date. new Date() permite múltiples formatos[cite: 93].
+            const date1 = new Date(fecha1);
+            const date2 = new Date(fecha2);
+
+            // 1. Obtener la diferencia en milisegundos.
+            // .getTime() devuelve el número de milisegundos desde el 1 de enero de 1970.
+            // Usamos Math.abs() para asegurar que la diferencia sea positiva, independientemente del orden de las fechas.
+            const diferencia_ms = Math.abs(date2.getTime() - date1.getTime());
+
+            // 2. Definir el número de milisegundos que hay en un día.
+            // 1000ms/s * 60s/min * 60min/hr * 24hr/día
+            const ms_por_dia = 1000 * 60 * 60 * 24;
+
+            // 3. Convertir la diferencia de milisegundos a días.
+            // Math.round() se usa para manejar posibles diferencias horarias y de DST (cambio de hora).
+            return Math.round(diferencia_ms / ms_por_dia);
+        }
+
+        // --- Pruebas ---
+        const fecha_inicio = '2025-01-01';
+        const fecha_fin = '2025-01-31';
+        const resultado1 = diferenciaFechasEnDias(fecha_inicio, fecha_fin);
+        
+        const fecha_anterior = new Date(2024, 0, 15); // Enero 15, 2024
+        const fecha_posterior = new Date(2024, 1, 15); // Febrero 15, 2024 (31 días después)
+        const resultado2 = diferenciaFechasEnDias(fecha_anterior, fecha_posterior);
+
+        console.log(`--- Ejercicio 8a (Diferencia de Días) ---`);
+        
+        console.log(`1. Diferencia entre ${fecha_inicio} y ${fecha_fin}:`);
+        console.log(`   Resultado esperado: 30 días`);
+        console.log(`   Resultado obtenido: ${resultado1} días`);
+
+        console.log(`\n2. Diferencia entre Ene 15, 2024 y Feb 15, 2024:`);
+        console.log(`   Resultado esperado: 31 días`);
+        console.log(`   Resultado obtenido: ${resultado2} días`);
+    </script>
+
+</body>
+</html>

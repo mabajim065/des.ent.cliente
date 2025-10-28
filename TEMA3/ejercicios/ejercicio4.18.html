@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - FASE 4: Ejercicio 18 (Producto de Array)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f7fff0; color: #333; }
+        h1 { color: #8B4513; border-bottom: 2px solid #8B4513; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio 18: Producto de Valores en una Matriz (Objeto Array)</h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba una función de JavaScript para calcular el producto de valores en una matriz.
+    </p>
+
+    <h2>Revisa la Consola del Navegador (F12)</h2>
+    <p>La solución utiliza el método <code>.reduce()</code> del **Objeto Array**.</p>
+
+    <script>
+        /**
+         * Calcula el producto total de todos los elementos en un array.
+         * @param {number[]} array_numeros El array de números.
+         * @returns {number} El producto total.
+         */
+        function productoArray(array_numeros) {
+            // El método reduce() aplica una función al array para reducirlo a un único valor.
+            // El valor inicial del acumulador se establece en 1 para la multiplicación.
+            return array_numeros.reduce((acumulador, valor_actual) => acumulador * valor_actual, 1);
+        }
+
+        // --- Prueba ---
+        var array_ejemplo = [2, 3, 5, 2]; // 2 * 3 = 6, 6 * 5 = 30, 30 * 2 = 60
+        const resultado = productoArray(array_ejemplo);
+
+        console.log(`--- Ejercicio 18 (Producto de Array) ---`);
+        console.log(`Array de entrada: [${array_ejemplo}]`);
+        console.log(`Resultado esperado: 60`);
+        console.log(`Resultado obtenido: ${resultado}`);
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - FASE 4: Ejercicio 5 (Unir Array)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0fff5; color: #333; }
+        h1 { color: #2E8B57; border-bottom: 2px solid #2E8B57; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio 5: Unir Array en una Cadena (Objeto Array)</h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba un programa JavaScript simple para unir todos los elementos de una matriz en una cadena.
+    </p>
+
+    <h2>Revisa la Consola del Navegador (F12)</h2>
+    <p>La solución utiliza el método **<code>.join()</code>**, parte del **Objeto predefinido Array**, que convierte todos los elementos del array en una sola cadena, separados por un delimitador (por defecto, una coma).</p>
+
+    <script>
+        /**
+         * Une todos los elementos de una matriz en una cadena.
+         * @param {Array<any>} array El array a unir.
+         * @param {string} [separador=','] El carácter o cadena a usar como separador.
+         * @returns {string} La cadena resultante.
+         */
+        function unirArrayEnCadena(array, separador) {
+            // El método .join() convierte el array en una cadena.
+            // Si se omite el separador, usa la coma (',') por defecto.
+            return array.join(separador);
+        }
+
+        // --- Pruebas ---
+        var array_ejemplo = ['El', 'zorro', 'marrón', 'salta', 'rápido'];
+        
+        // 1. Unir con el separador predeterminado (coma)
+        const resultado1 = unirArrayEnCadena(array_ejemplo); 
+
+        // 2. Unir especificando un separador (espacio)
+        const resultado2 = unirArrayEnCadena(array_ejemplo, ' '); 
+
+        console.log(`--- Ejercicio 5 (Unir Array) ---`);
+        console.log(`Array de entrada: [${array_ejemplo.join(', ')}]`);
+        
+        console.log(`\n1. Con separador por defecto (','):`);
+        console.log(`   Resultado: "${resultado1}"`); // Resultado: "El,zorro,marrón,salta,rápido"
+
+        console.log(`\n2. Con separador de espacio (' '):`);
+        console.log(`   Resultado: "${resultado2}"`); // Resultado: "El zorro marrón salta rápido"
+
+    </script>
+
+</body>
+</html>
