@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - UD 03 - Ejercicio 29: Contar Palabra</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #fff8f0; color: #333; }
+        h1 { color: #d66800; border-bottom: 2px solid #d66800; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio 29: Contar Ocurrencias de Subcadena</h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba una función de JavaScript para encontrar una palabra dentro de una cadena.
+    </p>
+
+    <h2>Resultados en Consola</h2>
+    <p>Abre la **Consola de Desarrollador** (F12) para ver los resultados de los ejemplos de búsqueda.</p>
+
+    <script>
+        /**
+         * La función utiliza el método split() del Objeto String [cite: 69] y
+         * la propiedad length del Objeto Array [cite: 130] para determinar el conteo.
+         */
+        function palabra_búsqueda(cadena_original, subcadena) {
+            // Dividir la cadena por la subcadena.
+            const resultado_split = cadena_original.split(subcadena);
+
+            // La longitud del array resultante (número de trozos) - 1 es el número de separadores (ocurrencias).
+            const contador = resultado_split.length - 1;
+
+            return `'${subcadena}' se encontró ${contador} veces.`;
+        }
+
+        // --- Pruebas Solicitadas ---
+        console.log("--- Resultados Ejercicio 29 (palabra_búsqueda) ---");
+
+        // Ejemplo 1:
+        console.log(`Llamada 1: console.log (palabra_búsqueda('El zorro marrón', 'zorro'));`);
+        console.log(palabra_búsqueda('El zorro marrón', 'zorro')); // Resultado esperado: "'zorro' se encontró 1 veces."
+
+        // Ejemplo 2:
+        console.log(`\nLlamada 2: console.log (palabra_búsqueda ('aa, bb, aa', 'aa'));`);
+        console.log(palabra_búsqueda('aa, bb, aa', 'aa')); // Resultado esperado: "'aa' se encontró 2 veces."
+    </script>
+
+</body>
+</html>
