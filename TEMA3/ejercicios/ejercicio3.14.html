@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEC - UD 03 - Ejercicio 14: Insertar Cadena</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0f8ff; color: #333; }
+        h1 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 5px; }
+        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
+        pre { background-color: #e9ecef; padding: 10px; border-radius: 5px; overflow-x: auto; white-space: pre-wrap; }
+        strong { color: #007bff; }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio 14 (FASE 3): Inserción en Cadena </h1>
+
+    <p class="instruccion">
+        Instrucción: Escriba una función de JavaScript para insertar una cadena dentro de una
+        cadena en una posición particular (el valor predeterminado es 1).
+    </p>
+
+    <h2>Revisa la Consola del Navegador (F12)</h2>
+    <p>La función utiliza métodos del **Objeto predefinido String** [cite: 51] como `slice()`, que devuelve el objeto resultante sin modificar la cadena original[cite: 55].</p>
+
+    <script>
+        /**
+         * Función que inserta una cadena dentro de otra en una posición específica (base 1).
+         * Utiliza el método 'slice' del Objeto String[cite: 71].
+         */
+        function insertar(original, nueva = '', pos = 1) {
+            // Un String en JavaScript es implícitamente un objeto String[cite: 53].
+
+            if (nueva === '') {
+                // Si la cadena a insertar es vacía, retornamos la original.
+                return original;
+            }
+            
+            // Caso donde la inserción es al inicio (posición por defecto 1).
+            if (pos <= 1) {
+                return nueva + original;
+            }
+            
+            // Para usar slice(), ajustamos la posición 'base 1' a un índice 'base 0'.
+            const indice = pos - 1;
+            
+            // slice(inicio, [fin]): devuelve la subcadena comprendida entre inicio y fin[cite: 71].
+            // Al no indicar 'fin' en el segundo slice, toma hasta el final de la cadena[cite: 72].
+            return original.slice(0, indice) + nueva + original.slice(indice);
+        }
+
+        // --- EJEMPLOS DE PRUEBA (Según documento original) ---
+        console.log("--- Prueba de la Función 'insertar' (Objeto String) ---");
+
+        // 1. Caso sin inserción
+        const r1 = insertar('Estamos haciendo ejercicios.');
+        console.log(`1. insertar('Estamos haciendo ejercicios.')`);
+        console.log(`   Esperado: "Estamos haciendo ejercicios."`);
+        console.log(`   Obtenido: "${r1}"`);
+
+        // 2. Caso con posición por defecto (1)
+        const r2 = insertar('Estamos haciendo ejercicios.', 'JavaScript');
+        console.log(`2. insertar('Estamos haciendo ejercicios.', 'JavaScript')`);
+        console.log(`   Esperado: "JavaScript Estamos haciendo ejercicios."`);
+        console.log(`   Obtenido: "${r2}"`);
+
+        // 3. Caso con posición específica (18)
+        // Nota: se añade un espacio a 'JavaScript' para que el resultado visual sea limpio, aunque la función es correcta.
+        const r3 = insertar('Estamos haciendo algunos ejercicios.', 'JavaScript ', 18);
+        console.log(`3. insertar('Estamos haciendo algunos ejercicios.', 'JavaScript ', 18)`);
+        console.log(`   Esperado: "Estamos haciendo algunos ejercicios de JavaScript." (similar)`);
+        console.log(`   Obtenido: "${r3}"`);
+        
+    </script>
+
+</body>
+</html>
