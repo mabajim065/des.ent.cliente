@@ -1,58 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWEC - FASE 4: Ejercicio 5 (Unir Array)</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0fff5; color: #333; }
-        h1 { color: #2E8B57; border-bottom: 2px solid #2E8B57; padding-bottom: 5px; }
-        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
-    </style>
+    <title>Unir elementos de un array</title>
 </head>
+
 <body>
 
-    <h1>Ejercicio 5: Unir Array en una Cadena (Objeto Array)</h1>
+    <h2>Unir todos los elementos de un array en una cadena</h2>
 
-    <p class="instruccion">
-        Instrucción: Escriba un programa JavaScript simple para unir todos los elementos de una matriz en una cadena.
-    </p>
+    <!-- Input para el array -->
+    <label>Array (elementos separados por comas):</label>
+    <input type="text" id="array" placeholder="Ej: hola,mundo,js">
+    <br><br>
 
-    <h2>Revisa la Consola del Navegador (F12)</h2>
-    <p>La solución utiliza el método **<code>.join()</code>**, parte del **Objeto predefinido Array**, que convierte todos los elementos del array en una sola cadena, separados por un delimitador (por defecto, una coma).</p>
+    <button onclick="unirArray()">Unir elementos</button>
+
+    <p id="resultado"></p>
 
     <script>
-        /**
-         * Une todos los elementos de una matriz en una cadena.
-         * @param {Array<any>} array El array a unir.
-         * @param {string} [separador=','] El carácter o cadena a usar como separador.
-         * @returns {string} La cadena resultante.
-         */
-        function unirArrayEnCadena(array, separador) {
-            // El método .join() convierte el array en una cadena.
-            // Si se omite el separador, usa la coma (',') por defecto.
-            return array.join(separador);
+        // Función que une todos los elementos de un array en una cadena
+        function unirElementos(arr) {
+            return arr.join(" "); // usamos join con espacio para separar los elementos
         }
 
-        // --- Pruebas ---
-        var array_ejemplo = ['El', 'zorro', 'marrón', 'salta', 'rápido'];
-        
-        // 1. Unir con el separador predeterminado (coma)
-        const resultado1 = unirArrayEnCadena(array_ejemplo); 
+        // Función para usar desde el HTML
+        function unirArray() {
+            var texto = document.getElementById("array").value;
 
-        // 2. Unir especificando un separador (espacio)
-        const resultado2 = unirArrayEnCadena(array_ejemplo, ' '); 
+            // Convertimos la cadena en un array separando por comas
+            var arr = texto.split(",");
 
-        console.log(`--- Ejercicio 5 (Unir Array) ---`);
-        console.log(`Array de entrada: [${array_ejemplo.join(', ')}]`);
-        
-        console.log(`\n1. Con separador por defecto (','):`);
-        console.log(`   Resultado: "${resultado1}"`); // Resultado: "El,zorro,marrón,salta,rápido"
+            var resultado = unirElementos(arr);
 
-        console.log(`\n2. Con separador de espacio (' '):`);
-        console.log(`   Resultado: "${resultado2}"`); // Resultado: "El zorro marrón salta rápido"
+            document.getElementById("resultado").innerText =
+                "Cadena resultante: " + resultado;
+        }
 
+        // Ejemplo por consola
+        console.log(unirElementos(["hola", "mundo", "js"])); // → "hola mundo js"
+        console.log(unirElementos([1, 2, 3, 4]));            // → "1 2 3 4"
     </script>
 
 </body>
+
 </html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar elemento de un array</title>
+</head>
+
+<body>
+
+    <h2>4.31.b.Eliminar un elemento específico de un array</h2>
+
+
+    <label>Array (números separados por comas):</label>
+    <input type="text" id="array" placeholder="Ej: 2,4,5,9">
+    <br><br>
+
+    <!-- Input para el elemento a eliminar -->
+    <label>Elemento a eliminar:</label>
+    <input type="number" id="elemento" placeholder="Ej: 5">
+    <br><br>
+
+    <button onclick="eliminarElemento()">Eliminar</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        // Función que elimina un elemento específico de un array
+        function remueve(arr, elemento) {
+            var nuevoArray = [];
+
+            // Recorremos el array original
+            for (var i = 0; i < arr.length; i++) {
+                // Si el elemento actual no es el que queremos eliminar, lo añadimos al nuevo array
+                if (arr[i] !== elemento) {
+                    nuevoArray.push(arr[i]);
+                }
+            }
+
+            return nuevoArray;
+        }
+
+        // Función para usar desde el HTML
+        function eliminarElemento() {
+            var texto = document.getElementById("array").value;
+            var arr = texto.split(",").map(Number); // Convertimos a números
+            var elem = parseFloat(document.getElementById("elemento").value);
+
+            var resultado = remueve(arr, elem);
+
+            document.getElementById("resultado").innerText =
+                "Array resultante: [" + resultado.join(", ") + "]";
+        }
+
+        // Ejemplo por consola
+        console.log(remueve([2, 4, 5, 9], 5)); // → [2, 4, 9]
+    </script>
+
+</body>
+
+</html>
