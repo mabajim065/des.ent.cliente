@@ -1,49 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWEC - FASE 4: Ejercicio 4a (Suma de Array)</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f0f8ff; color: #333; }
-        h1 { color: #4CAF50; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
-        .instruccion { font-style: italic; color: #007bff; margin-bottom: 15px; }
-    </style>
+    <title>Suma de una matriz</title>
 </head>
+
 <body>
 
-    <h1>Ejercicio 4a: Suma de una Matriz (Objeto Array)</h1>
+    <h2>Suma de una matriz de números enteros</h2>
 
-    <p class="instruccion">
-        Instrucción: Escriba un programa JavaScript para calcular la suma de una matriz de números enteros.
-        (Ejemplo: [1, 2, 3, 4, 5, 6] -> Resultado esperado: 21)
-    </p>
-
-    <h2>Revisa la Consola del Navegador (F12)</h2>
-    [cite_start]<p>La solución utiliza el método <code>.reduce()</code>, parte del **Objeto predefinido Array**[cite: 127, 132].</p>
+    <p id="resultado"></p> <!-- Aquí mostraremos el resultado -->
 
     <script>
-        /**
-         * Calcula la suma total de todos los elementos en un array.
-         * @param {number[]} array_numeros El array de números enteros.
-         * @returns {number} La suma total.
-         */
-        function sumarArray(array_numeros) {
-            [cite_start]// Utilizamos el método reduce() del Objeto Array[cite: 132].
-            // El '0' es el valor inicial del acumulador.
-            return array_numeros.reduce((acumulador, valor_actual) => acumulador + valor_actual, 0);
+        // Creamos el array con números enteros
+        var array = [1, 2, 3, 4, 5, 6];
+
+        // Variable para guardar la suma
+        var suma = 0;
+
+        // Recorremos el array con un bucle for
+        for (var i = 0; i < array.length; i++) {
+            suma = suma + array[i]; // sumamos cada elemento
         }
 
-        // --- Prueba Solicitada ---
-        var array_ejemplo = [1, 2, 3, 4, 5, 6];
-        const resultado = sumarArray(array_ejemplo);
-        
-        console.log(`--- Ejercicio 4a (Suma de Array) ---`);
-        console.log(`Array de entrada: [${array_ejemplo}]`);
-        console.log(`Resultado esperado: 21`);
-        console.log(`Resultado obtenido: ${resultado}`);
-
+        // Mostramos el resultado en el párrafo con id "resultado"
+        document.getElementById("resultado").innerHTML =
+            "La suma del array es: " + suma;
     </script>
 
 </body>
+
 </html>

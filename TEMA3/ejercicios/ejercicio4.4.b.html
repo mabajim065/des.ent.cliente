@@ -1,54 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWEC - FASE 4: Ejercicio 4b (Días del Mes)</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #f5f5f5; color: #333; }
-        h1 { color: #8A2BE2; border-bottom: 2px solid #8A2BE2; padding-bottom: 5px; }
-        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
-    </style>
+    <title>Días del mes</title>
 </head>
+
 <body>
 
-    <h1>📅 Ejercicio 4b: Determinar Días de un Mes (Objeto Date)</h1>
+    <h2>Calcular cuántos días tiene un mes</h2>
 
-    <p class="instruccion">
-        Instrucción: Función que recibe (mes, año) y Devuelve el número de días (28, 29, 30 o 31).
-    </p>
 
-    <h2>Revisa la Consola del Navegador (F12)</h2>
-    <p>La solución utiliza el objeto predefinido **Date**  para determinar el último día del mes, manejando automáticamente años bisiestos.</p>
+    <label>Mes (1-12): </label>
+    <input type="number" id="mes" min="1" max="12">
+    <br><br>
+
+    <label>Año: </label>
+    <input type="number" id="anio">
+    <br><br>
+
+    <button onclick="diasDelMes()">Calcular días</button>
+
+    <p id="resultado"></p>
 
     <script>
-        /**
-         * Determina el número de días en un mes y año específicos.
-         * @param {number} mes El mes (1=Enero, 12=Diciembre).
-         * @param {number} año El año.
-         * @returns {number} El número de días del mes.
-         */
-        function diasDelMes(mes, año) {
-            // Se crea una fecha para el día 0 del 'mes' especificado.
-            // Los meses en JS se indexan de 0 a 11[cite: 118].
-            // Al pasar 'mes' (ej: 2 para Febrero) y el día '0', Date calcula el último día del mes anterior (Enero), 
-            // ¡pero en este caso lo usamos para obtener el último día del mes ANTES del índice 'mes'!
-            // El truco es: new Date(año, índice_mes, 0) da el último día del mes de índice (índice_mes - 1).
-            // Si pasamos el mes_natural (1-12) como índice, el día 0 nos da el último día del mes anterior.
-            // Para obtener Días de Febrero (mes=2), creamos Date(año, 2, 0) que da el último día de Febrero.
-            const fecha = new Date(año, mes, 0); 
-            
-            // getDate() devuelve el día del mes[cite: 131].
-            return fecha.getDate();
-        }
+        // Función que calcula los días de un mes dado
+        function diasDelMes() {
+            // Obtenemos los valores de los inputs
+            var mes = parseInt(document.getElementById("mes").value);
+            var anio = parseInt(document.getElementById("anio").value);
 
-        // --- Pruebas ---
-        console.log(`--- Ejercicio 4b (Días del Mes) ---`);
-        console.log(`Días de Febrero (2) de 2024 (Bisiesto): ${diasDelMes(2, 2024)}`);
-        console.log(`Días de Febrero (2) de 2025 (No Bisiesto): ${diasDelMes(2, 2025)}`);
-        console.log(`Días de Marzo (3) - 31 días: ${diasDelMes(3, 2024)}`);
-        console.log(`Días de Abril (4) - 30 días: ${diasDelMes(4, 2024)}`);
+            // Creamos una fecha con el día 0 del mes siguiente
+            // Esto nos da automáticamente el último día del mes actual
+            var fecha = new Date(anio, mes, 0);
+
+            // Obtenemos el número de días del mes
+            var dias = fecha.getDate();
+
+            // Mostramos el resultado
+            document.getElementById("resultado").innerHTML =
+                "El mes " + mes + " del año " + anio + " tiene " + dias + " días.";
+        }
+        //¡ tmbn lo podria haber hecho con un bucle switch case!
+        /*switch (mes) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                dias = 31;
+                break;
+            case 4: case 6: case 9: case 11:
+                dias = 30;
+                break;
+            case 2:
+                // Verificamos si es año bisiesto
+                if ((anio % 4 === 0 && anio % 100 !== 0) || (anio % 400 === 0)) {
+                dias = 29;
+                } else {
+                dias = 28;
+                }
+                break;
+            default:
+                dias = "Mes inválido";
+            }
+                */
     </script>
 
 </body>
+
 </html>
