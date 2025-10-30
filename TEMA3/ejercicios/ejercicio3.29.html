@@ -1,52 +1,61 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWEC - UD 03 - Ejercicio 29: Contar Palabra</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 25px; background-color: #fff8f0; color: #333; }
-        h1 { color: #d66800; border-bottom: 2px solid #d66800; padding-bottom: 5px; }
-        .instruccion { font-style: italic; color: #cc5500; margin-bottom: 15px; }
-    </style>
+    <title>Buscar palabra</title>
 </head>
+
 <body>
 
-    <h1>Ejercicio 29: Contar Ocurrencias de Subcadena</h1>
+    <h2>3.29.Buscar cuántas veces aparece una palabra en una cadena</h2>
 
-    <p class="instruccion">
-        Instrucción: Escriba una función de JavaScript para encontrar una palabra dentro de una cadena.
-    </p>
 
-    <h2>Resultados en Consola</h2>
-    <p>Abre la **Consola de Desarrollador** (F12) para ver los resultados de los ejemplos de búsqueda.</p>
+    <label>Cadena:</label>
+    <input type="text" id="cadena" placeholder="Ej: El zorro marrón">
+    <br><br>
+
+    <label>Palabra a buscar:</label>
+    <input type="text" id="palabra" placeholder="Ej: zorro">
+    <br><br>
+
+    <button onclick="buscar()">Buscar</button>
+
+    <p id="resultado"></p>
 
     <script>
-        /**
-         * La función utiliza el método split() del Objeto String [cite: 69] y
-         * la propiedad length del Objeto Array [cite: 130] para determinar el conteo.
-         */
-        function palabra_búsqueda(cadena_original, subcadena) {
-            // Dividir la cadena por la subcadena.
-            const resultado_split = cadena_original.split(subcadena);
+        // Función que cuenta cuántas veces aparece una palabra en una cadena
+        function palabra_busqueda(cadena, palabra) {
 
-            // La longitud del array resultante (número de trozos) - 1 es el número de separadores (ocurrencias).
-            const contador = resultado_split.length - 1;
 
-            return `'${subcadena}' se encontró ${contador} veces.`;
+            if (palabraLower.length === 0) {
+                return "La palabra está vacía.";
+            }
+
+            var contador = 0;
+            var posicion = texto.indexOf(palabraLower);
+
+            while (posicion !== -1) {
+                contador++;
+                // Buscamos la siguiente aparición después de la vez que acabamos de verl
+                posicion = texto.indexOf(palabraLower, posicion + palabraLower.length);
+            }
+
+            return "'" + palabra + "' se encontró " + contador + " veces.";
         }
 
-        // --- Pruebas Solicitadas ---
-        console.log("--- Resultados Ejercicio 29 (palabra_búsqueda) ---");
+        // Función para usar desde el HTML
+        function buscar() {
+            var cadena = document.getElementById("cadena").value;
+            var palabra = document.getElementById("palabra").value;
 
-        // Ejemplo 1:
-        console.log(`Llamada 1: console.log (palabra_búsqueda('El zorro marrón', 'zorro'));`);
-        console.log(palabra_búsqueda('El zorro marrón', 'zorro')); // Resultado esperado: "'zorro' se encontró 1 veces."
+            var resultado = palabra_busqueda(cadena, palabra);
 
-        // Ejemplo 2:
-        console.log(`\nLlamada 2: console.log (palabra_búsqueda ('aa, bb, aa', 'aa'));`);
-        console.log(palabra_búsqueda('aa, bb, aa', 'aa')); // Resultado esperado: "'aa' se encontró 2 veces."
+            document.getElementById("resultado").innerText = resultado;
+        }
+
     </script>
 
 </body>
+
 </html>

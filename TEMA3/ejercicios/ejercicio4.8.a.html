@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Diferencia entre fechas</title>
+</head>
+
+<body>
+
+    <h2>4.8.a.Calcular la diferencia en días entre dos fechas</h2>
+
+
+    <label>Fecha 1:</label>
+    <input type="date" id="fecha1">
+    <br><br>
+
+    <label>Fecha 2:</label>
+    <input type="date" id="fecha2">
+    <br><br>
+
+    <button onclick="calcularDiferencia()">Calcular diferencia</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function diferenciaDias(fecha1, fecha2) {
+            // Convertimos las cadenas de fecha a objetos Date
+            var f1 = new Date(fecha1);
+            var f2 = new Date(fecha2);
+
+            // cone sto vamo a calcular la diferencia
+            var diff = Math.abs(f2 - f1);
+
+            // como esta en miliseg lo vamoms a tenr que pasa a dias
+            var dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            return dias;
+        }
+
+        // esta funcion la tenemos que hacer porque sino no podemos interactuar con el html
+        function calcularDiferencia() {
+            var fecha1 = document.getElementById("fecha1").value;
+            var fecha2 = document.getElementById("fecha2").value;
+
+            if (fecha1 === "" || fecha2 === "") {
+                document.getElementById("resultado").innerText = "Por favor, introduce ambas fechas.";
+                return;
+            }
+
+            var dias = diferenciaDias(fecha1, fecha2);
+
+            document.getElementById("resultado").innerText =
+                "La diferencia entre las fechas es de " + dias + " días.";
+        }
+    </script>
+
+</body>
+
+</html>

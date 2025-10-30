@@ -1,37 +1,63 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>3.6.Proteger dirección de correo</title>
+    <meta charset="utf-8">
+    <title>Proteger email</title>
 </head>
 
 <body>
-    <h2>Ocultar parte de un correo electrónico</h2>
 
-    <label>Introduce un correo electrónico:</label><br>
-    <input type="text" id="correo" placeholder="ejemplo@correo.com"><br><br>
+    <h2>3.6. proteger email</h2>
 
-    <button onclick="mostrarCorreoAMedias()">Proteger correo</button>
 
-    <h3>Resultado:</h3>
-    <p id="resultado"></p>
+    <label>Email:</label>
+    <input type="text" id="email" placeholder="rob_hood@example.com">
+    <button onclick="mostrarProtegido()">Proteger</button>
+
+
+    <p id="salida"></p>
 
     <script>
+
         function protegeEmail(email) {
-            const [nombre, dominio] = email.split("@");
-            const parteVisible = nombre.substring(0, 3); // mostramos los 3 primeros caracteres
-            return parteVisible + "...@" + dominio;
+            // Quitamos espacios al principio y final
+            email = String(email).trim();
+
+            // separamos del @ pa un lao y para otro
+            var partes = email.split('@');
+
+            // Si no tiene exactamente una @, devolvemos un mensaje de error simple
+            if (partes.length !== 2 || partes[0].length === 0 || partes[1].length === 0) {
+                return 'Email inválido';
+            }
+
+            var primero = partes[0];   // parte antes de la @
+            var segundo = partes[1]; // parte después de la @
+
+            // Decidimos cuántos caracteres mostrar de la parte local:
+            // si la parte local tiene más de 3 caracteres: mostramos los 3 primeros pero si tinee menos de 3 mostramos na mas 1
+            var visibles;
+            if (primero.length > 3) {
+                visibles = primero.substring(0, 3); // primeros 3 caracteres
+            } else {
+                visibles = primero.substring(0, 1); // solo la primera
+            }
+
+            // ponemos todo junto con '...' para que no se vea nada
+            var protegido = visibles + '...' + '@' + segundo;
+
+            return protegido;
         }
 
-        function mostrarCorreoAMedias() {
-            const correo = document.getElementById("correo").value.trim();
-            const resultado = protegeEmail(correo);
-            document.getElementById("resultado").textContent = resultado;
-            console.log(resultado);
+        // Función sencilla para usar desde el HTML y mostrar el resultado
+        function mostrarProtegido() {
+            var email = document.getElementById('email').value;
+            var resultado = protegeEmail(email);
+            document.getElementById('salida').innerText = resultado;
         }
-
     </script>
+
 </body>
 
 </html>

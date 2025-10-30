@@ -1,71 +1,55 @@
-<!--18. Escriba una función de JavaScript para contar la aparición de una
-subcadena en una cadena. -->
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Ejercicio 18 - Contar subcadenas</title>
+    <title>Contar subcadena</title>
 </head>
 
 <body>
-    <h1>Ejercicio 18</h1>
-    <div class="card">
 
-        <label for="inputText">Cadena principal: </label>
-        <input id="inputText" type="text" placeholder="ej. hola chicos, estoy probando hola">
+    <h2>Contar cuántas veces aparece una subcadena</h2>
 
-        <label for="subcadena">Subcadena a buscar: </label>
-        <input id="subcadena" type="text" placeholder="ej. hola">
 
-        <div>
-            <button id="boton">Contar apariciones</button>
-        </div>
+    <label>Cadena principal:</label>
+    <input type="text" id="texto" placeholder="Ej: Hola mundo, hola clase, hola a todos.">
+    <br><br>
 
-        <div id="result" aria-live="polite"></div>
-    </div>
+
+    <label>Subcadena a buscar:</label>
+    <input type="text" id="subcadena" placeholder="Ej: hola">
+    <br><br>
+
+
+    <button onclick="contar()">Contar</button>
+
+
+    <p id="resultado"></p>
 
     <script>
-        // Función para contar las apariciones de una subcadena en una cadena
-        function contarSubcadena(cadena, subcadena) {
-            if (!cadena || !subcadena) return 0;
-            let contador = 0;
-            let posicion = 0;
 
-            while (true) {
-                posicion = cadena.indexOf(subcadena, posicion);
-                if (posicion !== -1) {
-                    contador++;
-                    posicion += subcadena.length;
-                } else {
-                    break;
-                }
+        function contarSubcadena(texto, subcadena) {
+
+            // Si la subcadena está vacía, devolvemos 0 directamente
+            if (subcadena.length === 0) {
+                return 0;
             }
+
+            var contador = 0;
+            var posicion = texto.indexOf(subcadena);
+
+            // si se encentra la subcadena, entramos en el bucle
+            while (posicion !== -1) {
+                contador++; // sumamos una aparición
+                // Buscamos la siguiente aparición después de la posición actual
+                posicion = texto.indexOf(subcadena, posicion + subcadena.length);
+            }
+
             return contador;
         }
 
-        const input = document.getElementById('inputText');
-        const subcadenaInput = document.getElementById('subcadena');
-        const boton = document.getElementById('boton');
-        const result = document.getElementById('result');
-
-        function mostrarResultado() {
-            const cadena = input.value;
-            const subcadena = subcadenaInput.value;
-            const apariciones = contarSubcadena(cadena, subcadena);
-            result.textContent = `La subcadena "${subcadena}" aparece ${apariciones} veces en la cadena principal.`;
-        }
-
-        boton.addEventListener('click', mostrarResultado);
-
-        input.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') mostrarResultado();
-        });
-
-        subcadenaInput.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') mostrarResultado();
-        });
-
-        // Exportar la función para probar en consola
-        window.contarSubcadena = contarSubcadena;
     </script>
+
+</body>
+
+</html>

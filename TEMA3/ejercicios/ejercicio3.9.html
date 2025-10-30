@@ -1,55 +1,52 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ejercicio 9 - Capitalizar palabras</title>
+    <meta charset="UTF-8">
+    <title>Primera letra en mayúscula</title>
 </head>
 
 <body>
-    <h1>Ejercicio 9</h1>
-    <div class="card">
 
-        <label for="inputText">Texto a transformar: </label>
-        <input id="inputText" type="text" placeholder="ej. hola chicos, estoy probando">
+    <h2>Poner en mayúscula la primera letra de cada palabra</h2>
 
-        <div>
-            <button id="boton">Pulsar aquí</button>
-        </div>
 
-        <div id="result" aria-live="polite"></div>
-    </div>
+    <label>Escribe una frase:</label>
+    <input type="text" id="frase" placeholder="ej: hola mundo desde javascript">
+    <br><br>
+
+
+    <button onclick="ponerMayusculas()">Convertir</button>
+
+
+    <p id="resultado"></p>
 
     <script>
-        // Función para poner en mayúscula la primera letra de cada palabra
-        function ponerEnMayusculas(str) {
-            if (!str) return '';
-            //EL  STR.REPLACE SIRVE PARA BUSCAR Y REEMPLAZAR
-            return str.replace(/\b\w/g, function (letra) {
-                return letra.toUpperCase();
-            });
+        function ponerMayusculas() {
+
+            var texto = document.getElementById("frase").value;
+
+            //con esto vamos a separar la cadena  por palabras
+            var palabras = texto.split(" ");
+
+            // Recorremos el array de palabras
+            for (var i = 0; i < palabras.length; i++) {
+                var palabra = palabras[i];
+
+                // Si la palabra no está vacía, cambiamos la primera letra a mayúscula
+                if (palabra.length > 0) {
+                    palabras[i] = palabra.charAt(0).toUpperCase() + palabra.slice(1);
+                }
+            }
+
+            // Unimos las palabras de nuevo 
+            var resultado = palabras.join(" ");
+
+            // Mostramos el resultado en la página
+            document.getElementById("resultado").innerHTML = resultado;
         }
-
-        const input = document.getElementById('inputText');
-        const boton = document.getElementById('boton');
-        const result = document.getElementById('result');
-
-        function mostrarResultado() {
-            const texto = input.value;
-            const transformado = ponerEnMayusculas(texto);
-            result.textContent = 'Resultado: ' + transformado;
-        }
-
-        boton.addEventListener('click', mostrarResultado);
-
-        input.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') mostrarResultado();
-        });
-
-        // Exportar la función para probar en consola
-        window.ponerEnMayusculas = ponerEnMayusculas;
     </script>
+
 </body>
 
 </html>
