@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ejemplo 1 — Eventos</title>
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px
+        }
+
+        #miObjeto {
+            width: 220px;
+            height: 100px;
+            border: 2px dashed #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ejemplo 1</h1>
+    <p>Pulsa una tecla (en cualquier parte) o haz clic en el recuadro para ver los datos del evento.</p>
+
+    <div id="miObjeto" tabindex="0">Haz clic aquí</div>
+
+    <script>
+        function mostrarMensaje(evento) {
+            if (evento.type === 'keyup') {
+                alert('KeyUp - código: ' + (evento.keyCode || evento.which));
+            } else if (evento.type === 'click') {
+                alert('Click - posición: ' + evento.clientX + ' ' + evento.clientY);
+            }
+        }
+
+        // Asignar manejadores
+        var obj = document.getElementById('miObjeto');
+        if (obj) obj.onclick = mostrarMensaje;
+        document.onkeyup = mostrarMensaje;
+    </script>
+</body>
+
+</html>

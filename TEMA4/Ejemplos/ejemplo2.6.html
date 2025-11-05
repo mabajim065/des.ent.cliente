@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2.6 Manejadores de eventos desde código</title>
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px
+        }
+
+        pre {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            padding: 12px;
+            border-radius: 6px;
+            overflow: auto
+        }
+
+        #miObjeto {
+            width: 220px;
+            height: 100px;
+            border: 2px dashed #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-top: 12px
+        }
+
+        .note {
+            color: #555;
+            margin-bottom: 10px
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #2b6cb0;
+            background: #3182ce;
+            color: #fff
+        }
+    </style>
+</head>
+
+<body>
+    <h1>2.6 Manejadores de eventos desde código</h1>
+
+    <p class="note">Podemos asignar manejadores de eventos usando <code>addEventListener(evento, manejador)</code>.</p>
+
+    <h2>Ejemplo (código)</h2>
+    <pre><code>function mostrarMensaje(evento){
+if(evento.type==="keyup"){
+  alert(evento.keyCode);
+}
+else if(evento.type==="click"){
+  alert(evento.clientX+" "+evento.clientY);
+}
+}
+document.getElementById("miObjeto").addEventListener("click", mostrarMensaje);
+document.addEventListener("keyup", mostrarMensaje);
+document.getElementById("miObjeto").addEventListener("dblclick", function(){
+  alert("Codigo metido directamente");
+});</code></pre>
+
+    <h2>Demo ejecutable</h2>
+    <p class="note">Haz clic en el recuadro, pulsa cualquier tecla o haz doble clic para ver los mensajes (se usan
+        <code>alert</code> como en el ejemplo).</p>
+    <div id="miObjeto" tabindex="0">Haz clic aquí</div>
+    <div>
+        <button id="btnFocus">Foco en recuadro</button>
+    </div>
+
+    <script>
+        // Código ejecutable (igual que el snippet mostrado, con nombres corregidos)
+        function mostrarMensaje(evento) {
+            if (!evento) return;
+            if (evento.type === "keyup") {
+                alert(evento.keyCode);
+            } else if (evento.type === "click") {
+                alert(evento.clientX + " " + evento.clientY);
+            }
+        }
+
+        // Añadir listeners
+        var obj = document.getElementById('miObjeto');
+        if (obj) obj.addEventListener('click', mostrarMensaje);
+        document.addEventListener('keyup', mostrarMensaje);
+        if (obj) obj.addEventListener('dblclick', function () { alert('Codigo metido directamente'); });
+
+        // util: botón para poner foco en el recuadro y usar keyup localmente
+        var btn = document.getElementById('btnFocus');
+        if (btn) btn.addEventListener('click', function () { if (obj) obj.focus(); });
+    </script>
+</body>
+
+</html>
