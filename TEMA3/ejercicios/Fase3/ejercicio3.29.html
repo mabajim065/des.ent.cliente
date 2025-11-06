@@ -28,17 +28,17 @@
         function palabra_busqueda(cadena, palabra) {
 
 
-            if (palabraLower.length === 0) {
+            if (palabra.length === 0) {
                 return "La palabra está vacía.";
             }
 
             var contador = 0;
-            var posicion = texto.indexOf(palabraLower);
+            var posicion = cadena.indexOf(palabra);
 
             while (posicion !== -1) {
                 contador++;
                 // Buscamos la siguiente aparición después de la vez que acabamos de verl
-                posicion = texto.indexOf(palabraLower, posicion + palabraLower.length);
+                posicion = cadena.indexOf(palabra, posicion + palabra.length);
             }
 
             return "'" + palabra + "' se encontró " + contador + " veces.";
@@ -52,7 +52,7 @@
 
             var resultado = palabra_busqueda(cadena, palabra);
 
-            document.getElementById("resultado").innerText = resultado;
+            document.getElementById("resultado").innerHTML = resultado;
         }
 
     </script>

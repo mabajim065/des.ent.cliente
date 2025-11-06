@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cambiar imagen con un click</title>
+    <style>
+        #imagen {
+            width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Cambiar imagen al hacer click</h2>
+
+    <img id="pelo" src="TEMA4\Ejercicios\Fase 5\fotopelo.jpg" alt="Imagen" onclick="cambiarImagen()">
+
+    <script>
+        /**
+         * 1.
+   Coloque en la aplicación una imagen:
+   - Mientras se mantenga click pulsado cambiar por otra imagen
+   - Cuando se suelta el click debe volver a la primera <imagen></imagen>
+           */
+        function cambiarImagen() {
+            var imagen = document.getElementById("pelo");
+            if (imagen.src.endsWith("fotopelo.jpg")) {
+                imagen.src = "TEMA4\Ejercicios\Fase 5\fotopelo.jpg";
+            } else {
+                imagen.src = "TEMA4\Ejercicios\Fase 5\fotocalvo.jpg";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

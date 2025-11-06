@@ -21,7 +21,7 @@
     <br><br>
 
 
-    <button onclick="contar()">Contar</button>
+    <button onclick="contarSubcadenas()">Contar</button>
 
 
     <p id="resultado"></p>
@@ -47,6 +47,16 @@
             }
 
             return contador;
+        }
+        // Función para usar desde el HTML
+        function contarSubcadenas() {
+            var texto = document.getElementById("texto").value;
+            var subcadena = document.getElementById("subcadena").value;
+
+            var resultado = contarSubcadena(texto, subcadena);
+
+            document.getElementById("resultado").innerHTML =
+                "La subcadena '" + subcadena + "' aparece " + resultado + " veces.";
         }
 
     </script>
