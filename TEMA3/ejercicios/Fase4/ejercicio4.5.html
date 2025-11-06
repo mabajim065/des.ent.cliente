@@ -11,8 +11,8 @@
     <h2>Unir todos los elementos de un array en una cadena</h2>
 
     <!-- Input para el array -->
-    <label>Array (elementos separados por comas):</label>
-    <input type="text" id="array" placeholder="Ej: hola,mundo,js">
+
+    <input type="text" id="array" placeholder="Ej: hola,mundo,loli">
     <br><br>
 
     <button onclick="unirArray()">Unir elementos</button>
@@ -25,7 +25,7 @@
             return arr.join(" "); // usamos join con espacio para separar los elementos
         }
 
-        // Función para usar desde el HTML
+        // Función paa usar desde el HTML
         function unirArray() {
             var texto = document.getElementById("array").value;
 
@@ -37,10 +37,6 @@
             document.getElementById("resultado").innerText =
                 "Cadena resultante: " + resultado;
         }
-
-        // Ejemplo por consola
-        console.log(unirElementos(["hola", "mundo", "js"])); // → "hola mundo js"
-        console.log(unirElementos([1, 2, 3, 4]));            // → "1 2 3 4"
     </script>
 
 </body>
