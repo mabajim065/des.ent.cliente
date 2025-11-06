@@ -5,26 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DWEC - FASE 4: Ejercicio 6 (Valor Más Alto)</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 25px;
-            background-color: #f7f7f7;
-            color: #333;
-        }
 
-        h1 {
-            color: #FFA500;
-            border-bottom: 2px solid #FFA500;
-            padding-bottom: 5px;
-        }
-
-        .instruccion {
-            font-style: italic;
-            color: #cc5500;
-            margin-bottom: 15px;
-        }
-    </style>
 </head>
 
 <body>
@@ -46,7 +27,7 @@
          * @returns {number} El número más alto encontrado.
          */
         function valorMasAlto(array_numeros) {
-            // Utilizamos Math.max() y el operador spread '...' para pasar los elementos del array como argumentos.
+            // Utilizamos Math.max() y el operador spread '...' para pasar los elementos del array como palabras.
             return Math.max(...array_numeros);
         }
 
@@ -54,7 +35,7 @@
         var array_ejemplo = [11, 3, 16, 90];
         const resultado = valorMasAlto(array_ejemplo);
 
-        console.log(`--- Ejercicio 6 (Valor Más Alto) ---`);
+        console.log(`Ejercicio 6 (Valor Más Alto) `);
         console.log(`Array de entrada: [${array_ejemplo}]`);
         console.log(`Resultado esperado: 90`);
         console.log(`Resultado obtenido: ${resultado}`);

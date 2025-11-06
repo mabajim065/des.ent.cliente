@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar cadena</title>
+</head>
+
+<body>
+
+    <h2>3.14.Insertar una cadena dentro de otra</h2>
+
+
+    <label>Texto base:</label>
+    <input type="text" id="textoBase" placeholder="Ej: Estamos haciendo ejercicios.">
+    <br><br>
+
+
+    <label>Texto a insertar:</label>
+    <input type="text" id="textoInsertar" placeholder="Ej: JavaScript">
+    <br><br>
+
+
+    <label>Posición :</label>
+    <input type="number" id="posicion" placeholder="Ej: 18">
+    <br><br>
+
+
+    <button onclick="probarInsert()">Insertar</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        // Función que inserta una cadena dentro de otra
+        function insert(cadenaPrincipal, cadenaInsertar, posicion) {
+            // Si no se pasa cadenaInsertar, usamos cadena vacía
+            if (cadenaInsertar === undefined) {
+                cadenaInsertar = "";
+            }
+
+            // Si no se pasa posición, por defecto será 1 (al principio)
+            if (posicion === undefined) {
+                posicion = 1;
+            }
+
+            // Convertimos la posición a índice de cadena (restamos 1 porque las posiciones empiezan en 1)
+            var indice = posicion - 1;
+
+            // Partimos la cadena principal en dos trozos y metemos la nueva cadena en medio
+            var nuevaCadena =
+                cadenaPrincipal.slice(0, indice) +   // parte antes de insertar
+                cadenaInsertar + " " +               // la cadena que insertamos con un espacio
+                cadenaPrincipal.slice(indice);       // parte después de insertar
+
+            // Devolvemos el resultado final
+            return nuevaCadena.trim();
+        }
+
+        // Función para probar desde los inputs del HTML
+        function probarInsert() {
+            var base = document.getElementById("textoBase").value;
+            var insertar = document.getElementById("textoInsertar").value;
+            var pos = document.getElementById("posicion").value;
+
+            // Si la posición está vacía, no la pasamos
+            var resultado;
+            if (pos === "") {
+                resultado = insert(base, insertar);
+            } else {
+                resultado = insert(base, insertar, parseInt(pos));
+            }
+
+            document.getElementById("resultado").innerHTML = resultado;
+        }
+    </script>
+
+</body>
+
+</html>

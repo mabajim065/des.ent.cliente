@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Suma de una matriz</title>
+</head>
+
+<body>
+
+    <h2>Suma de una matriz de números enteros</h2>
+
+    <p id="resultado"></p> <!-- Aquí mostraremos el resultado -->
+
+    <script>
+        // Creamos el array con números enteros
+        var array = [1, 2, 3, 4, 5, 6];
+
+        // Variable para guardar la suma
+        var suma = 0;
+
+        // Recorremos el array con un bucle for
+        for (var i = 0; i < array.length; i++) {
+            suma = suma + array[i]; // sumamos cada elemento
+        }
+
+        // Mostramos el resultado en el párrafo con id "resultado"
+        document.getElementById("resultado").innerHTML =
+            "La suma del array es: " + suma;
+    </script>
+
+</body>
+
+</html>
