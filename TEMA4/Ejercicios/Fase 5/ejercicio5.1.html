@@ -2,38 +2,37 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cambiar imagen con un click</title>
-    <style>
-        #imagen {
-            width: 300px;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Cambiar imagen con clic</title>
+  <style>
+    #pelo {
+      width: 300px;
+      height: auto;
+    }
+  </style>
 </head>
 
 <body>
 
-    <h2>Cambiar imagen al hacer click</h2>
+  <h2>Cambiar imagen al mantener clic</h2>
 
-    <img id="pelo" src="TEMA4\Ejercicios\Fase 5\fotopelo.jpg" alt="Imagen" onclick="cambiarImagen()">
+  <!-- aqui vamos a colocar la imagen que queremos que salga desde el princippio , en mi caso el nootas con pelo -->
+  <img id="pelo" src="pelo.png" alt="Imagen">
 
-    <script>
-        /**
-         * 1.
-   Coloque en la aplicación una imagen:
-   - Mientras se mantenga click pulsado cambiar por otra imagen
-   - Cuando se suelta el click debe volver a la primera <imagen></imagen>
-           */
-        function cambiarImagen() {
-            var imagen = document.getElementById("pelo");
-            if (imagen.src.endsWith("fotopelo.jpg")) {
-                imagen.src = "TEMA4\Ejercicios\Fase 5\fotopelo.jpg";
-            } else {
-                imagen.src = "TEMA4\Ejercicios\Fase 5\fotocalvo.jpg";
-            }
-        }
-    </script>
+  <script>
+    // Buscamos la imagen
+    let imagen = document.getElementById("pelo");
+
+    // Cuando se mantiene pulsado el clic , usamos mousedown
+    imagen.addEventListener("mousedown", function() {
+      imagen.src = "calvo.png"; // cambia la imagen
+    });
+
+    // Cuando se suelta el clic, mouseup
+    imagen.addEventListener("mouseup", function() {
+      imagen.src = "pelo.png"; // vuelve a la original
+    });
+  </script>
 
 </body>
 

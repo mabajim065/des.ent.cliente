@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 5.6</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #info {
+            width: 400px;
+            padding: 20px;
+            border: 2px solid #333;
+            background: #f8f8f8;
+            min-height: 50px;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 5.6 - Detectar teclas pulsadas</h1>
+    <div id="info">Pulsa cualquier tecla...</div>
+
+    <script>
+        const info = document.getElementById('info');
+
+        document.addEventListener('keydown', (e) => {
+            let mensaje = `Tecla: ${e.key}`;
+            
+            // Detectar teclas modificadoras
+            const modificadores = [];
+            if (e.altKey) modificadores.push('Alt');
+            if (e.shiftKey) modificadores.push('Shift');
+            if (e.ctrlKey) modificadores.push('Control');
+            
+            // Si hay modificadores, añadirlos al mensaje
+            if (modificadores.length > 0) {
+                mensaje += ` + ${modificadores.join(' + ')}`;
+            }
+            
+            info.textContent = mensaje;
+        });
+    </script>
+</body>
+</html>

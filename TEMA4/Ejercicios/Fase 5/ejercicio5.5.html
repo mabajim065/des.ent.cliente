@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 5.5</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .galeria { display: flex; gap: 16px; align-items: center; }
+        .galeria img { width: 150px; height: 100px; object-fit: cover; border: 2px solid #ccc; cursor: pointer; }
+        #info {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            max-width: 700px;
+            border: 2px solid #333;
+            background: #f8f8f8;
+            font-size: 14px;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 5.5 — Mostrar URL al pasar el ratón</h1>
+
+    <div class="galeria">
+        <img src="../Fase 5/girafa.png" alt="Imagen 1">
+        <img src="../Fase 5/maui.png" alt="Imagen 2">
+        <img src="../Fase 5/ardilla.png" alt="Imagen 3">
+    </div>
+
+    <div id="info">Pasa el ratón por encima de una imagen para ver su URL.</div>
+
+    <script>
+        /**
+         * creo dos constantes , una para el div info y otra para todas las imagenes dentro de la galeria
+         */
+        const info = document.getElementById('info');
+        const imagenes = document.querySelectorAll('.galeria img');
+
+        imagenes.forEach(img => {
+            // Mostrar la URL (src) al entrar con el ratón
+            img.addEventListener('mouseenter', () => {
+                info.textContent = img.src;
+            });
+
+            // Mantener la información mientras se mueve sobre la imagen
+            img.addEventListener('mousemove', (e) => {
+                info.textContent = img.src;
+            });
+
+            // Borrar la URL cuando se sale de la imagen, mouseleave
+            img.addEventListener('mouseleave', () => {
+                info.textContent = 'Pasa el ratón por encima de una imagen para ver su URL.';
+            });
+        });
+
+    </script>
+</body>
+</html>

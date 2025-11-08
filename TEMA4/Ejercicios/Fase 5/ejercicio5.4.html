@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 5.4</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #info {
+            width: 480px;
+            padding: 20px;
+            border: 2px solid #333;
+            background: #fff;
+            text-align: center;
+            user-select: none;
+        } 
+    </style>
+<body>
+    <div id="info">Pulsa con cualquier botón del ratón en cualquier sitio de la pantalla.</div>
+
+    <script>
+        const info = document.getElementById('info');
+
+    // el contextmenu sirve para que no salga el muenu q nos sale cunado pnchimos el btonon derecho
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        // Detectar qué botón se ha pulsado
+        /**
+         * el boton que se ha pulsado se detecta porque el evento mousedown tiene una propiedad llamada button
+         * que lo que hace esuqe nos dice que boton se ha pulsado, lo que hae es asignarle un numero a cada
+         *  boton el 0 izquierdo, 1derecho, 2 la ruedita
+         */
+        document.addEventListener('mousedown', (e) => {
+            if (e.button === 0) {
+                info.textContent = 'Has pulsado el botón izquierdo del ratón.';
+            } else if (e.button === 2) {
+                info.textContent = 'Has pulsado el botón derecho del ratón.';
+            } else if (e.button === 1) {
+                info.textContent = 'Has pulsado la ruedita del ratón.';
+            }
+        });
+    </script>
+</body>
+</html>
+

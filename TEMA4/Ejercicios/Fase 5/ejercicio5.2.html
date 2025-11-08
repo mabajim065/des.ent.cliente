@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 5.2</title>
+    <style>
+        #cuadro {
+            width: 400px;
+            height: 150px;
+            border: 2px solid #333;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            user-select: none;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div id="cuadro" tabindex="0"> pulsa botón del ratón, pulsa una tecla o mueve el ratón</div>
+
+    <script>
+        // buscamos e l cuadro de mensaje
+        const cuadro = document.getElementById('cuadro');
+
+        // Al pulsar botón del ratón  amarillo , utilizamos mousedown( igual que ejercicio anterior pero ahora colocando un color)
+        cuadro.addEventListener('mousedown', () => {
+            cuadro.style.backgroundColor = '#FFFF00';
+        });
+
+        // Cuando se pulsa una tecla  azul
+        //para esto vamos a utilizar keydown
+        window.addEventListener('keydown', () => {
+            cuadro.style.backgroundColor = '#CCE6FF';
+        });
+
+        // Al volver a mover el ratón blanco
+        //pa este usaremos el evento mousemove
+        document.addEventListener('mousemove', () => {
+            cuadro.style.backgroundColor = '#FFFFFF';
+        });
+    </script>
+</body>
+</html>
