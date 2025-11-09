@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 5.7 - Mover caja con teclado</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /* evitar scroll al usar flechas */
+            font-family: Arial, sans-serif;
+        }
+        #caja {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #2b8cff;
+            left: calc(50% - 30px);
+            top: calc(50% - 30px);
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.2);
+        }
+        #info {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">Usa flechas o teclado numérico (1,2,3,4,6,7,8,9) para mover la caja.</div>
+    <div id="caja" aria-label="Caja móvil"></div>
+
+    <script>
+        const caja = document.getElementById('caja');
+        const paso = 10; // píxeles por pulsación
+        const cajaW = caja.offsetWidth;
+        const cajaH = caja.offsetHeight;
+
+        // obtener posición numérica inicial
+        let posX = caja.offsetLeft;
+        let posY = caja.offsetTop;
+
+        function clampPosition() {
+            posX = Math.max(0, Math.min(posX, window.innerWidth - cajaW));
+            posY = Math.max(0, Math.min(posY, window.innerHeight - cajaH));
+            caja.style.left = posX + 'px';
+            caja.style.top  = posY + 'px';
+        }
+
+        window.addEventListener('resize', clampPosition);
+
+        document.addEventListener('keydown', (e) => {
+            const code = e.code || '';
+            const key = e.key || '';
+            let handled = false;
+
+            // Flechas del teclado central
+            if (key === 'ArrowLeft')  { posX -= paso; handled = true; }
+            if (key === 'ArrowRight') { posX += paso; handled = true; }
+            if (key === 'ArrowUp')    { posY -= paso; handled = true; }
+            if (key === 'ArrowDown')  { posY += paso; handled = true; }
+
+            // Teclado numérico (usamos code para funcionar con NumLock on/off)
+            if (code === 'Numpad4') { posX -= paso; handled = true; } // izquierda
+            if (code === 'Numpad6') { posX += paso; handled = true; } // derecha
+            if (code === 'Numpad8') { posY -= paso; handled = true; } // arriba
+            if (code === 'Numpad2') { posY += paso; handled = true; } // abajo
+
+            // Diagonales numpad
+            if (code === 'Numpad7') { posX -= paso; posY -= paso; handled = true; } // arriba-izq
+            if (code === 'Numpad9') { posX += paso; posY -= paso; handled = true; } // arriba-der
+            if (code === 'Numpad1') { posX -= paso; posY += paso; handled = true; } // abajo-izq
+            if (code === 'Numpad3') { posX += paso; posY += paso; handled = true; } // abajo-der
+
+            if (handled) {
+                e.preventDefault(); // evita scroll de la página
+                clampPosition();
+            }
+        });
+    </script>
+</body>
+</html>
