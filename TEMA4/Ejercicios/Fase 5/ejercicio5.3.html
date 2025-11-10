@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
     <title>Ejercicio 5.3 - Deshabilitar botón derecho</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        #info { padding: 10px; border: 1px solid #f491ef; display: inline-block; }
-        #msg { color: rgb(255, 137, 211); margin-top: 10px; display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        #info {
+            padding: 10px;
+            border: 1px solid #f491ef;
+            display: inline-block;
+        }
+
+        #msg {
+            color: rgb(255, 137, 211);
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
+
 <body>
     <h1>Ejercicio 5.3</h1>
-    <div id="msg">el clik derecho no funciona</div>
 
     <script>
-        const msg = document.getElementById('msg');
-
         // utilizando el preventdefault loque hacemos es que el boton no funcione
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            // mensaje breve visible al usuario
-            msg.style.display = 'block';
-            clearTimeout(msg._t);
-            msg._t = setTimeout(() => msg.style.display = 'none', 1000);
+        document.addEventListener('contextmenu', function (evento) {
+            evento.preventDefault();
         });
     </script>
 </body>
+
 </html>
