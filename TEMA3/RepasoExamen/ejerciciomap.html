@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <h1>Contador de palabras</h1>
+    <button onclick="console.log(analizarTexto())">Analizar Texto</button>
+</body>
+<script>
+    /**
+     * Crea una función llamada analizarTexto(texto) que:
+     * 1. Reciba una cadena de texto.
+     * 2. Cuente cuántas veces aparece cada palabra usando un Map.
+     * 3. Devuelva el Map resultante.
+     * 4. Ignora mayúsculas/minúsculas.
+     * 5. Elimina signos de puntuación como .,;:!?.*/
+
+    //primero vamos a crear a funcion analizar texto
+    function analizarTexto(texto) {
+        //pedimos al usuario que meta un texto
+        const frase = prompt("escribe el texto que tu quieras");
+        // a continuacion utilizo tolowercase para ignorar mayusculas y minusculas
+        const textoMinusculas = frase.toLowerCase();
+        // luego vamos a quitar to los signos de puntuacion utilizando .remplace
+        const textoLimpio = textoMinusculas.replace(/[.,;:!?]/g, '');
+
+        // ahora uso split que lo que va a hacer els dividir todo el texto por palabras
+        // tenemos que poner el filter para que no cuente los espacios como palabras
+        const palabras = textoLimpio.split(' ').filter(palabra => palabra !== '');
+
+        /***************************************************
+        Ahora vamos a crear un map para contar las palabras
+        ***************************************************/
+        const contador = new Map();
+        // ahora vamos a recorrer el array de palabras con un foreach
+        palabras.forEach((palabra) => {
+            // si el map ya tiene la palabra, le sumamos 1
+            // el has significa de que si el map ya tinee esa palabra metia
+            if (contador.has(palabra)) {
+                contador.set(palabra, contador.get(palabra) + 1);
+            } else {
+                // si no la tiene, la añadimos con valor 1
+                contador.set(palabra, 1);
+            }
+        });
+        return contador;
+    }
+</script>
+
+</html>
