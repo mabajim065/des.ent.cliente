@@ -4,6 +4,7 @@
  * @param {*} max 
  * @returns 
  */
+//lo primero qu evamos a hacer es crear una funcion que nos genere un numero aleatorio
 const numeroAleatorio = (max)  => Math.floor(Math.random() * max) + 1;
 
 // conecto conel boton del html con la funcion de crear numero aleatorio

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlador de Palabras</title>
+</head>
+<body>  
+    <p id="resultado">resultado</p>
+</body>
+<script>
+    let texto= prompt(" escribe la cadena de texto que te salga de la pipetilla");
+    let num= parseInt(prompt("escribe el numero de caracteres que quieres sacar"));
+    function sacarcaracteres (texto,num){
+        return texto.substring(0,num);
+    }
+    document.getElementById ("resultado").innerHTML=sacarcaracteres(texto,num);
+</script>

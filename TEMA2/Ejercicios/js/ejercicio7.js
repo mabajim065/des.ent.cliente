@@ -15,6 +15,7 @@ const dividir = (a, b) => {
 // obtenemos los unmero de los inputs y mostramos el resultado.
 const calcular = (operacion) => {
   // Cojo los valores de los inputs
+  //el getelementbyid me sirve para obtener el valor de un input por su id
   const num1 = parseFloat(document.getElementById("num1").value);
   const num2 = parseFloat(document.getElementById("num2").value);
   const resultado = document.getElementById("resultado");

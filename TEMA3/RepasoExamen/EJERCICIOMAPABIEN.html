@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ciudades y Habitantes con Map</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 5px #aaa;
+            list-style: none;
+        }
+        li {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        .rojo {
+            color: red;
+            font-weight: bold;
+        }
+        .verde {
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gestión de Ciudades y Habitantes</h1>
+
+    <!-- Lista donde se mostrarán las ciudades -->
+    <ul id="listaCiudades"></ul>
+
+    <!-- Controles -->
+    <div>
+        <button onclick="mostrarCiudades()">1️⃣ Ver todas las ciudades</button>
+        <button onclick="contarCiudades()">2️⃣ Ver cuántas ciudades hay</button>
+        <button onclick="borrarCiudad()">3️⃣ Borrar una ciudad</button>
+        <button onclick="añadirCiudad()">4️⃣ Añadir una ciudad</button>
+        <button onclick="mostrarMasHabitantes()">5️⃣ Ciudad con más habitantes</button>
+        <button onclick="mostrarMenosHabitantes()">6️⃣ Ciudad con menos habitantes</button>
+    </div>
+
+    <script>
+        // 🗺️ 1. Creamos el Map con datos iniciales
+        const ciudades = new Map([
+            ["Madrid", 3200000],
+            ["Barcelona", 1600000],
+            ["Valencia", 800000],
+            ["Sevilla", 690000]
+        ]);
+
+        const lista = document.getElementById("listaCiudades");
+
+        // ✅ Función para mostrar TODAS las ciudades
+        function mostrarCiudades() {
+            lista.innerHTML = ""; // Limpiamos la lista
+            ciudades.forEach((habitantes, nombre) => {
+                const li = document.createElement("li");
+                li.textContent = `${nombre} → ${habitantes} habitantes`;
+                lista.appendChild(li);
+            });
+        }
+
+        // ✅ Función para contar cuántas ciudades hay
+        function contarCiudades() {
+            alert(`Actualmente hay ${ciudades.size} ciudades registradas.`);
+        }
+
+        // ✅ Función para borrar una ciudad
+        function borrarCiudad() {
+            const nombre = prompt("Introduce el nombre de la ciudad a borrar:");
+            if (ciudades.has(nombre)) {
+                ciudades.delete(nombre);
+                alert(`${nombre} ha sido eliminada.`);
+                mostrarCiudades();
+            } else {
+                alert("Esa ciudad no existe en la lista.");
+            }
+        }
+
+        // ✅ Función para añadir una ciudad
+        function añadirCiudad() {
+            const nombre = prompt("Introduce el nombre de la ciudad:");
+            const habitantes = parseInt(prompt("Introduce el número de habitantes:"), 10);
+
+            if (!nombre || isNaN(habitantes)) {
+                alert("Datos inválidos. Inténtalo de nuevo.");
+                return;
+            }
+
+            ciudades.set(nombre, habitantes);
+            alert(`${nombre} añadida correctamente.`);
+            mostrarCiudades();
+        }
+
+        // ✅ Función para mostrar la ciudad con más habitantes (en rojo)
+        function mostrarMasHabitantes() {
+            let maxHabitantes = 0;
+            let ciudadMax = "";
+
+            ciudades.forEach((habitantes, nombre) => {
+                if (habitantes > maxHabitantes) {
+                    maxHabitantes = habitantes;
+                    ciudadMax = nombre;
+                }
+            });
+
+            mostrarCiudades();
+
+            // Cambiar el color de esa ciudad
+            const elementos = lista.getElementsByTagName("li");
+            for (let li of elementos) {
+                if (li.textContent.startsWith(ciudadMax)) {
+                    li.classList.add("rojo");
+                }
+            }
+        }
+
+        // ✅ Función para mostrar la ciudad con menos habitantes (en verde)
+        function mostrarMenosHabitantes() {
+            let minHabitantes = Infinity;
+            let ciudadMin = "";
+
+            ciudades.forEach((habitantes, nombre) => {
+                if (habitantes < minHabitantes) {
+                    minHabitantes = habitantes;
+                    ciudadMin = nombre;
+                }
+            });
+
+            mostrarCiudades();
+
+            // Cambiar el color de esa ciudad
+            const elementos = lista.getElementsByTagName("li");
+            for (let li of elementos) {
+                if (li.textContent.startsWith(ciudadMin)) {
+                    li.classList.add("verde");
+                }
+            }
+        }
+
+        // 🟢 Al cargar la página, mostramos la lista inicial
+        window.onload = mostrarCiudades;
+    </script>
+
+</body>
+</html>

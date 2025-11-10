@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Provincias y Capitales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 5px #aaa;
+            list-style: none;
+        }
+        li {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Gestión de Provincias y Capitales</h1>
+
+<ul id="listaProvincias"></ul>
+
+<div>
+    <button onclick="mostrarProvincias()">1️⃣ Ver todas las provincias</button>
+    <button onclick="contarProvincias()">2️⃣ Ver cuántas provincias hay</button>
+    <button onclick="borrarProvincia()">3️⃣ Borrar una provincia</button>
+    <button onclick="añadirProvincia()">4️⃣ Añadir provincia y capital</button>
+</div>
+
+<script>
+    // 🗺️ 1. Map de provincias y sus capitales
+    const provincias = new Map([
+        ["Madrid", "Madrid"],
+        ["Barcelona", "Barcelona"],
+        ["Valencia", "Valencia"],
+        ["Sevilla", "Sevilla"]
+    ]);
+
+    const lista = document.getElementById("listaProvincias");
+
+    // ✅ Función para mostrar todas las provincias y capitales
+    function mostrarProvincias() {
+        lista.innerHTML = "";
+        provincias.forEach((capital, provincia) => {
+            const li = document.createElement("li");
+            li.textContent = `${provincia} → Capital: ${capital}`;
+            lista.appendChild(li);
+        });
+    }
+
+    // ✅ Función para contar provincias
+    function contarProvincias() {
+        alert(`Actualmente hay ${provincias.size} provincias.`);
+    }
+
+    // ✅ Función para borrar una provincia
+    function borrarProvincia() {
+        const provincia = prompt("Introduce el nombre de la provincia a borrar:");
+        if (provincias.has(provincia)) {
+            provincias.delete(provincia);
+            alert(`${provincia} ha sido eliminada.`);
+            mostrarProvincias();
+        } else {
+            alert("Esa provincia no existe en la lista.");
+        }
+    }
+
+    // ✅ Función para añadir una provincia
+    function añadirProvincia() {
+        const provincia = prompt("Introduce el nombre de la provincia:");
+        const capital = prompt("Introduce el nombre de la capital:");
+        if (!provincia || !capital) {
+            alert("Datos inválidos. Inténtalo de nuevo.");
+            return;
+        }
+        provincias.set(provincia, capital);
+        alert(`${provincia} añadida correctamente.`);
+        mostrarProvincias();
+    }
+
+    // 🟢 Al cargar la página, mostrar la lista inicial
+    window.onload = mostrarProvincias;
+</script>
+
+</body>
+</html>
