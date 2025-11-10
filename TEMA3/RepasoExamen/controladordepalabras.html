@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlador de Palabras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<script>
+    const map = new Map([[1, "uno"], [2, "dos"], [3, "tres"]])
+    map.size; // 3 (Contiene 3 elementos)
+    map.constructor.name; // "Map"
+    const entries = [...structuredClone(map)];
+    entries.constructor.name; // "Array"
+    entries; // [[1, "uno"], [2, "dos"], [3, "tres"]]
+    console.log(entries);
+</script>
+
+</html>
