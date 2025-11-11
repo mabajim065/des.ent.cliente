@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Repaso Examen Matriz - María Abascal Jiménez - Desarrollo de Aplicaciones Web." />
+    <meta name="author" content="María Abascal Jiménez" />
+    <title>Repaso Examen Matriz - María Abascal Jiménez</title>
+</head>
+
+<body>
+    <h1> sumar dos matrices</h1>
+
+
+    <p> Matriz 1: <span id="matriz1"></span></p>
+    <p> Matriz 2: <span id="matriz2"></span></p>
+    <button onclick="suma()">Sumar Matrices</button>
+    <p> Resultado: <span id="matrizFinal"></span></p>
+    <script>
+        /*******************************************************************
+         * 2 matrices de 3x3 donde metemos los valores que queramos( pero 
+         * no los tiene que meter el usuario) , y hacer la suma de las dos 
+         * matrices , utilizando una estructura map.
+         * *******************************************************************/
+
+        //lo primero que hago es crear las dos matrices iniciales:
+        //realmente estoy utilizando un array dentro de otro:
+        let matriz1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+        let matriz2 = [[9, 8, 7], [6, 5, 4], [3, 2, 1]];
+
+        //ahora tengo que crear la matriz en donde va a ir el resultado final:
+        // de momento va a estar todo en 0 
+        let matrizFinal = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+        // ahora voy a hacer una funcion con .map para que recorra las dos matrices y vaya haciendo la suma de sus valores:
+        // el .map neceista una funcion de callback que va a recibir varios parametros, porque estamos trabajando con matrices:
+        function suma() { /* no hace falata que ponga m1 y m2 , simplemente lo hago para yo saber 
+                                    que voy a utilizar luego la funcion con mis dos matrices*/
+            //ahora voy utilizando map para recorrer las dos matrices:
+            matriz1.map((fila, i) => { // la i es la posicion de la fila
+                fila.map((valor, j) => { // la j es la posicion de la columna
+                    matrizFinal[i][j] = valor + matriz2[i][j]; //ahora hacemos la suma de los valores , valor va a ser cada uno de los valores de la matriz1 y la matriz2 con su valores.
+                });
+            });
+            document.getElementById("matrizFinal").textContent = matrizFinal;
+            return matrizFinal;
+
+        }
+        document.getElementById("matriz1").textContent = matriz1;
+        document.getElementById("matriz2").textContent = matriz2;
+
+    </script>
