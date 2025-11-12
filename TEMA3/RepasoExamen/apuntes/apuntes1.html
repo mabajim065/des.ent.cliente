@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Apuntes JavaScript (UD02 + UD03) - Versión limpia</title>
+</head>
+<body>
+  <h1>Apuntes JavaScript (Sintaxis ES6 + Objetos predefinidos)</h1>
+
+  <!-- -----------------------------------------------------------
+       1. Hola Mundo y Comentarios
+       ----------------------------------------------------------- -->
+  <h2>1. Hola Mundo y Comentarios</h2>
+  <p>Explicación breve: Los comentarios en JS pueden ser <code>//</code> (línea) o <code>/* ... */</code> (bloque).
+     El código JavaScript se incluye dentro de etiquetas <code>&lt;script&gt;</code>.</p>
+
+  <script>
+    // Ejemplo de comentarios y declaración simple
+    // Esto es un comentario de una sola línea
+
+    /* Esto es un comentario
+       de varias líneas.
+       Útil para explicar bloques de código. */
+
+    // Declaración simple de variables (ejemplo sin mostrar por pantalla)
+    let saludo = "Hola, mundo"; // variable de tipo string
+    const VERSION = 1;         // constante, no puede reasignarse
+
+    // El código anterior define las variables que podrías usar en funciones o el DOM.
+  </script>
+
+  <!-- -----------------------------------------------------------
+       2. Variables, const, tipos y arrays
+       ----------------------------------------------------------- -->
+  <h2>2. Variables, <code>const</code>, Tipos y Arrays</h2>
+  <p>Explicación: Usa <code>let</code> para variables de bloque, <code>const</code> para constantes.
+     Los tipos principales: Number, String, Boolean, Object, Array, undefined, null, Symbol (ES6).</p>
+
+  <script>
+    // Variables y ámbito
+    let edad = 23;           // número
+    let nombre = 'María';    // cadena (string)
+    let esEstudiante = true; // booleano
+
+    // Constantes
+    const PI = 3.141592;
+
+    // Arrays
+    let numeros = [1, 2, 3, 4];
+    let mezclado = [1, 'dos', true, null, { id: 5 }]; // arrays heterogéneos permitidos
+
+    // Acceso y longitud
+    let primer = numeros[0]; // 1
+    let longitud = numeros.length; // 4
+
+    // Modificar
+    numeros[2] = 99; // ahora numeros -> [1,2,99,4]
+
+    // Nota: no se muestran por pantalla; usa esto como referencia para tus ejercicios.
+  </script>
+
+  <!-- -----------------------------------------------------------
+       3. Conversiones entre tipos y isNaN / parseInt / parseFloat
+       ----------------------------------------------------------- -->
+  <h2>3. Conversiones y comprobación numérica</h2>
+  <p>Explicación: <code>parseInt</code> y <code>parseFloat</code> convierten cadenas a números.
+     <code>isNaN</code> comprueba si un valor no es un número.</p>
+
+  <script>
+    // parseInt, parseFloat
+    let s1 = "100";
+    let i1 = parseInt(s1);        // 100 (Number)
+    let s2 = "3.1416";
+    let f1 = parseFloat(s2);      // 3.1416
+
+    // isNaN
+    let noEsNumero = isNaN("hola");   // true
+    let siEsNumero = isNaN("123");    // false
+
+    // convert to string
+    let num = 42;
+    let numStr = num.toString(); // "42"
+
+    // Ejemplo cuidado: parseInt("12abc") -> 12; parseInt("abc") -> NaN
+  </script>
+
+  <!-- -----------------------------------------------------------
+       4. 'use strict'
+       ----------------------------------------------------------- -->
+  <h2>4. Modo estricto: "use strict"</h2>
+  <p>Explicación: Activa comprobaciones más estrictas del lenguaje (obliga a declarar variables, impide ciertas acciones peligrosas).</p>
+
+  <script>
+    // Ejemplo local de "use strict" dentro de una función
+    function ejemploStrict() {
+      "use strict";
+      // si intentas usar una variable sin declarar, dará error (ReferenceError)
+      // por ejemplo:  sinDeclarar = 5; // ReferenceError en strict mode
+      let declarado = 5; // correcto
+      return declarado;
+    }
+
+    // ejemploStrict(); // puedes llamarla en tus pruebas
+  </script>
+
+  <!-- -----------------------------------------------------------
+       5. Entrada/salida en navegador (nota: no usaremos alert/console)
+       ----------------------------------------------------------- -->
+  <h2>5. Entrada y salida en navegador (conceptos)</h2>
+  <p>Explicación: existen <code>alert</code>, <code>prompt</code> y <code>confirm</code>, así como <code>console.log</code>.
+     Aquí solo muestro cómo se usarían, sin ejecutar.</p>
+
+  <script>
+    // Ejemplos (no ejecutados para evitar ventanas):
+    // let respuesta = confirm("¿Estás segura?");
+    // let nombreUsuario = prompt("Introduce tu nombre:", "María");
+    // console.log("Texto"); // normalmente para depuración
+  </script>
+
+  <!-- -----------------------------------------------------------
+       6. Operadores (asignación, aritméticos, comparación, lógicos)
+       ----------------------------------------------------------- -->
+  <h2>6. Operadores</h2>
+  <p>Explicación: operadores básicos de JS: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>,
+     asignación compuesta (<code>+=</code>, etc.), comparadores (<code>===</code>, <code>!==</code>, <code>==</code>, <code>&lt;</code>...), y lógicos (<code>&&</code>, <code>||</code>, <code>!</code>).</p>
+
+  <script>
+    // Asignación y aritmética
+    let a = 5;
+    let b = 3;
+    a += b; // a = 8
+    let resto = a % b; // 8 % 3 = 2
+    let potencia = Math.pow(a, 2); // 64
+
+    // Comparación (usar === y !==)
+    let x = 5;
+    let y = "5";
+    let comparacion1 = (x == y);  // true (coerción)
+    let comparacion2 = (x === y); // false (sin coerción)
+
+    // Lógicos
+    let cond = (x > 3) && (b < 4); // true && true -> true
+    let cond2 = (x < 0) || (b === 3); // false || true -> true
+  </script>
+
+  <!-- -----------------------------------------------------------
+       7. Estructuras de control: if/else, ramificaciones anidadas, switch
+       ----------------------------------------------------------- -->
+  <h2>7. Estructuras de control</h2>
+  <p>Explicación: <code>if/else</code>, anidados, y <code>switch</code> para múltiples ramas.</p>
+
+  <script>
+    // if / else
+    let edadUsuario = 20;
+    if (edadUsuario >= 18) {
+      // mayor de edad
+      let estado = "adulto";
+    } else {
+      // menor de edad
+      let estado = "menor";
+    }
+
+    // Ramificación anidada
+    let nota = 7;
+    if (nota >= 9) {
+      let calificacion = "Sobresaliente";
+    } else if (nota >= 7) {
+      let calificacion = "Notable";
+    } else if (nota >= 5) {
+      let calificacion = "Aprobado";
+    } else {
+      let calificacion = "Suspenso";
+    }
+
+    // switch (ejemplo)
+    let dia = 3;
+    switch (dia) {
+      case 1:
+        // lunes
+        break;
+      case 2:
+        // martes
+        break;
+      case 3:
+        // miércoles
+        break;
+      default:
+        // otro día
+        break;
+    }
+  </script>
+
+  <!-- -----------------------------------------------------------
+       8. Bucles: for, while, do-while, break/continue
+       ----------------------------------------------------------- -->
+  <h2>8. Bucles</h2>
+  <p>Explicación: iteraciones con <code>for</code>, <code>while</code>, <code>do...while</code>, y control con <code>break</code>/<code>continue</code>.</p>
+
+  <script>
+    // for (números pares del 2 al 10)
+    for (let i = 2; i <= 10; i += 2) {
+      // aquí podrías usar i
+    }
+
+    // while
+    let j = 0;
+    while (j < 3) {
+      // ejecutar algo
+      j++;
+    }
+
+    // do-while (ejecuta al menos una vez)
+    let k = 0;
+    do {
+      // hacer algo
+      k++;
+    } while (k < 1);
+
+    // break / continue
+    for (let n = 1; n <= 10; n++) {
+      if (n === 5) continue; // salta la iteración n=5
+      if (n === 8) break;    // sale del bucle cuando n=8
+    }
+  </script>
+
+  <!-- -----------------------------------------------------------
+       9. Funciones: definición, return, parámetros por defecto, parámetros REST
+       ----------------------------------------------------------- -->
+  <h2>9. Funciones</h2>
+  <p>Explicación: las funciones encapsulan lógica; pueden devolver valor con <code>return</code>.
+     ES6 permite parámetros por defecto y parámetros REST (<code>...rest</code>).</p>
+
+  <script>
+    // Función tradicional
+    function suma(a, b) {
+      return a + b;
+    }
+    // uso: let r = suma(2,3);
+
+    // Parámetros por defecto
+    function saludar(nombre = "Invitado") {
+      return "Hola " + nombre;
+    }
+
+    // Parámetros REST
+    function total(...numeros) {
+      // numeros es un array con todos los argumentos extra
+      let suma = 0;
+      for (let n of numeros) suma += n;
+      return suma;
+    }
+    // uso: total(1,2,3,4) -> 10
+  </script>
+
+  <!-- -----------------------------------------------------------
+       10. Arrow functions (funciones flecha)
+       ----------------------------------------------------------- -->
+  <h2>10. Arrow Functions</h2>
+  <p>Explicación: sintaxis compacta; cuidado con <code>this</code> (no vincula su propio <code>this</code>).</p>
+
+  <script>
+    // Sintaxis básica
+    const duplicar = x => x * 2; // función de una sola expresión (retorno implícito)
+
+    // Con más de una línea
+    const sumaMultiple = (a, b) => {
+      let r = a + b;
+      return r;
+    };
+
+    // Uso con array.map
+    let nombres = ['Ana', 'Luis', 'Pedro'];
+    let longitudes = nombres.map(n => n.length); // [3,4,5]
+  </script>
+
+  <!-- -----------------------------------------------------------
+       11. Clases ES6
+       ----------------------------------------------------------- -->
+  <h2>11. Clases</h2>
+  <p>Explicación: sintaxis de <code>class</code> en ES6 para definir objetos con constructor, métodos y getters/setters.</p>
+
+  <script>
+    class Punto {
+      constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+      }
+
+      distanciaA(origen) {
+        const dx = this.x - origen.x;
+        const dy = this.y - origen.y;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      get coordX() {
+        return this.x;
+      }
+
+      set coordX(v) {
+        this.x = v;
+      }
+    }
+
+    // Uso:
+    let p1 = new Punto(0, 0);
+    let p2 = new Punto(3, 4);
+    // p1.distanciaA(p2) -> 5
+  </script>
+
+  <!-- -----------------------------------------------------------
+       12. Manipulación básica del DOM (Document Object Model)
+       ----------------------------------------------------------- -->
+  <h2>12. Manipulación del DOM</h2>
+  <p>Explicación: con <code>document.getElementById</code>, <code>querySelector</code>, <code>createElement</code>, etc., puedes leer y modificar el documento.</p>
+
+  <p id="nota-dom">Esta etiqueta sirve para ejemplos DOM (no se modifica visualmente desde aquí).</p>
+
+  <script>
+    // Acceder al elemento por id y cambiar su texto (ejecutable)
+    const pNota = document.getElementById('nota-dom');
+    pNota.textContent = 'Ejemplo: texto modificado por JavaScript (puedes revertir esto si recargas).';
+
+    // Crear un nuevo elemento y añadirlo al body
+    const nuevo = document.createElement('div');
+    nuevo.id = 'nuevo-div';
+    nuevo.textContent = 'Nuevo DIV creado por JS';
+    // document.body.appendChild(nuevo); // si lo activas, lo añadirá al documento
+
+    // Cambiar atributo src de una imagen con id 'miImagen' (si existe)
+    // document.getElementById('miImagen').src = 'ruta/nueva.jpg';
+
+    // Añadir un listener (ejemplo, no se dispara hasta interacción)
+    function manejadorClick(event) {
+      // Código a ejecutar al hacer clic
+      // Por ejemplo: event.target.textContent = 'Has hecho clic';
+    }
+    // document.body.addEventListener('click', manejadorClick);
+  </script>
+
+  <!-- -----------------------------------------------------------
+       13. Objeto String (métodos)
+       ----------------------------------------------------------- -->
+  <h2>13. Objeto String (métodos importantes)</h2>
+  <p>Explicación: Strings en JS tienen métodos como <code>toLowerCase</code>, <code>toUpperCase</code>, <code>split</code>, <code>replace</code>, <code>indexOf</code>, <code>substring</code>, <code>charAt</code>, y la propiedad <code>length</code>.</p>
+
+  <script>
+    let cad = "Sergi:Garcia:123456";
+    let cadUpper = cad.toUpperCase();           // "SERGI:GARCIA:123456"
+    let partes = cad.split(':');                // ["Sergi","Garcia","123456"]
+    let telefono = partes[2];                   // "123456"
+    let telefonoMod = telefono.replace('2', '9'); // reemplaza primera '2' por '9'
+    let quinto = telefonoMod.charAt(4);         // carácter en índice 4 (base 0)
+    let sub = cad.substring(0, 5);              // "Sergi"
+  </script>
+
+  <!-- -----------------------------------------------------------
+       14. Objeto Date
+       ----------------------------------------------------------- -->
+  <h2>14. Objeto Date</h2>
+  <p>Explicación: trabajar con fechas: <code>new Date()</code>, <code>getFullYear</code>, <code>getMonth</code> (0-11), <code>getDate</code>, <code>getDay</code> (0-6), <code>setMonth</code>, etc.</p>
+
+  <script>
+    // Crear fechas
+    let ahora = new Date(); // fecha y hora actual
+    let fechaStr = new Date("October 13, 2014 11:13:00");
+    let fechaComp = new Date(2020, 0, 1); // año 2020, mes 0 => enero, día 1
+
+    // Métodos get / set
+    let anio = ahora.getFullYear();
+    let mes = ahora.getMonth(); // 0..11
+    let diaMes = ahora.getDate(); // 1..31
+    let diaSemana = ahora.getDay(); // 0..6 (domingo=0)
+
+    // Cambiar componentes
+    fechaComp.setMonth(11); // ahora diciembre
+    // toISOString / toDateString / toUTCString se usan para formatear
+  </script>
+
+  <!-- -----------------------------------------------------------
+       15. Objeto Array (métodos)
+       ----------------------------------------------------------- -->
+  <h2>15. Objeto Array (métodos más usados)</h2>
+  <p>Explicación: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>slice</code>, <code>splice</code>, <code>sort</code>, <code>reverse</code>, <code>join</code>, <code>map</code>, <code>filter</code>, <code>reduce</code>.</p>
+
+  <script>
+    let arr = [3, 1, 4, 1, 5];
+
+    // push / pop
+    arr.push(9);    // añade al final
+    let ultimo = arr.pop(); // elimina y devuelve el último
+
+    // shift / unshift
+    // let primero = arr.shift();
+    // arr.unshift(0);
+
+    // slice (no modifica)
+    let sub = arr.slice(1, 3); // elementos índice 1 y 2
+
+    // splice (modifica): eliminar y/o insertar
+    // arr.splice(indice, cuantosEliminar, elem1, elem2);
+
+    // sort: para números usar comparator
+    arr.sort((a, b) => a - b); // orden numérico ascendente
+
+    // reverse
+    arr.reverse();
+
+    // join
+    let cad = arr.join('-'); // "5-4-3-1" por ejemplo
+
+    // map / filter / reduce
+    let duplicado = arr.map(n => n * 2); // nuevo array
+    let pares = arr.filter(n => (n % 2) === 0);
+    let suma = arr.reduce((acc, cur) => acc + cur, 0);
+  </script>
+
+  <!-- -----------------------------------------------------------
+       16. Objeto Math
+       ----------------------------------------------------------- -->
+  <h2>16. Objeto Math</h2>
+  <p>Explicación: constantes (<code>Math.PI</code>, <code>Math.E</code>) y métodos (<code>floor</code>, <code>ceil</code>, <code>round</code>, <code>abs</code>, <code>sqrt</code>, <code>pow</code>, <code>random</code>).</p>
+
+  <script>
+    let aleatorio = Math.random(); // 0 <= x < 1
+    // entero entre 1 y 10:
+    let entero1a10 = Math.floor(Math.random() * 10) + 1;
+
+    let r1 = Math.floor(11.5); // 11
+    let r2 = Math.ceil(11.1);  // 12
+    let raiz = Math.sqrt(25);  // 5
+    let potencia = Math.pow(2, 8); // 256
+  </script>
+
+  <!-- -----------------------------------------------------------
+       17. Objeto Window (setTimeout, setInterval, clearTimeout, clearInterval)
+       ----------------------------------------------------------- -->
+  <h2>17. Objeto Window</h2>
+  <p>Explicación: métodos temporales como <code>setTimeout</code> y <code>setInterval</code>. También objetos globales window.document, window.location, etc.</p>
+
+  <script>
+    // setTimeout: ejecuta función una vez tras ms
+    let idTimeout = setTimeout(function() {
+      // código a ejecutar después del tiempo
+      // por ejemplo: cambiar un texto, etc.
+    }, 2000);
+
+    // setInterval: repite cada intervalo
+    let idInterval = setInterval(function() {
+      // acción repetida
+    }, 1000);
+
+    // cancelar
+    // clearTimeout(idTimeout);
+    // clearInterval(idInterval);
+  </script>
+
+  <!-- -----------------------------------------------------------
+       18. Función eval (usar con precaución)
+       ----------------------------------------------------------- -->
+  <h2>18. eval</h2>
+  <p>Explicación: <code>eval</code> interpreta una cadena como código JS. Es peligrosa y rara vez necesaria. Evítala cuando sea posible.</p>
+
+  <script>
+    // Ejemplo ilustrativo (NO RECOMENDADO por seguridad)
+    let expr = "2 + 3 * 4";
+    let resultado = eval(expr); // 14
+    // Evita usar eval para procesar datos externos o JSON (usa JSON.parse)
+  </script>
+
+  <!-- -----------------------------------------------------------
+       19. Buenas prácticas y notas finales
+       ----------------------------------------------------------- -->
+  <h2>19. Buenas prácticas y notas</h2>
+  <p>Resumen rápido:</p>
+  <ul>
+    <li>Prefiere <code>let</code> y <code>const</code> frente a <code>var</code>.</li>
+    <li>Usa <code>===</code> y <code>!==</code> para comparaciones estrictas.</li>
+    <li>Evita <code>eval</code>. Usa <code>JSON.parse</code> para JSON.</li>
+    <li>Para ordenar números en <code>sort</code>, pasa un comparador.</li>
+    <li>Documenta con comentarios y divide el código en funciones pequeñas.</li>
+  </ul>
+
+  <script>
+    // Ejemplo final: función que usa varias cosas vistas
+    function procesarUsuario(nombre, ...puntuaciones) {
+      // nombre: string, puntuaciones: array (REST)
+      let total = puntuaciones.reduce((a, b) => a + b, 0); // reduce
+      let media = puntuaciones.length ? total / puntuaciones.length : 0;
+      let resultado = {
+        nombre: nombre.toString(),
+        total,
+        media,
+        fechaProcesado: new Date().toISOString()
+      };
+      return resultado;
+    }
+
+    // uso de ejemplo: procesarUsuario('María', 8,9,10);
+  </script>
+
+  <hr>
+  <p>Fin de los apuntes. Si quieres que te lo convierta en una versión "bonita" con CSS o que añada
+     ejemplos interactivos (ejercicios + soluciones) dímelo y lo preparo.</p>
+</body>
+</html>
