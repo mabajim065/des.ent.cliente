@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ciudades y Habitantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        .rojo {
+            color: red;
+            font-weight: bold;
+        }
+
+        .verde {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Gestión de Ciudades</h2>
+
+    <ul id="listaCiudades"></ul>
+
+    <hr>
+    <button onclick="mostrarCiudades()">1️⃣ Ver todas las ciudades</button>
+    <button onclick="contarCiudades()">2️⃣ Cuántas ciudades hay</button>
+    <button onclick="borrarCiudad()">3️⃣ Borrar ciudad</button>
+    <button onclick="añadirCiudad()">4️⃣ Añadir ciudad</button>
+    <button onclick="mostrarMayor()">5️⃣ Ciudad con más habitantes</button>
+    <button onclick="mostrarMenor()">6️⃣ Ciudad con menos habitantes</button>
+
+    <p id="info"></p>
+
+    <script>
+        "use strict"; // obliga a declarar las variables correctamente
+
+        // 🔹 1. JSON inicial con ciudades (clave → valor)
+        const ciudadesJSON = {
+            "Madrid": 3223000,
+            "Barcelona": 1620000,
+            "Valencia": 791000,
+            "Sevilla": 684000,
+            "Zaragoza": 664000
+        };
+
+        // 🔹 2. Convertimos el JSON en un Map (clave, valor)
+        let ciudadesMap = new Map(Object.entries(ciudadesJSON));
+
+        // 🔹 3. Función para mostrar todas las ciudades
+        function mostrarCiudades() {
+            const lista = document.getElementById("listaCiudades"); // Buscamos el <ul> del HTML
+            lista.innerHTML = ""; // Limpiamos la lista antes de volver a dibujarla
+            // Recorremos el Map y creamos un <li> por cada ciudad
+            ciudadesMap.forEach((habitantes, ciudad) => {
+                const li = document.createElement("li"); // Creamos el elemento de la lista
+                li.textContent = `${ciudad}: ${habitantes} habitantes`; // Le ponemos el texto
+                lista.appendChild(li); // Lo añadimos al <ul>
+            });
+            document.getElementById("info").textContent = ""; // Limpiamos cualquier mensaje previo
+        }
+
+        // 🔹 4. Función para contar cuántas ciudades hay
+        function contarCiudades() {
+            document.getElementById("info").textContent =
+                `Hay ${ciudadesMap.size} ciudades registradas.`; // Map.size devuelve la cantidad de entradas
+        }
+
+        // 🔹 5. Función para borrar una ciudad
+        function borrarCiudad() {
+            const nombre = prompt("Introduce el nombre de la ciudad a borrar:"); // Pedimos el nombre
+            if (ciudadesMap.has(nombre)) { // Comprobamos si existe
+                ciudadesMap.delete(nombre); // La borramos
+                alert(`Se borró ${nombre}.`); // Mensaje de confirmación
+                mostrarCiudades(); // Actualizamos la lista
+            } else {
+                alert("Esa ciudad no existe."); // Mensaje si no la encuentra
+            }
+        }
+
+        // 🔹 6. Función para añadir una nueva ciudad
+        function añadirCiudad() {
+            const nombre = prompt("Introduce el nombre de la nueva ciudad:"); // Nombre de ciudad
+            const habitantes = parseInt(prompt("Introduce la cantidad de habitantes:")); // Habitantes como número
+            if (nombre && !isNaN(habitantes)) { // Comprobamos que sean datos válidos
+                ciudadesMap.set(nombre, habitantes); // Añadimos al Map
+                alert(`Ciudad ${nombre} añadida correctamente.`); // Confirmación
+                mostrarCiudades(); // Actualizamos la lista
+            } else {
+                alert("Datos inválidos."); // Si algo está mal
+            }
+        }
+
+        // 🔹 7. Función para mostrar la ciudad con más habitantes
+        function mostrarMayor() {
+            let maxHab = -Infinity; // Inicializamos el máximo con -infinito para que cualquier ciudad lo supere
+            let ciudadMax = ""; // Guardaremos el nombre de la ciudad más poblada
+            // Recorremos el Map para buscar la ciudad con más habitantes
+            ciudadesMap.forEach((habitantes, ciudad) => {
+                if (habitantes > maxHab) { // Si encontramos una ciudad más poblada
+                    maxHab = habitantes; // Actualizamos el máximo
+                    ciudadMax = ciudad; // Guardamos el nombre
+                }
+            });
+            resaltar(ciudadMax, "rojo"); // Llamamos a resaltar en rojo la ciudad más poblada
+        }
+
+        // 🔹 8. Función para mostrar la ciudad con menos habitantes
+        function mostrarMenor() {
+            let minHab = Infinity; // Inicializamos el mínimo con infinito para que cualquier ciudad lo supere
+            let ciudadMin = ""; // Guardaremos el nombre de la ciudad menos poblada
+            // Recorremos el Map para buscar la ciudad con menos habitantes
+            ciudadesMap.forEach((habitantes, ciudad) => {
+                if (habitantes < minHab) { // Si encontramos una ciudad menos poblada
+                    minHab = habitantes; // Actualizamos el mínimo
+                    ciudadMin = ciudad; // Guardamos el nombre
+                }
+            });
+            resaltar(ciudadMin, "verde"); // Llamamos a resaltar en verde la ciudad menos poblada
+        }
+
+        // 🔹 9. Función para resaltar una ciudad concreta
+        function resaltar(nombre, claseColor) {
+            const lista = document.getElementById("listaCiudades"); // Buscamos la lista en HTML
+            lista.innerHTML = ""; // Limpiamos antes de dibujar
+            // Recorremos todas las ciudades y creamos los <li>
+            ciudadesMap.forEach((habitantes, ciudad) => {
+                const li = document.createElement("li"); // Creamos elemento de lista
+                li.textContent = `${ciudad}: ${habitantes} habitantes`; // Le ponemos texto
+                if (ciudad === nombre) { // Si es la ciudad que queremos resaltar
+                    li.classList.add(claseColor); // Le ponemos la clase CSS (rojo o verde)
+                }
+                lista.appendChild(li); // Lo añadimos a la lista
+            });
+
+            // Mostramos mensaje explicando cuál ciudad se resaltó
+            const mensaje =
+                claseColor === "rojo"
+                    ? `La ciudad más poblada es ${nombre}.`
+                    : `La ciudad menos poblada es ${nombre}.`;
+            document.getElementById("info").textContent = mensaje;
+        }
+    </script>
+</body>
+
+</html>
