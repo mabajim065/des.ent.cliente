@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratamiento numérico, cadenas y fechas en JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #4db8ff;
+            border-bottom: 2px solid #4db8ff;
+            padding-bottom: 5px;
+        }
+
+        div {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #262626;
+        }
+
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tratamiento numérico, de cadenas y fechas en JavaScript</h1>
+
+    <!-- ============================= -->
+    <!-- SECCIÓN 1: TRATAMIENTO NUMÉRICO -->
+    <!-- ============================= -->
+    <div id="numerico">
+        <h2>1️⃣ Tratamiento numérico</h2>
+        <p id="resultadoNumerico"></p>
+    </div>
+
+    <!-- ============================= -->
+    <!-- SECCIÓN 2: CADENAS DE TEXTO -->
+    <!-- ============================= -->
+    <div id="cadenas">
+        <h2>2️⃣ Métodos de cadenas de texto</h2>
+        <p id="resultadoCadenas"></p>
+    </div>
+
+    <!-- ============================= -->
+    <!-- SECCIÓN 3: OBJETO DATE -->
+    <!-- ============================= -->
+    <div id="fechas">
+        <h2>3️⃣ Objeto Date</h2>
+        <p id="resultadoFechas"></p>
+    </div>
+
+    <script>
+        /*************************************************************
+         * SECCIÓN 1: TRATAMIENTO NUMÉRICO
+         *************************************************************/
+        // parseInt(): convierte texto a número entero.
+        // parseFloat(): convierte texto a número decimal.
+        // isNaN(): comprueba si el valor NO es un número (true si no lo es).
+
+        let textoEntero = "42";
+        let textoDecimal = "3.1416";
+        let textoInvalido = "hola";
+
+        // Convertimos los textos
+        let numEntero = parseInt(textoEntero);     // → 42
+        let numDecimal = parseFloat(textoDecimal); // → 3.1416
+
+        // Comprobamos si son números válidos
+        let esNumero1 = isNaN(numEntero);   // false → sí es número
+        let esNumero2 = isNaN(textoInvalido); // true → no es número
+
+        // Mostramos los resultados
+        document.getElementById("resultadoNumerico").innerHTML = `
+      <strong>parseInt("${textoEntero}"):</strong> ${numEntero}<br>
+      <strong>parseFloat("${textoDecimal}"):</strong> ${numDecimal}<br>
+      <strong>isNaN("${textoEntero}"):</strong> ${esNumero1}<br>
+      <strong>isNaN("${textoInvalido}"):</strong> ${esNumero2}<br>
+    `;
+
+        /*************************************************************
+         * LÓGICA:
+         * 1. Usamos parseInt y parseFloat para convertir cadenas a números.
+         * 2. Con isNaN comprobamos si un valor es o no numérico.
+         * 3. Estos métodos son útiles al recibir datos del usuario (por ejemplo, en un formulario).
+         *************************************************************/
+
+
+        /*************************************************************
+         * SECCIÓN 2: MÉTODOS DE CADENAS
+         *************************************************************/
+        // Ejemplo de texto base
+        let texto = "Hola Mundo";
+
+        // toLowerCase() / toUpperCase()
+        let minusculas = texto.toLowerCase();
+        let mayusculas = texto.toUpperCase();
+
+        // concat(): concatena otra cadena
+        let saludo = texto.concat(" desde JavaScript!");
+
+        // charAt(): obtiene el carácter en una posición
+        let letra = texto.charAt(1); // → 'o' (recordemos que se empieza desde 0)
+
+        // indexOf() / lastIndexOf()
+        let primeraOcurrencia = texto.indexOf("o");     // primera 'o' → posición 1
+        let ultimaOcurrencia = texto.lastIndexOf("o");  // última 'o' → posición 7
+
+        // replace(): sustituye una parte de la cadena
+        let reemplazo = texto.replace("Mundo", "amigo");
+
+        // split(): separa la cadena por un carácter
+        let partes = texto.split(" "); // divide por espacio → ["Hola", "Mundo"]
+
+        // substring(): extrae una parte del texto
+        let subcadena = texto.substring(0, 4); // desde 0 hasta 4 (no incluido)
+
+        // Mostramos todo
+        document.getElementById("resultadoCadenas").innerHTML = `
+      <strong>Texto original:</strong> ${texto}<br>
+      toLowerCase(): ${minusculas}<br>
+      toUpperCase(): ${mayusculas}<br>
+      concat(): ${saludo}<br>
+      charAt(1): ${letra}<br>
+      indexOf("o"): ${primeraOcurrencia}<br>
+      lastIndexOf("o"): ${ultimaOcurrencia}<br>
+      replace("Mundo","amigo"): ${reemplazo}<br>
+      split(" "): ${partes}<br>
+      substring(0,4): ${subcadena}<br>
+    `;
+
+        /*************************************************************
+         * LÓGICA:
+         * - Se usan métodos de String para manipular texto fácilmente.
+         * - Podemos cambiar mayúsculas, buscar posiciones, reemplazar,
+         *   dividir o extraer partes.
+         * - Muy útil para validar y formatear datos de entrada del usuario.
+         *************************************************************/
+
+
+        /*************************************************************
+         * SECCIÓN 3: OBJETO DATE
+         *************************************************************/
+        // Creamos un objeto de fecha actual
+        let fechaActual = new Date();
+
+        // Obtenemos partes de la fecha con get...
+        let dia = fechaActual.getDate();       // día del mes (1–31)
+        let mes = fechaActual.getMonth() + 1;  // mes (0–11) → se suma 1 para mostrarlo correctamente
+        let año = fechaActual.getFullYear();   // año completo
+        let diaSemana = fechaActual.getDay();  // día de la semana (0=domingo, 6=sábado)
+        let hora = fechaActual.getHours();     // hora actual
+        let minutos = fechaActual.getMinutes();
+        let segundos = fechaActual.getSeconds();
+
+        // Convertimos la fecha a diferentes formatos
+        let fechaString = fechaActual.toDateString();   // formato legible
+        let fechaGMT = fechaActual.toGMTString();       // formato GMT
+        let fechaUTC = fechaActual.toUTCString();       // formato UTC
+
+        // Mostramos resultados
+        document.getElementById("resultadoFechas").innerHTML = `
+        <strong>Fecha actual:</strong> ${fechaActual}<br>
+        Día: ${dia} | Mes: ${mes} | Año: ${año}<br>
+        Día de la semana (0=Domingo): ${diaSemana}<br>
+        Hora: ${hora}:${minutos}:${segundos}<br>
+        toDateString(): ${fechaString}<br>
+        toGMTString(): ${fechaGMT}<br>
+        toUTCString(): ${fechaUTC}<br>
+    `;
+
+        /*************************************************************
+         * LÓGICA:
+         * - El objeto Date nos permite trabajar con fechas y horas.
+         * - Los métodos get... obtienen partes (día, mes, año, hora...).
+         * - Los métodos to... convierten la fecha a distintos formatos de texto.
+         * - Se usa mucho en apps con fechas, horarios o registros de tiempo.
+         *************************************************************/
+    </script>
+</body>
+
+</html>

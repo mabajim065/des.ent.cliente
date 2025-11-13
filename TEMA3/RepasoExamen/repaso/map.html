@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método .map() en JavaScript</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #00bfff;
+            border-bottom: 2px solid #00bfff;
+            padding-bottom: 4px;
+        }
+
+        div {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+        }
+
+        code {
+            background-color: #333;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #00ff99;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Ejemplos del método <code>.map()</code> en JavaScript</h1>
+
+    <!-- EJEMPLO 1: Uso básico de map() -->
+    <div id="ejemplo1">
+        <h2>Ejemplo 1: Duplicar números con <code>.map()</code></h2>
+        <p id="resultado1"></p>
+    </div>
+
+    <!-- EJEMPLO 2: Convertir mayúsculas/minúsculas -->
+    <div id="ejemplo2">
+        <h2>Ejemplo 2: Convertir palabras a mayúsculas</h2>
+        <p id="resultado2"></p>
+    </div>
+
+    <!-- EJEMPLO 3: Map con objetos -->
+    <div id="ejemplo3">
+        <h2>Ejemplo 3: Crear nuevo array de objetos con datos modificados</h2>
+        <p id="resultado3"></p>
+    </div>
+
+    <!-- EJEMPLO 4: Map + funciones flecha -->
+    <div id="ejemplo4">
+        <h2>Ejemplo 4: Uso con funciones flecha</h2>
+        <p id="resultado4"></p>
+    </div>
+
+    <!-- EJEMPLO 5: Comparación con forEach -->
+    <div id="ejemplo5">
+        <h2>Ejemplo 5: Diferencia entre <code>.map()</code> y <code>.forEach()</code></h2>
+        <p id="resultado5"></p>
+    </div>
+
+    <script>
+        /*
+        ===================================================
+          EJEMPLO 1: Uso básico de .map()
+        ===================================================
+        */
+        const numeros = [1, 2, 3, 4, 5];
+
+        // map() crea un NUEVO array aplicando una función a cada elemento
+        // Aquí, multiplicamos cada número por 2
+        const duplicados = numeros.map(function (num) {
+            return num * 2;
+        });
+
+        document.getElementById("resultado1").textContent =
+            `Original: ${numeros} | Duplicados: ${duplicados}`;
+
+        /*
+        ===================================================
+          EJEMPLO 2: Convertir texto a mayúsculas
+        ===================================================
+        */
+        const palabras = ["javascript", "map", "es", "genial"];
+
+        // Usamos una función flecha (=>) para convertir cada palabra a mayúsculas
+        const mayusculas = palabras.map(p => p.toUpperCase());
+
+        document.getElementById("resultado2").textContent =
+            `Original: ${palabras.join(", ")} | Mayúsculas: ${mayusculas.join(", ")}`;
+
+        /*
+        ===================================================
+          EJEMPLO 3: Map con objetos
+        ===================================================
+        */
+        const productos = [
+            { nombre: "Camisa", precio: 20 },
+            { nombre: "Pantalón", precio: 30 },
+            { nombre: "Zapatos", precio: 50 }
+        ];
+
+        // map() devuelve un nuevo array con los precios incrementados en un 10%
+        const preciosActualizados = productos.map(p => {
+            return {
+                nombre: p.nombre,
+                precio: p.precio * 1.10 // Aumenta el precio un 10%
+            };
+        });
+
+        // Mostramos ambos arrays
+        document.getElementById("resultado3").textContent =
+            `Original: ${JSON.stringify(productos)} | Actualizado: ${JSON.stringify(preciosActualizados)}`;
+
+        /*
+        ===================================================
+          EJEMPLO 4: Uso con funciones flecha y operaciones matemáticas
+        ===================================================
+        */
+        const cuadrados = numeros.map(n => n * n); // eleva cada número al cuadrado
+        document.getElementById("resultado4").textContent =
+            `Números: ${numeros} | Cuadrados: ${cuadrados}`;
+
+        /*
+        ===================================================
+          EJEMPLO 5: Diferencia entre map() y forEach()
+        ===================================================
+        */
+        const lista = [1, 2, 3];
+        let resultadoMap = lista.map(n => n * 3); // Devuelve un NUEVO array
+        let resultadoForEach = [];
+
+        // forEach recorre el array, pero NO devuelve nada
+        lista.forEach(n => resultadoForEach.push(n * 3));
+
+        document.getElementById("resultado5").textContent =
+            `map(): ${resultadoMap} | forEach(): ${resultadoForEach}`;
+    </script>
+
+</body>
+
+</html>

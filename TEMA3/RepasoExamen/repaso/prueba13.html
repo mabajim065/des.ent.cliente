@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumas variadas</title>
+</head>
+
+<body>
+    <header>
+        <h1> Sumas </h1>
+    </header>
+
+    <p id="resultado"></p>
+
+</body>
+<script>
+    let texto = prompt("Introduce una cadena de texto:");
+    let numExtraer = parseInt(prompt("¿Cuántos caracteres quieres extraer?"));
+
+    function extraerCaracateres(texto, numExtraer) {
+        return texto.substring(0, numExtraer);
+    }
+
+    document.getElementById("resultado").textContent = "Resultado: " + extraerCaracateres(texto, numExtraer);
+</script>
+
+</html>

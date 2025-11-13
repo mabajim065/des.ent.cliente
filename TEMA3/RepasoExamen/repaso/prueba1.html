@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumas variadas</title>
+</head>
+
+<body>
+    <header>
+        <h1> Sumas </h1>
+    </header>
+
+    <p id="resultado"></p>
+
+</body>
+<script>
+    let n1 = parseInt(prompt("Introduce el primer número:"));
+    let n2 = parseInt(prompt("Introduce el segundo número:"));
+
+    // La función de flecha se define y se llama inmediatamente (IIFE)
+    // y el valor de retorno se asigna directamente a 'sumaEspecial'.
+    let sumaEspecial = ((num1, num2) => {
+        if (num1 === num2) {
+            // En tu código original, el console.log estaba en el 'else' y no se ejecutaba correctamente.
+            return (num1 + num2) * 3;
+        } else {
+            return num1 + num2;
+        }
+    })(n1, n2); // Se llama la función pasando n1 y n2 como argumentos
+
+    document.getElementById("resultado").textContent = "Resultado: " + sumaEspecial;
+</script>
+
+</html>

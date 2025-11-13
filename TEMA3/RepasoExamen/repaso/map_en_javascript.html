@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objeto Map en JavaScript</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e8e8e8;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #58cced;
+        }
+
+        h2 {
+            color: #4db8ff;
+            border-bottom: 2px solid #4db8ff;
+            padding-bottom: 5px;
+        }
+
+        div {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Objeto Map en JavaScript</h1>
+
+    <!-- Sección 1 -->
+    <div id="creacion">
+        <h2>1️⃣ Creación y acceso a un Map</h2>
+        <p id="resultado1"></p>
+    </div>
+
+    <!-- Sección 2 -->
+    <div id="metodos">
+        <h2>2️⃣ Métodos principales de Map</h2>
+        <p id="resultado2"></p>
+    </div>
+
+    <!-- Sección 3 -->
+    <div id="iteracion">
+        <h2>3️⃣ Iteración sobre un Map</h2>
+        <p id="resultado3"></p>
+    </div>
+
+    <!-- Sección 4 -->
+    <div id="contador">
+        <h2>4️⃣ Ejemplo práctico: Contador de palabras</h2>
+        <p id="resultado4"></p>
+    </div>
+
+    <!-- Sección 5 -->
+    <div id="conversion">
+        <h2>5️⃣ Conversión de Map a Array y diferencia con WeakMap</h2>
+        <p id="resultado5"></p>
+    </div>
+
+    <script>
+        /**************************************************************
+         * 1️⃣ CREACIÓN Y ACCESO A UN MAP
+         **************************************************************/
+        // Un Map permite usar cualquier tipo de dato como clave (string, número, objeto...)
+        const persona = new Map([
+            ["nombre", "Carlos"],
+            ["edad", 30],
+            ["profesion", "Desarrollador"]
+        ]);
+
+        // Accedemos a los valores con get()
+        const nombre = persona.get("nombre"); // → "Carlos"
+        const edad = persona.get("edad"); // → 30
+
+        // Mostramos en HTML
+        document.getElementById("resultado1").innerHTML = `
+      <strong>Contenido inicial del Map:</strong> [["nombre","Carlos"],["edad",30],["profesion","Desarrollador"]]<br>
+      Nombre: ${nombre}<br>
+      Edad: ${edad}<br>
+      Tamaño del Map: ${persona.size}
+    `;
+
+        /**************************************************************
+         * 💡 Lógica:
+         * - Map guarda pares clave-valor, manteniendo el orden de inserción.
+         * - Las claves pueden ser de cualquier tipo (no solo strings).
+         * - .get(clave) devuelve el valor o undefined si no existe.
+         **************************************************************/
+
+
+        /**************************************************************
+         * 2️⃣ MÉTODOS PRINCIPALES: set, get, has, delete, clear
+         **************************************************************/
+        const mapa = new Map();
+        mapa.set("clave", "valor inicial"); // Añadimos un valor
+        mapa.set("clave", "valor actualizado"); // Sobrescribe el valor anterior
+        mapa.set("a", 1).set("b", 2).set("c", 3); // Encadenamiento
+
+        // has() comprueba si existe una clave
+        const existeA = mapa.has("a"); // true
+        const existeZ = mapa.has("z"); // false
+
+        // delete() elimina una clave
+        mapa.delete("b");
+
+        // clear() vacía todo el mapa
+        // (no lo aplicamos aquí para poder seguir mostrando contenido)
+
+        document.getElementById("resultado2").innerHTML = `
+      <strong>Mapa actual:</strong> ${JSON.stringify(Array.from(mapa))}<br>
+      Tiene clave 'a': ${existeA}<br>
+      Tiene clave 'z': ${existeZ}<br>
+      Tamaño actual: ${mapa.size}
+    `;
+
+        /**************************************************************
+         * 💡 Lógica:
+         * - set(clave, valor): agrega o actualiza un par.
+         * - has(clave): verifica existencia.
+         * - delete(clave): elimina una entrada.
+         * - clear(): borra todas las entradas.
+         * - size: propiedad que indica cuántos pares hay.
+         **************************************************************/
+
+
+        /**************************************************************
+         * 3️⃣ ITERACIÓN SOBRE UN MAP
+         **************************************************************/
+        const frutas = new Map([
+            ["manzana", 5],
+            ["banana", 3],
+            ["cereza", 7]
+        ]);
+
+        let claves = "";
+        for (const clave of frutas.keys()) {
+            claves += clave + " ";
+        }
+
+        let valores = "";
+        for (const valor of frutas.values()) {
+            valores += valor + " ";
+        }
+
+        let pares = "";
+        for (const [clave, valor] of frutas.entries()) {
+            pares += `${clave}: ${valor} | `;
+        }
+
+        let textoForEach = "";
+        frutas.forEach((valor, clave) => {
+            textoForEach += `${clave} → ${valor} | `;
+        });
+
+        document.getElementById("resultado3").innerHTML = `
+      <strong>keys():</strong> ${claves}<br>
+      <strong>values():</strong> ${valores}<br>
+      <strong>entries():</strong> ${pares}<br>
+      <strong>forEach():</strong> ${textoForEach}
+    `;
+
+        /**************************************************************
+         * 💡 Lógica:
+         * - keys(): iterador de claves.
+         * - values(): iterador de valores.
+         * - entries(): devuelve pares [clave, valor].
+         * - forEach(): ejecuta una función sobre cada par clave-valor.
+         * 
+         * 🔁 Se usa mucho para recorrer datos, mostrar en tablas o listas dinámicas.
+         **************************************************************/
+
+
+        /**************************************************************
+         * 4️⃣ EJEMPLO PRÁCTICO: CONTADOR DE PALABRAS
+         **************************************************************/
+        const frase = "hola mundo hola javascript mundo javascript javascript";
+        const palabras = frase.split(" "); // dividimos la frase por espacios
+        const contador = new Map();
+
+        // Contamos cuántas veces aparece cada palabra
+        palabras.forEach((palabra) => {
+            if (contador.has(palabra)) {
+                // Si ya existe la palabra, incrementamos su valor
+                contador.set(palabra, contador.get(palabra) + 1);
+            } else {
+                // Si no existe, la inicializamos en 1
+                contador.set(palabra, 1);
+            }
+        });
+
+        // Mostramos resultado
+        let resultadoContador = "";
+        contador.forEach((valor, clave) => {
+            resultadoContador += `${clave}: ${valor}<br>`;
+        });
+
+        document.getElementById("resultado4").innerHTML = `
+      Frase original: "${frase}"<br><br>
+      <strong>Conteo de palabras:</strong><br>${resultadoContador}
+    `;
+
+        /**************************************************************
+         * 💡 Lógica:
+         * - Recorremos el array de palabras y usamos el Map para contar.
+         * - has() → comprueba si ya existe la palabra.
+         * - set() → actualiza el valor (contador).
+         * 
+         * 🧠 Este patrón se usa mucho para:
+         *   - Contar elementos.
+         *   - Analizar texto o datos.
+         *   - Agrupar resultados.
+         **************************************************************/
+
+
+        /**************************************************************
+         * 5️⃣ CONVERSIÓN A ARRAY Y DIFERENCIAS CON WEAKMAP
+         **************************************************************/
+        const numeros = new Map([
+            [1, "uno"],
+            [2, "dos"],
+            [3, "tres"]
+        ]);
+
+        // Convertimos el Map en un Array de pares [clave, valor]
+        const arrayDesdeMap = [...numeros];
+
+        // Ejemplo de WeakMap (solo acepta objetos como claves)
+        const obj1 = { id: 1 };
+        const obj2 = { id: 2 };
+        const weak = new WeakMap();
+        weak.set(obj1, "Objeto 1");
+        weak.set(obj2, "Objeto 2");
+
+        document.getElementById("resultado5").innerHTML = `
+      <strong>Map original:</strong> ${JSON.stringify(Array.from(numeros))}<br>
+      <strong>Convertido a Array:</strong> ${JSON.stringify(arrayDesdeMap)}<br><br>
+      <strong>WeakMap:</strong> solo admite objetos como claves (por ejemplo {id:1}).<br>
+      No se puede convertir directamente ni iterar por seguridad y eficiencia.
+    `;
+
+        /**************************************************************
+         * 💡 Lógica:
+         * - [...map]: convierte el Map en un array iterable de pares.
+         * - WeakMap:
+         *   - Solo acepta objetos como claves.
+         *   - No se puede iterar (para evitar fugas de memoria).
+         *   - Ideal para asociar datos privados a objetos.
+         **************************************************************/
+    </script>
+
+</body>
+
+</html>

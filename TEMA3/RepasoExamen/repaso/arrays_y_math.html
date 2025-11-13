@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objeto Array y Objeto Math en JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #58cced;
+        }
+
+        h2 {
+            color: #4db8ff;
+            border-bottom: 2px solid #4db8ff;
+            padding-bottom: 5px;
+        }
+
+        div {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
+
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Objeto Array y Objeto Math en JavaScript</h1>
+
+    <!-- ============================= -->
+    <!-- SECCIÓN 1: MÉTODOS DE ARRAY -->
+    <!-- ============================= -->
+    <div id="arrays">
+        <h2>1️⃣ Métodos del objeto Array</h2>
+        <p id="resultadoArrays"></p>
+    </div>
+
+    <!-- ============================= -->
+    <!-- SECCIÓN 2: MÉTODOS DE MATH -->
+    <!-- ============================= -->
+    <div id="math">
+        <h2>2️⃣ Métodos del objeto Math</h2>
+        <p id="resultadoMath"></p>
+    </div>
+
+    <script>
+        /*************************************************************
+         * SECCIÓN 1: OBJETO ARRAY
+         *************************************************************/
+        // Creamos un array de ejemplo
+        let frutas = ["Manzana", "Banana", "Cereza", "Durazno"];
+
+        // join(): une todos los elementos del array en una cadena, con un separador
+        let frutasUnidas = frutas.join(" - "); // → "Manzana - Banana - Cereza - Durazno"
+
+        // push(): añade elementos al final del array
+        frutas.push("Kiwi", "Mango"); // ahora el array tiene 6 elementos
+
+        // pop(): elimina y devuelve el último elemento
+        let ultimaFruta = frutas.pop(); // elimina "Mango"
+
+        // reverse(): invierte el orden del array
+        let frutasReverso = [...frutas].reverse(); // usamos copia con spread para no alterar el original
+
+        // sort(): ordena alfabéticamente
+        let frutasOrdenadas = [...frutas].sort(); // también usamos copia
+
+        // slice(): devuelve una parte del array (sin modificarlo)
+        let algunasFrutas = frutas.slice(1, 3); // → ["Banana", "Cereza"]
+
+        // Mostramos los resultados en HTML
+        document.getElementById("resultadoArrays").innerHTML = `
+      <strong>Array original:</strong> ["Manzana", "Banana", "Cereza", "Durazno"]<br>
+      join(" - "): ${frutasUnidas}<br>
+      push("Kiwi","Mango"): ${frutas}<br>
+      pop(): elimina → ${ultimaFruta}<br>
+      reverse(): ${frutasReverso}<br>
+      sort(): ${frutasOrdenadas}<br>
+      slice(1,3): ${algunasFrutas}<br>
+    `;
+
+        /*************************************************************
+         * 💡 LÓGICA:
+         * - join(): convierte un array a cadena, útil para mostrar datos.
+         * - push() / pop(): añaden o quitan elementos del final.
+         * - reverse(): invierte el orden de los elementos.
+         * - sort(): ordena alfabéticamente (ojo con números, usa compare si hace falta).
+         * - slice(): extrae una parte sin modificar el original.
+         * 
+         * ⚙️ Buenas prácticas:
+         * - Usar el operador spread [...] para copiar arrays antes de aplicar
+         *   métodos que los modifican, evitando alterar el original.
+         *************************************************************/
+
+
+        /*************************************************************
+         * SECCIÓN 2: OBJETO MATH
+         *************************************************************/
+        // Ejemplo de número para las operaciones
+        let numero = 7.56;
+        let negativo = -9;
+
+        // Redondeos
+        let redondeoAbajo = Math.floor(numero); // → 7
+        let redondeoArriba = Math.ceil(numero); // → 8
+        let redondeoCercano = Math.round(numero); // → 8 (porque 0.56 >= 0.5)
+
+        // Valor absoluto
+        let valorAbsoluto = Math.abs(negativo); // → 9
+
+        // Máximo y mínimo
+        let maximo = Math.max(10, 25); // → 25
+        let minimo = Math.min(10, 25); // → 10
+
+        // Potencia
+        let potencia = Math.pow(2, 4); // → 16
+
+        // Número aleatorio entre 0 y 1 (con decimales)
+        let aleatorio = Math.random(); // → por ejemplo, 0.3281...
+
+        // Si queremos un número aleatorio entre 1 y 10:
+        let aleatorio10 = Math.floor(Math.random() * 10) + 1; // → entero 1–10
+
+        // Mostramos los resultados
+        document.getElementById("resultadoMath").innerHTML = `
+      <strong>Número base:</strong> ${numero}<br>
+      Math.floor(${numero}): ${redondeoAbajo}<br>
+      Math.ceil(${numero}): ${redondeoArriba}<br>
+      Math.round(${numero}): ${redondeoCercano}<br>
+      Math.abs(${negativo}): ${valorAbsoluto}<br>
+      Math.max(10,25): ${maximo}<br>
+      Math.min(10,25): ${minimo}<br>
+      Math.pow(2,4): ${potencia}<br>
+      Math.random(): ${aleatorio}<br>
+      Aleatorio entre 1 y 10: ${aleatorio10}<br>
+    `;
+
+        /*************************************************************
+         * 💡 LÓGICA:
+         * - Math es un objeto estático, se usa para operaciones matemáticas.
+         * - floor() / ceil() / round(): distintos tipos de redondeo.
+         * - abs(): obtiene el valor absoluto.
+         * - max() / min(): compara varios números.
+         * - pow(): eleva una base a un exponente.
+         * - random(): genera valores aleatorios (útil para juegos, contraseñas, etc.).
+         * 
+         * ⚙️ Ejemplo útil:
+         *   Math.floor(Math.random() * 10) + 1 → número entero del 1 al 10.
+         *************************************************************/
+    </script>
+
+</body>
+
+</html>

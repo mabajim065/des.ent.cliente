@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apuntes y Ejemplos de JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            color: #00bcd4;
+        }
+
+        div.ejemplo {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        code {
+            color: #80ff80;
+            background: #222;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Apuntes y Ejemplos de JavaScript (Comentado)</h1>
+
+    <!-- ==================== OPERADORES DE COMPARACIÓN ==================== -->
+    <div class="ejemplo">
+        <h2>Operadores de comparación</h2>
+        <p>Comparamos valores para comprobar si son iguales, diferentes, mayores o menores.</p>
+
+        <script>
+            // Declaramos dos variables, una numérica y otra tipo string
+            let a = 5;
+            let b = "5";
+
+            // === compara valor y tipo (estricto). No hace conversiones automáticas.
+            document.write("<b>===</b> Compara valor y tipo:<br>");
+            document.write(`a === b → ${a === b} (false porque uno es número y otro cadena)<br><br>`);
+
+            // !== compara valor y tipo, devuelve true si son distintos (estricto).
+            document.write("<b>!==</b> Compara valor y tipo:<br>");
+            document.write(`a !== b → ${a !== b} (true porque tienen distinto tipo)<br><br>`);
+
+            // == compara solo valor. Si son de distinto tipo, intenta convertirlos (NO recomendado).
+            document.write("<b>==</b> Compara solo valor:<br>");
+            document.write(`a == b → ${a == b} (true porque convierte la cadena a número)<br><br>`);
+
+            // != compara si son distintos, también convierte tipos si es necesario.
+            document.write("<b>!=</b> Compara si son distintos:<br>");
+            document.write(`a != b → ${a != b} (false porque tras conversión ambos valen 5)<br><br>`);
+
+            // Operadores relacionales: >, <, >=, <=
+            document.write("<b>Comparaciones numéricas:</b><br>");
+            document.write(`5 > 3 → ${5 > 3}<br>`);   // true porque 5 es mayor que 3
+            document.write(`5 < 3 → ${5 < 3}<br>`);   // false porque 5 no es menor que 3
+            document.write(`5 >= 5 → ${5 >= 5}<br>`); // true porque son iguales
+            document.write(`5 <= 4 → ${5 <= 4}<br>`); // false porque 5 no es menor ni igual a 4
+        </script>
+    </div>
+
+    <!-- ==================== OPERADORES DE INCREMENTO Y DECREMENTO ==================== -->
+    <div class="ejemplo">
+        <h2>Operadores de incremento y decremento</h2>
+
+        <script>
+            // x y y son variables de ejemplo
+            let x = 5, y;
+
+            // ++x → primero incrementa, luego asigna el valor incrementado
+            y = ++x; // x=6, y=6
+            document.write(`(++x) x=${x}, y=${y}<br>`);
+
+            // x++ → primero asigna, luego incrementa (el valor cambia después)
+            x = 5;
+            y = x++; // x=6, y=5
+            document.write(`(x++) x=${x}, y=${y}<br>`);
+
+            // --x → primero decrementa, luego asigna
+            x = 5;
+            y = --x; // x=4, y=4
+            document.write(`(--x) x=${x}, y=${y}<br>`);
+
+            // x-- → primero asigna, luego decrementa
+            x = 5;
+            y = x--; // x=4, y=5
+            document.write(`(x--) x=${x}, y=${y}<br>`);
+        </script>
+    </div>
+
+    <!-- ==================== OPERADORES DE ASIGNACIÓN ==================== -->
+    <div class="ejemplo">
+        <h2>Operadores de asignación</h2>
+
+        <script>
+            // Partimos de z = 10
+            let z = 10;
+            document.write(`z = ${z}<br>`);
+
+            // += suma y asigna → z = z + 5
+            z += 5;
+            document.write(`z += 5 → ${z}<br>`);
+
+            // -= resta y asigna → z = z - 3
+            z -= 3;
+            document.write(`z -= 3 → ${z}<br>`);
+
+            // *= multiplica y asigna → z = z * 2
+            z *= 2;
+            document.write(`z *= 2 → ${z}<br>`);
+
+            // /= divide y asigna → z = z / 4
+            z /= 4;
+            document.write(`z /= 4 → ${z}<br>`);
+        </script>
+    </div>
+
+    <!-- ==================== BUCLE FOR ==================== -->
+    <div class="ejemplo">
+        <h2>Bucle for</h2>
+        <p>Se usa cuando sabemos cuántas veces queremos repetir algo (por ejemplo, recorrer un array).</p>
+
+        <script>
+            // Creamos un array con varios números
+            let numeros = [10, 20, 30, 40];
+
+            document.write("Recorriendo array con for:<br>");
+
+            // El bucle for tiene tres partes:
+            // 1️⃣ Inicialización: let i = 0 (empezamos en el primer índice)
+            // 2️⃣ Condición: i < numeros.length (mientras haya elementos)
+            // 3️⃣ Incremento: i++ (pasamos al siguiente índice)
+            for (let i = 0; i < numeros.length; i++) {
+                document.write(`Índice ${i}: valor = ${numeros[i]}<br>`);
+            }
+        </script>
+    </div>
+
+    <!-- ==================== BUCLE WHILE ==================== -->
+    <div class="ejemplo">
+        <h2>Bucle while</h2>
+        <p>Se usa cuando queremos repetir una acción mientras una condición sea verdadera.</p>
+
+        <script>
+            // Inicializamos un contador
+            let contador = 1;
+
+            // El bucle se ejecuta mientras contador sea <= 3
+            while (contador <= 3) {
+                document.write(`Iteración ${contador}<br>`);
+                contador++; // incrementamos en cada vuelta para evitar bucles infinitos
+            }
+        </script>
+    </div>
+
+    <!-- ==================== BUCLE DO-WHILE ==================== -->
+    <div class="ejemplo">
+        <h2>Bucle do-while</h2>
+        <p>Se ejecuta al menos una vez, porque la condición se evalúa al final.</p>
+
+        <script>
+            let n = 1;
+            do {
+                // Se ejecuta antes de comprobar la condición
+                document.write(`Número: ${n}<br>`);
+                n++; // incrementamos n
+            } while (n <= 3); // si aún cumple la condición, repite
+        </script>
+    </div>
+
+    <!-- ==================== BREAK Y CONTINUE ==================== -->
+    <div class="ejemplo">
+        <h2>Uso de break y continue</h2>
+        <p><b>break:</b> sale del bucle por completo.<br><b>continue:</b> salta a la siguiente iteración sin ejecutar el
+            resto del código actual.</p>
+
+        <script>
+            // Ejemplo de break → termina el bucle cuando se cumple una condición
+            document.write("Ejemplo con break:<br>");
+            for (let i = 1; i <= 5; i++) {
+                if (i === 3) break; // al llegar a 3, se interrumpe el bucle
+                document.write(`i = ${i}<br>`);
+            }
+
+            // Ejemplo de continue → salta una vuelta del bucle
+            document.write("<br>Ejemplo con continue:<br>");
+            for (let i = 1; i <= 5; i++) {
+                if (i === 3) continue; // cuando i es 3, no ejecuta el resto y pasa a la siguiente vuelta
+                document.write(`i = ${i}<br>`);
+            }
+        </script>
+    </div>
+
+    <!-- ==================== FUNCIONES ==================== -->
+    <div class="ejemplo">
+        <h2>Funciones</h2>
+        <p>Una función es un bloque de código reutilizable. Puede recibir parámetros y devolver un valor.</p>
+
+        <script>
+            // Definimos una función llamada "sumar"
+            // Tiene dos parámetros: a y b (b tiene un valor por defecto = 0)
+            function sumar(a, b = 0) {
+                // return indica el valor que la función devuelve al ser llamada
+                return a + b;
+            }
+
+            // Llamamos a la función con dos argumentos
+            let resultado = sumar(5, 3);
+            document.write(`sumar(5,3) = ${resultado}<br>`);
+
+            // Si solo pasamos un parámetro, el segundo toma su valor por defecto (0)
+            document.write(`sumar(5) = ${sumar(5)} (usa el valor por defecto 0)<br>`);
+        </script>
+    </div>
+
+    <!-- ==================== FUNCIONES FLECHA ==================== -->
+    <div class="ejemplo">
+        <h2>Funciones flecha (Arrow Functions)</h2>
+        <p>Son una versión más corta de las funciones normales. Muy usadas con arrays y callbacks.</p>
+
+        <script>
+            // Función flecha básica → ideal cuando solo se devuelve una expresión
+            const multiplicar = (a, b) => a * b;
+            document.write(`multiplicar(4,2) = ${multiplicar(4, 2)}<br>`);
+
+            // Función flecha con varias líneas → se necesitan llaves y return
+            const saludar = (nombre) => {
+                // Creamos un mensaje personalizado
+                return `Hola, ${nombre}!`;
+            };
+            document.write(saludar("Alex"));
+        </script>
+    </div>
+
+</body>
+
+</html>
