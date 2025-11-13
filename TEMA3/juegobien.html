@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Contraseña - María Abascal Jiménez</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 6px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .resultado {
+            margin-top: 15px;
+            background: #eef;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .ganador {
+            background-color: #d4edda;
+            padding: 10px;
+            border: 1px solid #28a745;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎮 Juego: Adivina la Contraseña 🎮</h1>
+    <div class="container">
+        <p><strong>Objetivo:</strong> Cada jugador intenta adivinar partes de la contraseña. Ganas puntos según los
+            aciertos.</p>
+        <p><strong>Reglas:</strong></p>
+        <ul>
+            <li>Vocal correcta = 1 punto</li>
+            <li>Consonante correcta = 2 puntos</li>
+            <li>Número correcto = 3 puntos</li>
+            <li>La mayúscula/minúscula cuenta</li>
+        </ul>
+
+        <!-- Entradas de los tres jugadores -->
+        <input type="text" id="jugador1" placeholder="Jugador 1: escribe tu palabra">
+        <input type="text" id="jugador2" placeholder="Jugador 2: escribe tu palabra">
+        <input type="text" id="jugador3" placeholder="Jugador 3: escribe tu palabra">
+
+        <button onclick="jugar()">Comprobar</button>
+
+        <!-- Resultados -->
+        <div id="resultados"></div>
+    </div>
+
+    <script>
+        // Contraseña guardada en el sistema
+        const contrasena = "L4ultimavezKtelod1go";
+
+        // Función principal del juego
+        function jugar() {
+            // Limpiamos el contenedor de resultados antes de mostrar los nuevos
+            const resultadosDiv = document.getElementById("resultados");
+            resultadosDiv.innerHTML = "";
+
+            // Obtenemos las palabras introducidas por cada jugador
+            const jugador1 = document.getElementById("jugador1").value;
+            const jugador2 = document.getElementById("jugador2").value;
+            const jugador3 = document.getElementById("jugador3").value;
+
+            // Guardamos todos los intentos en un array para procesarlos en bucle
+            const jugadores = [
+                { nombre: "Jugador 1", palabra: jugador1 },
+                { nombre: "Jugador 2", palabra: jugador2 },
+                { nombre: "Jugador 3", palabra: jugador3 }
+            ];
+
+            // Variable para llevar el seguimiento del jugador con más puntos
+            let maxPuntos = 0;
+            let ganador = "";
+
+            // Recorremos cada jugador
+            jugadores.forEach(j => {
+                // Calculamos la puntuación individual de cada jugador
+                const resultado = calcularPuntuacion(j.palabra);
+
+                // Mostramos el resultado del jugador
+                resultadosDiv.innerHTML += `
+                    <div class="resultado">
+                        <strong>${j.nombre}</strong><br>
+                        Palabra: ${j.palabra}<br>
+                        Letras acertadas: ${resultado.acertadas.join(", ") || "Ninguna"}<br>
+                        Puntuación total: ${resultado.puntos} puntos
+                    </div>
+                `;
+
+                // Verificamos si este jugador tiene la mayor puntuación
+                if (resultado.puntos > maxPuntos) {
+                    maxPuntos = resultado.puntos;
+                    ganador = j.nombre;
+                }
+            });
+
+            // Mostramos quién ganó la partida
+            resultadosDiv.innerHTML += `
+                <div class="ganador">
+                    🏆 <strong>${ganador}</strong> ha ganado con ${maxPuntos} puntos 🏆
+                </div>
+            `;
+        }
+
+        // Función que calcula los puntos según la palabra del jugador
+        function calcularPuntuacion(palabra) {
+            let puntos = 0;
+            let letrasAcertadas = [];
+
+            // Recorremos cada carácter de la palabra introducida
+            for (let i = 0; i < palabra.length; i++) {
+                const letra = palabra[i];
+
+                // Comprobamos si la letra aparece en la contraseña EXACTAMENTE igual (mayúscula/minúscula)
+                if (contrasena.includes(letra)) {
+                    letrasAcertadas.push(letra);
+
+                    // Clasificamos la letra según su tipo:
+                    if ("aeiouAEIOU".includes(letra)) {
+                        // Es vocal
+                        puntos += 1;
+                    } else if ("0123456789".includes(letra)) {
+                        // Es número
+                        puntos += 3;
+                    } else {
+                        // Cualquier otro carácter es consonante
+                        puntos += 2;
+                    }
+                }
+            }
+
+            // Devolvemos un objeto con los puntos totales y las letras acertadas
+            return { puntos: puntos, acertadas: letrasAcertadas };
+        }
+    </script>
+</body>
+
+</html>
