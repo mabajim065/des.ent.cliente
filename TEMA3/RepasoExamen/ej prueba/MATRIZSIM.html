@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Repaso Examen Matriz Simétrica - María Abascal Jiménez - Desarrollo de Aplicaciones Web." />
+    <meta name="author" content="María Abascal Jiménez" />
+    <title>Comprobar Matriz Simétrica - María Abascal Jiménez</title>
+</head>
+
+<body>
+    <h1>Comprobar si una matriz es simétrica</h1>
+
+    <p>Matriz: <span id="matriz"></span></p>
+    <button onclick="comprobarSimetria()">Comprobar</button>
+    <p>Resultado: <span id="resultado"></span></p>
+
+    <script>
+        /*******************************************************************
+         * Crear una matriz de 3x3 (con los valores que queramos, no los mete 
+         * el usuario) y comprobar si es SIMÉTRICA.
+         * Una matriz es simétrica si matriz[i][j] == matriz[j][i].
+         *******************************************************************/
+
+        // 1️⃣ Definimos la matriz
+        let matriz = [
+            [1, 2, 3],
+            [2, 5, 6],
+            [3, 6, 9]
+        ];
+
+        // 2️⃣ Variable para controlar si es simétrica o no
+        let esSimetrica = true;
+
+        // 3️⃣ Función para comprobar la simetría
+        function comprobarSimetria() {
+            matriz.map((fila, i) => {
+                fila.map((valor, j) => {
+                    if (valor !== matriz[j][i]) {
+                        esSimetrica = false;
+                    }
+                });
+            });
+
+            if (esSimetrica) {
+                document.getElementById("resultado").textContent = "✅ La matriz es simétrica.";
+            } else {
+                document.getElementById("resultado").textContent = "❌ La matriz NO es simétrica.";
+            }
+
+            return esSimetrica;
+        }
+
+        // 4️⃣ Mostrar matriz
+        document.getElementById("matriz").textContent = matriz;
+    </script>
+</body>
+
+</html>
