@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palos del Flamenco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffebf0;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #ff99bb;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d63384;
+        }
+
+        .seccion {
+            background-color: #fff5f7;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ffccdd;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ff99bb;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff66a3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        button:hover {
+            background-color: #d63384;
+        }
+
+        #resultado {
+            background-color: #fff0f5;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 2px solid #ff99bb;
+            min-height: 100px;
+        }
+
+        .dato {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-left: 4px solid #ff66a3;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        #compasVisual {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .tiempos {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tiempo {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ffccdd;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .tiempo-fuerte {
+            background-color: #ff66a3;
+            color: white;
+            border-color: #d63384;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <div class="container">
+        <h1>Palos del Flamenco</h1>
+
+        <!-- Primera opción: ver toda la info del palo -->
+        <div class="seccion">
+            <h3>Opción 1: Ver información completa</h3>
+            <select id="selectPalo1">
+                <option value="">Selecciona un palo</option>
+                <option value="SOLEÁ">SOLEÁ</option>
+                <option value="BULERÍAS">BULERÍAS</option>
+                <option value="ALEGRÍAS">ALEGRÍAS</option>
+                <option value="SEGUIRIYA">SEGUIRIYA</option>
+                <option value="TANGOS">TANGOS</option>
+                <option value="FANDANGOS">FANDANGOS</option>
+                <option value="SEVILLANAS">SEVILLANAS</option>
+            </select>
+            <button onclick="verInfoCompleta()">Ver información</button>
+        </div>
+
+        <!-- Segunda opción: ver un dato específico -->
+        <div class="seccion">
+            <h3>Opción 2: Ver dato específico</h3>
+            <select id="selectPalo2">
+                <option value="">-- Selecciona un palo --</option>
+                <option value="SOLEÁ">SOLEÁ</option>
+                <option value="BULERÍAS">BULERÍAS</option>
+                <option value="ALEGRÍAS">ALEGRÍAS</option>
+                <option value="SEGUIRIYA">SEGUIRIYA</option>
+                <option value="TANGOS">TANGOS</option>
+                <option value="FANDANGOS">FANDANGOS</option>
+                <option value="SEVILLANAS">SEVILLANAS</option>
+            </select>
+            
+            <select id="selectDato">
+                <option value="compas">Compás</option>
+                <option value="tempo">Tempo</option>
+                <option value="letra">Tipo de letra</option>
+            </select>
+            
+            <button onclick="verDatoEspecifico()">Consultar</button>
+        </div>
+
+        <!-- Resultados -->
+        <div id="resultado">
+            <div id="tituloPalo" class="oculto"></div>
+            <div id="datoCompas" class="dato oculto"></div>
+            <div id="datoTempo" class="dato oculto"></div>
+            <div id="datoLetra" class="dato oculto"></div>
+            <div id="datoDescripcion" class="dato oculto"></div>
+            
+            <!-- Compás visual -->
+            <div id="compasVisual" class="oculto">
+                <h4>Compás de 12 tiempos</h4>
+                <div class="tiempos" id="tiemposContainer"></div>
+                <p id="textoAcentos"></p>
+            </div>
+            
+            <p id="mensajeVacio">Selecciona una opción para ver información</p>
+        </div>
+    </div>
+
+    <script>
+        // Aquí guardo todos los datos de los palos en un objeto
+        var palos = {
+            "SOLEÁ": { compas: "12 tiempos", acentos: "3, 6, 8, 10, 12", tempo: "Lento (60-80 BPM)", letra: "Copla de 3 o 4 versos. Temática: pena, soledad, amor", descripcion: "Considerada la madre del flamenco" },
+            "BULERÍAS": { compas: "12 tiempos", acentos: "3, 7, 8, 10, 12", tempo: "Rápido (160-260 BPM)", letra: "Coplas de 3 o 4 versos. Temática: festera, humor", descripcion: "El palo más festero del flamenco" },
+            "ALEGRÍAS": { compas: "12 tiempos", acentos: "3, 6, 8, 10, 12", tempo: "Medio-Rápido (120-160 BPM)", letra: "Coplas de 4 versos. Temática alegre", descripcion: "Cante festero de Cádiz" },
+            "SEGUIRIYA": { compas: "12 tiempos (amalgama)", acentos: "1, 3, 5, 8, 11", tempo: "Lento (40-60 BPM)", letra: "Copla de 4 versos. Temática trágica", descripcion: "El cante más profundo" },
+            "TANGOS": { compas: "4 tiempos", acentos: "1, 3", tempo: "Medio (120-140 BPM)", letra: "Coplas de 4 versos. Temática variada", descripcion: "Uno de los palos básicos" },
+            "FANDANGOS": { compas: "12 tiempos (3/4)", acentos: "1, 4, 7, 10", tempo: "Medio (100-120 BPM)", letra: "Copla de 5 versos. Temática amorosa", descripcion: "Muchas variantes regionales" },
+            "SEVILLANAS": { compas: "3/4 (vals)", acentos: "1", tempo: "Alegre (140-180 BPM)", letra: "Coplas de 4 versos. Temática festiva", descripcion: "El baile más popular" }
+        };
+
+        // Función para limpiar resultados anteriores
+        function limpiarResultado() {
+            document.getElementById('tituloPalo').className = 'oculto';
+            document.getElementById('datoCompas').className = 'dato oculto';
+            document.getElementById('datoTempo').className = 'dato oculto';
+            document.getElementById('datoLetra').className = 'dato oculto';
+            document.getElementById('datoDescripcion').className = 'dato oculto';
+            document.getElementById('compasVisual').className = 'oculto';
+            document.getElementById('mensajeVacio').style.display = 'none';
+        }
+
+        // Función para mostrar toda la info de un palo
+        function verInfoCompleta() {
+            var select = document.getElementById('selectPalo1');
+            var paloNombre = select.value;
+            
+            if (paloNombre == "") {
+                alert("Por favor selecciona un palo");
+                return;
+            }
+            
+            limpiarResultado();
+            
+            var palo = palos[paloNombre];
+            
+            // Mostrar título
+            var titulo = document.getElementById('tituloPalo');
+            titulo.textContent =  paloNombre ;
+            titulo.className = 'visible';
+            titulo.style.fontSize = '24px';
+            titulo.style.color = '#d63384';
+            titulo.style.textAlign = 'center';
+            titulo.style.marginBottom = '20px';
+            
+            // Mostrar compás
+            var compas = document.getElementById('datoCompas');
+            compas.textContent = " Compás: " + palo.compas;
+            compas.className = 'dato visible';
+            
+            // Mostrar tempo
+            var tempo = document.getElementById('datoTempo');
+            tempo.textContent = "Tempo: " + palo.tempo;
+            tempo.className = 'dato visible';
+            
+            // Mostrar letra
+            var letra = document.getElementById('datoLetra');
+            letra.textContent = " Tipo de letra: " + palo.letra;
+            letra.className = 'dato visible';
+            
+            // Mostrar descripción
+            var descripcion = document.getElementById('datoDescripcion');
+            descripcion.textContent = "Descripción: " + palo.descripcion;
+            descripcion.className = 'dato visible';
+            
+            // Si tiene 12 tiempos, mostrar el compás visual
+            if (palo.compas.includes("12 tiempos")) {
+                mostrarCompasVisual(palo.acentos);
+            }
+        }
+
+        // Función para mostrar solo un dato concreto
+        function verDatoEspecifico() {
+            var selectPalo = document.getElementById('selectPalo2');
+            var selectDato = document.getElementById('selectDato');
+            var paloNombre = selectPalo.value;
+            var tipoDato = selectDato.value;
+            
+            if (paloNombre == "") {
+                alert("Por favor selecciona un palo");
+                return;
+            }
+            
+            limpiarResultado();
+            
+            var palo = palos[paloNombre];
+            
+            // Mostrar título
+            var titulo = document.getElementById('tituloPalo');
+            titulo.textContent = paloNombre;
+            titulo.className = 'visible';
+            titulo.style.fontSize = '24px';
+            titulo.style.color = '#d63384';
+            titulo.style.textAlign = 'center';
+            titulo.style.marginBottom = '20px';
+            
+            // Mostrar el dato específico
+            if (tipoDato == "compas") {
+                var compas = document.getElementById('datoCompas');
+                compas.textContent = "📊 Compás: " + palo.compas;
+                compas.className = 'dato visible';
+                
+                if (palo.compas.includes("12 tiempos")) {
+                    mostrarCompasVisual(palo.acentos);
+                }
+            }
+            else if (tipoDato == "tempo") {
+                var tempo = document.getElementById('datoTempo');
+                tempo.textContent = "🎵 Tempo: " + palo.tempo;
+                tempo.className = 'dato visible';
+            }
+            else if (tipoDato == "letra") {
+                var letra = document.getElementById('datoLetra');
+                letra.textContent = "📝 Tipo de letra: " + palo.letra;
+                letra.className = 'dato visible';
+            }
+        }
+
+        // Función que dibuja los círculos del compás visual
+        function mostrarCompasVisual(acentosTexto) {
+            var acentosArray = acentosTexto.split(", ");
+            var acentosNumeros = [];
+            for (var i = 0; i < acentosArray.length; i++) {
+                acentosNumeros.push(parseInt(acentosArray[i]));
+            }
+            
+            document.getElementById('compasVisual').className = 'visible';
+            
+            var container = document.getElementById('tiemposContainer');
+            container.innerHTML = '';
+            
+            for (var tiempo = 1; tiempo <= 12; tiempo++) {
+                var circulo = document.createElement('div');
+                circulo.textContent = tiempo;
+                
+                var esFuerte = false;
+                for (var j = 0; j < acentosNumeros.length; j++) {
+                    if (acentosNumeros[j] == tiempo) {
+                        esFuerte = true;
+                        break;
+                    }
+                }
+                
+                if (esFuerte) {
+                    circulo.className = 'tiempo tiempo-fuerte';
+                } else {
+                    circulo.className = 'tiempo';
+                }
+                
+                container.appendChild(circulo);
+            }
+            
+            var textoAcentos = document.getElementById('textoAcentos');
+            textoAcentos.textContent = "Tiempos fuertes: " + acentosTexto;
+            textoAcentos.style.color = '#d63384';
+            textoAcentos.style.fontWeight = 'bold';
+        }
+    </script>
+</body>
+</html>
