@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <title>Apuntes JavaScript (UD02 + UD03) - Versión limpia</title>
 </head>
+
 <body>
   <h1>Apuntes JavaScript (Sintaxis ES6 + Objetos predefinidos)</h1>
 
@@ -12,7 +14,7 @@
        ----------------------------------------------------------- -->
   <h2>1. Hola Mundo y Comentarios</h2>
   <p>Explicación breve: Los comentarios en JS pueden ser <code>//</code> (línea) o <code>/* ... */</code> (bloque).
-     El código JavaScript se incluye dentro de etiquetas <code>&lt;script&gt;</code>.</p>
+    El código JavaScript se incluye dentro de etiquetas <code>&lt;script&gt;</code>.</p>
 
   <script>
     // Ejemplo de comentarios y declaración simple
@@ -34,7 +36,7 @@
        ----------------------------------------------------------- -->
   <h2>2. Variables, <code>const</code>, Tipos y Arrays</h2>
   <p>Explicación: Usa <code>let</code> para variables de bloque, <code>const</code> para constantes.
-     Los tipos principales: Number, String, Boolean, Object, Array, undefined, null, Symbol (ES6).</p>
+    Los tipos principales: Number, String, Boolean, Object, Array, undefined, null, Symbol (ES6).</p>
 
   <script>
     // Variables y ámbito
@@ -64,7 +66,8 @@
        ----------------------------------------------------------- -->
   <h2>3. Conversiones y comprobación numérica</h2>
   <p>Explicación: <code>parseInt</code> y <code>parseFloat</code> convierten cadenas a números.
-     <code>isNaN</code> comprueba si un valor no es un número.</p>
+    <code>isNaN</code> comprueba si un valor no es un número.
+  </p>
 
   <script>
     // parseInt, parseFloat
@@ -88,7 +91,8 @@
        4. 'use strict'
        ----------------------------------------------------------- -->
   <h2>4. Modo estricto: "use strict"</h2>
-  <p>Explicación: Activa comprobaciones más estrictas del lenguaje (obliga a declarar variables, impide ciertas acciones peligrosas).</p>
+  <p>Explicación: Activa comprobaciones más estrictas del lenguaje (obliga a declarar variables, impide ciertas acciones
+    peligrosas).</p>
 
   <script>
     // Ejemplo local de "use strict" dentro de una función
@@ -107,8 +111,9 @@
        5. Entrada/salida en navegador (nota: no usaremos alert/console)
        ----------------------------------------------------------- -->
   <h2>5. Entrada y salida en navegador (conceptos)</h2>
-  <p>Explicación: existen <code>alert</code>, <code>prompt</code> y <code>confirm</code>, así como <code>console.log</code>.
-     Aquí solo muestro cómo se usarían, sin ejecutar.</p>
+  <p>Explicación: existen <code>alert</code>, <code>prompt</code> y <code>confirm</code>, así como
+    <code>console.log</code>.
+    Aquí solo muestro cómo se usarían, sin ejecutar.</p>
 
   <script>
     // Ejemplos (no ejecutados para evitar ventanas):
@@ -121,8 +126,10 @@
        6. Operadores (asignación, aritméticos, comparación, lógicos)
        ----------------------------------------------------------- -->
   <h2>6. Operadores</h2>
-  <p>Explicación: operadores básicos de JS: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>,
-     asignación compuesta (<code>+=</code>, etc.), comparadores (<code>===</code>, <code>!==</code>, <code>==</code>, <code>&lt;</code>...), y lógicos (<code>&&</code>, <code>||</code>, <code>!</code>).</p>
+  <p>Explicación: operadores básicos de JS: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>,
+    <code>%</code>,
+    asignación compuesta (<code>+=</code>, etc.), comparadores (<code>===</code>, <code>!==</code>, <code>==</code>,
+    <code>&lt;</code>...), y lógicos (<code>&&</code>, <code>||</code>, <code>!</code>).</p>
 
   <script>
     // Asignación y aritmética
@@ -194,7 +201,8 @@
        8. Bucles: for, while, do-while, break/continue
        ----------------------------------------------------------- -->
   <h2>8. Bucles</h2>
-  <p>Explicación: iteraciones con <code>for</code>, <code>while</code>, <code>do...while</code>, y control con <code>break</code>/<code>continue</code>.</p>
+  <p>Explicación: iteraciones con <code>for</code>, <code>while</code>, <code>do...while</code>, y control con
+    <code>break</code>/<code>continue</code>.</p>
 
   <script>
     // for (números pares del 2 al 10)
@@ -228,7 +236,7 @@
        ----------------------------------------------------------- -->
   <h2>9. Funciones</h2>
   <p>Explicación: las funciones encapsulan lógica; pueden devolver valor con <code>return</code>.
-     ES6 permite parámetros por defecto y parámetros REST (<code>...rest</code>).</p>
+    ES6 permite parámetros por defecto y parámetros REST (<code>...rest</code>).</p>
 
   <script>
     // Función tradicional
@@ -277,7 +285,8 @@
        11. Clases ES6
        ----------------------------------------------------------- -->
   <h2>11. Clases</h2>
-  <p>Explicación: sintaxis de <code>class</code> en ES6 para definir objetos con constructor, métodos y getters/setters.</p>
+  <p>Explicación: sintaxis de <code>class</code> en ES6 para definir objetos con constructor, métodos y getters/setters.
+  </p>
 
   <script>
     class Punto {
@@ -311,7 +320,8 @@
        12. Manipulación básica del DOM (Document Object Model)
        ----------------------------------------------------------- -->
   <h2>12. Manipulación del DOM</h2>
-  <p>Explicación: con <code>document.getElementById</code>, <code>querySelector</code>, <code>createElement</code>, etc., puedes leer y modificar el documento.</p>
+  <p>Explicación: con <code>document.getElementById</code>, <code>querySelector</code>, <code>createElement</code>,
+    etc., puedes leer y modificar el documento.</p>
 
   <p id="nota-dom">Esta etiqueta sirve para ejemplos DOM (no se modifica visualmente desde aquí).</p>
 
@@ -341,7 +351,9 @@
        13. Objeto String (métodos)
        ----------------------------------------------------------- -->
   <h2>13. Objeto String (métodos importantes)</h2>
-  <p>Explicación: Strings en JS tienen métodos como <code>toLowerCase</code>, <code>toUpperCase</code>, <code>split</code>, <code>replace</code>, <code>indexOf</code>, <code>substring</code>, <code>charAt</code>, y la propiedad <code>length</code>.</p>
+  <p>Explicación: Strings en JS tienen métodos como <code>toLowerCase</code>, <code>toUpperCase</code>,
+    <code>split</code>, <code>replace</code>, <code>indexOf</code>, <code>substring</code>, <code>charAt</code>, y la
+    propiedad <code>length</code>.</p>
 
   <script>
     let cad = "Sergi:Garcia:123456";
@@ -357,7 +369,8 @@
        14. Objeto Date
        ----------------------------------------------------------- -->
   <h2>14. Objeto Date</h2>
-  <p>Explicación: trabajar con fechas: <code>new Date()</code>, <code>getFullYear</code>, <code>getMonth</code> (0-11), <code>getDate</code>, <code>getDay</code> (0-6), <code>setMonth</code>, etc.</p>
+  <p>Explicación: trabajar con fechas: <code>new Date()</code>, <code>getFullYear</code>, <code>getMonth</code> (0-11),
+    <code>getDate</code>, <code>getDay</code> (0-6), <code>setMonth</code>, etc.</p>
 
   <script>
     // Crear fechas
@@ -380,7 +393,9 @@
        15. Objeto Array (métodos)
        ----------------------------------------------------------- -->
   <h2>15. Objeto Array (métodos más usados)</h2>
-  <p>Explicación: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>slice</code>, <code>splice</code>, <code>sort</code>, <code>reverse</code>, <code>join</code>, <code>map</code>, <code>filter</code>, <code>reduce</code>.</p>
+  <p>Explicación: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>slice</code>,
+    <code>splice</code>, <code>sort</code>, <code>reverse</code>, <code>join</code>, <code>map</code>,
+    <code>filter</code>, <code>reduce</code>.</p>
 
   <script>
     let arr = [3, 1, 4, 1, 5];
@@ -418,7 +433,9 @@
        16. Objeto Math
        ----------------------------------------------------------- -->
   <h2>16. Objeto Math</h2>
-  <p>Explicación: constantes (<code>Math.PI</code>, <code>Math.E</code>) y métodos (<code>floor</code>, <code>ceil</code>, <code>round</code>, <code>abs</code>, <code>sqrt</code>, <code>pow</code>, <code>random</code>).</p>
+  <p>Explicación: constantes (<code>Math.PI</code>, <code>Math.E</code>) y métodos (<code>floor</code>,
+    <code>ceil</code>, <code>round</code>, <code>abs</code>, <code>sqrt</code>, <code>pow</code>, <code>random</code>).
+  </p>
 
   <script>
     let aleatorio = Math.random(); // 0 <= x < 1
@@ -435,17 +452,18 @@
        17. Objeto Window (setTimeout, setInterval, clearTimeout, clearInterval)
        ----------------------------------------------------------- -->
   <h2>17. Objeto Window</h2>
-  <p>Explicación: métodos temporales como <code>setTimeout</code> y <code>setInterval</code>. También objetos globales window.document, window.location, etc.</p>
+  <p>Explicación: métodos temporales como <code>setTimeout</code> y <code>setInterval</code>. También objetos globales
+    window.document, window.location, etc.</p>
 
   <script>
     // setTimeout: ejecuta función una vez tras ms
-    let idTimeout = setTimeout(function() {
+    let idTimeout = setTimeout(function () {
       // código a ejecutar después del tiempo
       // por ejemplo: cambiar un texto, etc.
     }, 2000);
 
     // setInterval: repite cada intervalo
-    let idInterval = setInterval(function() {
+    let idInterval = setInterval(function () {
       // acción repetida
     }, 1000);
 
@@ -458,7 +476,8 @@
        18. Función eval (usar con precaución)
        ----------------------------------------------------------- -->
   <h2>18. eval</h2>
-  <p>Explicación: <code>eval</code> interpreta una cadena como código JS. Es peligrosa y rara vez necesaria. Evítala cuando sea posible.</p>
+  <p>Explicación: <code>eval</code> interpreta una cadena como código JS. Es peligrosa y rara vez necesaria. Evítala
+    cuando sea posible.</p>
 
   <script>
     // Ejemplo ilustrativo (NO RECOMENDADO por seguridad)
@@ -500,6 +519,7 @@
 
   <hr>
   <p>Fin de los apuntes. Si quieres que te lo convierta en una versión "bonita" con CSS o que añada
-     ejemplos interactivos (ejercicios + soluciones) dímelo y lo preparo.</p>
+    ejemplos interactivos (ejercicios + soluciones) dímelo y lo preparo.</p>
 </body>
+
 </html>

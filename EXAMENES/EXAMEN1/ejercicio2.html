@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>2º daw mar de cadiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 5px #aaa;
+            list-style: none;
+        }
+
+        li {
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #e684ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #de95ff;
+        }
+
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>gestion de 2º daw</h1>
+
+    <!-- Lista donde se mostrarán las ciudades -->
+    <ul id="listamodulo"></ul>
+
+    <!-- Controles -->
+    <div>
+        <button onclick="mostrarmodulo()">1 Ver todos los modulos</button>
+        <button onclick="contarmodulo()">2 Ver cuantos modulos hay</button>
+        <button onclick="añadirmodulo()">3 Añadir un modulo</button>
+        <button onclick="borrarCiudad()">3 Borrar un modulo</button>
+        <button onclick="abreviatura()"> 4 Ver todas las abreviaturas</button>
+        <button onclick="consulta()"> 5 Ver si existe</button>
+        <button onclick="editarmodulo()"> 6 editar</button>
+    </div>
+
+    <script>
+        // 1. Creamos el Map con datos iniciales
+        const modulos = new Map([
+            ["cliente", 1],
+            ["servidor", 2],
+            ["diseño", 3],
+            ["proyecto", 4]
+        ]);
+
+        const lista = document.getElementById("listamodulo");
+
+        //Función para mostrar TODOS los modulos
+        function mostrarmodulo() {
+            lista.innerHTML = ""; // Limpiamos la lista
+            modulos.forEach((num, nombre) => {
+                const li = document.createElement("li");
+                li.textContent = `${nombre} → ${num}`;
+                lista.appendChild(li);
+            });
+        }
+
+        // Función para contar cuántas ciudades hay
+        function contarmodulo() {
+            alert(`Actualmente hay ${modulos.size} modulos en el grado.`);
+        }
+
+        // Función para borrar una ciudad
+        function borrarmodulo() {
+            const nombre = prompt("Introduce el nombre del modulo que quieres quitar:");
+            if (modulos.has(nombre)) {
+                modulos.delete(nombre);
+                alert(`${nombre} ha sido eliminado.`);
+                mostrarmodulo();
+            } else {
+                alert("Ese modulo no existe");
+            }
+        }
+
+
+
+        //  Función para añadir una ciudad
+        function añadirmodulo() {
+            const nombre = prompt("Introduce el nombre delmodulo:");
+            const num = parseInt(prompt("Introduce el número de modulo:"), 10);
+
+            if (!nombre || isNaN(num)) {
+                alert("Datos inválidos. Inténtalo de nuevo.");
+                return;
+            }
+
+            ciudades.set(nombre, num);
+            alert(`${nombre} añadido correctamente.`);
+            mostrarmodulo();
+        }
+
+
+        /*****************************************
+         * poara mostrar la abreviatura 
+         * ***************************************/
+
+        //funcion para proteger primero el nombre de la asignatura
+        function protegemodulo(nombre) {
+            // Quitamos espacios al principio y final
+            nombre = String(nombre).trim();
+
+            var primero = partes[0];   // parte antes 
+
+            // Decidimos cuántos caracteres mostrar de la parte local:
+            // si la parte local tiene más de 3 caracteres: mostramos los 3 primeros pero si tinee menos de 3 mostramos na mas 1
+            var visibles;
+            if (primero.length > 3) {
+                visibles = primero.substring(0, 3); // primeros 3 caracteres
+            } else {
+                visibles = primero.substring(0, 1); // solo la primera
+            }
+
+            // ponemos todo junto con '...' para que no se vea nada
+            var protegido = visibles + '...';
+
+            return protegido;
+        }
+
+        // Función sencilla para usar desde el HTML y mostrar el resultado
+        function abreviatura() {
+            var nombre = document.getElementById('nombre').value;
+            var resultado = protegemodulo(email);
+            document.getElementById('salida').innerText = resultado;
+        }
+
+        function consulta() {
+            const mapa = new Map();
+            mapa.set('clave', 'valor inicial');
+            console.log(mapa.has('clave'));
+            console.log(mapa.has('otraClave'));
+
+            let ex = "";
+            if (nombre != isNaN) {
+                ex = "existe"
+            } else {
+                ex = " no existe"
+            }
+            return ex;
+
+        }
+        //Al cargar la página, mostramos la lista inicial
+        window.onload = mostrarCiudades;
+    </script>
+
+</body>
+
+</html>
