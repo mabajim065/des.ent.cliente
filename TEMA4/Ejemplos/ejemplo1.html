@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<script>
+    "use strict";
+
+    let userName = 'arta';
+
+    function showMessage() {
+        let userName = "maria"; // declara variable local
+
+        let message = 'Hello, ' + userName; // Bob
+        alert(message);
+    }
+
+    // la función crea y utiliza su propia variable local userName
+    showMessage();
+
+    alert(userName); // John, se mantiene, la función no accedió a la variable externa
+</script>
