@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Resolver Laberinto</title>
+</head>
+
+<body>
+    <h1>Laberinto</h1>
+
+    <pre id="laberinto-vista"></pre>
+
+    <button onclick="comprobarSalida()">¿Hay salida?</button>
+    <p id="resultado"></p>
+
+    <script>
+        //primero voy a crear el laberinto como a mi me de la gana
+        const laberinto = [
+            ["S", " ", " ", " "],
+            ["X", " ", "X", " "],
+            [" ", " ", "X", " "],
+            ["X", "X", " ", "F"]
+        ];
+
+        // esto es lo ultimo que he hecho pero lo pongo aqui pa q se vea el laberinto
+        //creo una funcion pa mostrarlo en el html
+        function mostrarLaberinto() {
+            const contenedor = document.getElementById('laberinto-vista');
+            // convierto el laberinto a texto
+            let texto = '';
+            //y ya po recorro el laberinto
+            for (let i = 0; i < laberinto.length; i++) {
+                texto += laberinto[i].join(' ') + '\n';
+            }
+            contenedor.textContent = texto;
+        }
+
+        // hago la funcion recursiva  pa ver si hay una salida o no
+        function resolverLaberinto(lab, x, y, visitado) {
+            // lo primeor que hago es comprobar límites
+            if (x < 0 || y < 0 || x >= lab.length || y >= lab[0].length) {
+                return false;
+            }
+
+            //en casoi de qu sea  pared que no siga
+            if (lab[x][y] === "X") {
+                return false;
+            }
+            // Si ya a pasado por hay no siga
+            if (visitado[x][y]) {
+                return false;
+            }
+            // pero en el caso de que sea la salida
+            //ahora si que me va a devolver true
+            if (lab[x][y] === "F") {
+                return true;
+            }
+
+            // Marcar como visitado
+            visitado[x][y] = true;
+
+            // ahora voy a probar en las 4 direcciones
+            // abajo, arriba, derecha, izquierda
+            /* lo que voy a hacer es ir casilla por casilla , si esta vacia la marco como que se puede pasar y
+             en caso de que no , po cambia de direccion*/
+            return (
+                resolverLaberinto(lab, x + 1, y, visitado) || // abajo
+                resolverLaberinto(lab, x - 1, y, visitado) || // arriba
+                resolverLaberinto(lab, x, y + 1, visitado) || // derecha
+                resolverLaberinto(lab, x, y - 1, visitado)    // izquierda
+            );
+        }
+        // Mostrar laberinto al cargar la página
+        mostrarLaberinto();
+    </script>
+</body>
+
+</html>
