@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ejercicio 5</title>
+</head>
+
+<body>
+    <h1>Ejercicio 5</h1>
+<script>
+function permutar(arr) {
+  if (arr.length === 1) {
+    return [arr];
+  }
+
+  let resultado = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    let actual = arr[i];
+    let resto = arr.slice(1).concat(arr.slice(0, i));
+
+    let perms = permutar(resto);
+
+    for (let p of perms) {
+      resultado.push([actual].concat(p));
+    }
+  }
+
+  return resultado;
+}
+
+console.log(permutar([1, 2, 3]));
+
+</script>
+</body>
+</html>

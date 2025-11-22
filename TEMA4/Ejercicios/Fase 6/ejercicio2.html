@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ejercicio 2</title>
+</head>
+
+<body>
+    <h1>Ejercicio 2</h1>
+
+    <script>
+        //primeor creo las funciones basicas
+    function suma(a, b) {
+  return a + b;
+}
+
+function resta(a, b) {
+  return a - b;
+}
+
+function multiplicar(a, b) {
+  return a * b;
+}
+
+// este va a hacer la suma y la multiplicacion y luego los va a sumar
+function suma_mul(a, b) {
+  return (a + b) + (a * b);
+}
+//est va a pedir dos nuemro y una funcion en concreto
+function operar(a, b, operacion) {
+  return operacion(a, b);
+}
+
+
+console.log(operar(3, 3, suma));     
+console.log(operar(3, 3, suma_mul));   
+    </script>
+</body>
+</html>    

@@ -8,26 +8,23 @@
 </head>
 
 <body>
-    <h1>Ejercicio 1 Fase 6 Tema 4</h1>
+    <h1>Ejercicio 1</h1>
 
     <script>
-        /*******************************************************************************************
-            Crea una función crearUsuario que reciba un objeto con nombre, edad y pais.
-            Si algún dato falta, usar valores por defecto.
-            Debe devolver una cadena: "Juan, 20 años, España".
-        ********************************************************************************************/
+       function crearUsuario(usuario) {
+  // Valores por defecto si faltan datos
+  let nombre = usuario.nombre || "desconocido";
+  let edad = usuario.edad || "desconocido";
+  let pais = usuario.pais || "desconocido";
 
-        //primero he creado una funcion que cambie el nombre edad y pais si alguno de losotros no existe
-        function crearUsuario({ nombre, edad, pais } = {}) {
-            if (!nombre || !edad || !pais) {
-                nombre = "juan",
-                    edad = 20,
-                    pais = "España"
-            }
-            return `${nombre}, ${edad} años, ${pais}`;
-        }
-        //meto unos dato cualquiera y compruebo si por consola se muestra haceindose bien
-        console.log(crearUsuario({ nombre: "", edad: 22, pais: "México" }));
+  // Devolver el formato pedido
+  return `${nombre}, ${edad} años, ${pais}`;
+}
+
+//ejemplos con lo que voy a comprovor que funciona
+console.log(crearUsuario({ nombre: "Juan", edad: 20, pais: "España" }));
+console.log(crearUsuario({ nombre: "Ana" }));
+
     </script>
 
 </html>

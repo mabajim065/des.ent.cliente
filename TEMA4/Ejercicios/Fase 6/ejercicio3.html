@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ejercicio 3</title>
+</head>
+
+<body>
+    <h1>Ejercicio 3</h1>
+<script>
+    function aplanar(arr) {
+  let resultado = [];
+
+  for (let elemento of arr) {
+    if (Array.isArray(elemento)) {
+      // Recursión
+      resultado = resultado.concat(aplanar(elemento));
+    } else {
+      resultado.push(elemento);
+    }
+  }
+
+  return resultado;
+}
+
+
+console.log(aplanar([1, [2, [3, 4]], 5]));
+
+</script>
+</body>
+</html>
