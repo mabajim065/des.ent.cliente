@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Carrito de Compras - Arrow Functions (arreglao)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .producto {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .eliminar {
+            background: #dc3545;
+        }
+
+        .eliminar:hover {
+            background: #c82333;
+        }
+
+        input[type="number"] {
+            padding: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Carrito de Compras con Arrow Functions (Completado)</h1>
+
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3>Añadir Producto</h3>
+        <input type="text" id="nombre" placeholder="Nombre del producto" style="margin-right: 10px; padding: 8px;">
+        <input type="number" id="precio" placeholder="Precio (€)" step="0.01" style="margin-right: 10px; padding: 8px;">
+        <button onclick="añadirProducto()"> Añadir</button>
+    </div>
+
+
+    <div id="listaProductos"></div>
+
+
+    <div id="totalContainer" style="margin-top: 20px; text-align: right;"></div>
+
+    <script>
+        let carrito = [];
+
+        const añadirProducto = () => {
+            const nombre = document.getElementById('nombre').value.trim();
+            const precio = parseFloat(document.getElementById('precio').value);
+
+
+            if (!nombre || precio <= 0 || isNaN(precio)) {
+                alert('Introduce nombre y precio válido');
+                return;
+            }
+
+            const productoExistente = carrito.find(p => p.nombre.toLowerCase() === nombre.toLowerCase() && p.precio === precio);
+            if (productoExistente) {
+                productoExistente.cantidad += 1;
+            } else {
+
+                const nuevoProducto = {
+                    id: Date.now() + Math.floor(Math.random() * 1000), // ID único aproximado
+                    nombre,
+                    precio,
+                    cantidad: 1
+                };
+                carrito.push(nuevoProducto);
+            }
+
+
+            document.getElementById('nombre').value = '';
+            document.getElementById('precio').value = '';
+
+
+            renderizarCarrito();
+        };
+
+
+        const eliminarProducto = (id) => {
+
+            carrito = carrito.filter(producto => producto.id !== id);
+
+            renderizarCarrito();
+        };
+
+
+        const cambiarCantidad = (id, nuevaCantidad) => {
+            const cantidad = parseInt(nuevaCantidad, 10);
+
+
+            if (isNaN(cantidad) || cantidad < 1) {
+                alert('La cantidad mínima es 1');
+
+                renderizarCarrito();
+                return;
+            }
+
+
+            const producto = carrito.find(p => p.id === id);
+            if (producto) {
+                producto.cantidad = cantidad;
+                renderizarCarrito();
+            }
+        };
+
+
+        const calcularTotales = () => {
+            const totalProductos = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+
+
+            const totalPrecio = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+
+
+            return { totalProductos, totalPrecio: totalPrecio.toFixed(2) };
+        };
+
+
+        const vaciarCarrito = () => {
+            if (confirm('¿Vaciar todo el carrito?')) {
+                carrito = [];
+                renderizarCarrito();
+            }
+        };
+
+
+        const renderizarCarrito = () => {
+            const lista = document.getElementById('listaProductos');
+            const containerTotal = document.getElementById('totalContainer');
+
+
+            if (carrito.length === 0) {
+                lista.innerHTML = '<p style="text-align: center; color: #6c757d;">🛒 Carrito vacío. ¡Añade productos!</p>';
+                containerTotal.innerHTML = '';
+                return;
+            }
+
+
+            const productosHTML = carrito.map(producto => `
+        <div class="producto">
+          <strong>${producto.nombre}</strong>
+          <span style="float: right;">
+            ${producto.precio.toFixed(2)}€ x
+            <input type="number" value="${producto.cantidad}"
+                   min="1" max="99"
+                   onchange="cambiarCantidad(${producto.id}, this.value)"
+                   style="width: 60px; text-align: center;">
+            = ${(producto.precio * producto.cantidad).toFixed(2)}€
+          </span>
+          <br><br>
+          <button class="eliminar" onclick="eliminarProducto(${producto.id})">Eliminar</button>
+        </div>
+      `).join('');
+
+            lista.innerHTML = productosHTML;
+
+
+            const totales = calcularTotales();
+            containerTotal.innerHTML = `
+        <p>Productos: ${totales.totalProductos}</p>
+        <p class="total"> Total: ${totales.totalPrecio}€</p>
+        <button onclick="vaciarCarrito()" style="background: #ffc107; color: #212529;">Vaciar Carrito</button>
+      `;
+        };
+
+
+        renderizarCarrito();
+    </script>
+</body>
+
+</html>
