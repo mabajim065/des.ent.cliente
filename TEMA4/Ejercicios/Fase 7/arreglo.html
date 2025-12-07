@@ -1,200 +1,140 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Carrito de Compras - Arrow Functions (arreglao)</title>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito Comentado Paso a Paso</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .producto {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-
-        .total {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #28a745;
-        }
-
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .eliminar {
-            background: #dc3545;
-        }
-
-        .eliminar:hover {
-            background: #c82333;
-        }
-
-        input[type="number"] {
-            padding: 6px;
-        }
+        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
+        .caja-input { background: #f0f0f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        input { padding: 8px; margin-right: 5px; }
+        button { cursor: pointer; padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+        .producto { border-bottom: 1px solid #ccc; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .btn-rojo { background: #dc3545; margin-left: 10px; }
+        .total { font-size: 1.2em; font-weight: bold; margin-top: 20px; text-align: right; }
     </style>
 </head>
-
 <body>
-    <h1>Carrito de Compras con Arrow Functions (Completado)</h1>
 
+    <h1>Carrito de Compras</h1>
 
-    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <h3>Añadir Producto</h3>
-        <input type="text" id="nombre" placeholder="Nombre del producto" style="margin-right: 10px; padding: 8px;">
-        <input type="number" id="precio" placeholder="Precio (€)" step="0.01" style="margin-right: 10px; padding: 8px;">
-        <button onclick="añadirProducto()"> Añadir</button>
+    <div class="caja-input">
+        <h3>1. Añadir Producto</h3>
+        <input type="text" id="nombreProducto" placeholder="Ej: Pan">
+        <input type="number" id="precioProducto" placeholder="Ej: 1.50">
+        <button onclick="añadir()">Añadir al carro</button>
     </div>
 
+    <h3>2. Lista de compra:</h3>
+    <div id="listaVisual">
+        <p>El carrito está vacío.</p>
+    </div>
 
-    <div id="listaProductos"></div>
-
-
-    <div id="totalContainer" style="margin-top: 20px; text-align: right;"></div>
+    <div id="zonaTotal" class="total"></div>
 
     <script>
-        let carrito = [];
+        // PASO 1: Crear la "memoria" del carrito
+        // Es una lista (array) vacía donde guardaremos los objetos producto.
+        let baseDeDatosCarrito = [];
 
-        const añadirProducto = () => {
-            const nombre = document.getElementById('nombre').value.trim();
-            const precio = parseFloat(document.getElementById('precio').value);
+        // PASO 2: Función para AÑADIR productos
+        const añadir = () => {
+            // a) Capturamos lo que el usuario escribió en los inputs
+            const inputNombre = document.getElementById('nombreProducto');
+            const inputPrecio = document.getElementById('precioProducto');
+            
+            const nombre = inputNombre.value; 
+            const precio = parseFloat(inputPrecio.value); // Convertimos texto a número decimal
 
-
-            if (!nombre || precio <= 0 || isNaN(precio)) {
-                alert('Introduce nombre y precio válido');
-                return;
+            // b) Validación: Si no hay nombre o el precio está mal, paramos.
+            if (nombre === '' || isNaN(precio) || precio <= 0) {
+                alert("Por favor, pon un nombre y un precio válido.");
+                return; // Stop, no seguimos
             }
 
-            const productoExistente = carrito.find(p => p.nombre.toLowerCase() === nombre.toLowerCase() && p.precio === precio);
-            if (productoExistente) {
-                productoExistente.cantidad += 1;
-            } else {
+            // c) Comprobar duplicados: ¿Ya existe este producto?
+            // Buscamos en la lista si hay algo con el mismo nombre
+            const encontrado = baseDeDatosCarrito.find(item => item.nombre === nombre);
 
+            if (encontrado) {
+                // Si existe, solo aumentamos la cantidad
+                encontrado.cantidad++;
+            } else {
+                // Si NO existe, creamos un objeto nuevo y lo metemos en la lista
                 const nuevoProducto = {
-                    id: Date.now() + Math.floor(Math.random() * 1000), // ID único aproximado
-                    nombre,
-                    precio,
+                    id: Date.now(), // Creamos un ID único basado en la hora actual
+                    nombre: nombre,
+                    precio: precio,
                     cantidad: 1
                 };
-                carrito.push(nuevoProducto);
+                baseDeDatosCarrito.push(nuevoProducto);
             }
 
+            // d) Limpiamos los inputs para que queden vacíos
+            inputNombre.value = '';
+            inputPrecio.value = '';
 
-            document.getElementById('nombre').value = '';
-            document.getElementById('precio').value = '';
-
-
-            renderizarCarrito();
+            // e) IMPORTANTE: Llamamos a la función que "pinta" la pantalla de nuevo
+            actualizarPantalla();
         };
 
-
-        const eliminarProducto = (id) => {
-
-            carrito = carrito.filter(producto => producto.id !== id);
-
-            renderizarCarrito();
+        // PASO 3: Función para ELIMINAR productos
+        const eliminar = (idParaBorrar) => {
+            // Filtramos la lista: Nos quedamos con todos MENOS el que tiene ese ID
+            baseDeDatosCarrito = baseDeDatosCarrito.filter(item => item.id !== idParaBorrar);
+            
+            // Volvemos a pintar la pantalla con la lista actualizada
+            actualizarPantalla();
         };
 
+        // PASO 4: Función maestra para ACTUALIZAR LA PANTALLA (Renderizar)
+        const actualizarPantalla = () => {
+            // a) Buscamos el contenedor donde van los productos
+            const contenedor = document.getElementById('listaVisual');
+            const contenedorTotal = document.getElementById('zonaTotal');
 
-        const cambiarCantidad = (id, nuevaCantidad) => {
-            const cantidad = parseInt(nuevaCantidad, 10);
-
-
-            if (isNaN(cantidad) || cantidad < 1) {
-                alert('La cantidad mínima es 1');
-
-                renderizarCarrito();
+            // b) Si está vacío, mostramos mensaje y salimos
+            if (baseDeDatosCarrito.length === 0) {
+                contenedor.innerHTML = "<p>El carrito está vacío.</p>";
+                contenedorTotal.innerHTML = "";
                 return;
             }
 
+            // c) Si hay cosas, limpiamos el contenedor antes de repintar
+            contenedor.innerHTML = '';
 
-            const producto = carrito.find(p => p.id === id);
-            if (producto) {
-                producto.cantidad = cantidad;
-                renderizarCarrito();
-            }
+            // d) Recorremos la lista y creamos el HTML de cada producto
+            // Usamos .map() para transformar los datos en HTML
+            baseDeDatosCarrito.forEach(producto => {
+                const totalProducto = (producto.cantidad * producto.precio).toFixed(2);
+                
+                // Creamos un div nuevo por cada producto
+                const elementoDiv = document.createElement('div');
+                elementoDiv.classList.add('producto');
+                
+                // Rellenamos el div con la información
+                elementoDiv.innerHTML = `
+                    <span>
+                        <strong>${producto.nombre}</strong> 
+                        (x${producto.cantidad}) - ${totalProducto}€
+                    </span>
+                    <button class="btn-rojo" onclick="eliminar(${producto.id})">Eliminar</button>
+                `;
+
+                // Lo metemos dentro del contenedor principal
+                contenedor.appendChild(elementoDiv);
+            });
+
+            // e) Calculamos el precio TOTAL de todo el carro
+            // reduce recorre y va sumando (acumulando) el precio
+            const totalPagar = baseDeDatosCarrito.reduce((acumulador, item) => {
+                return acumulador + (item.precio * item.cantidad);
+            }, 0);
+
+            // f) Escribimos el total final en pantalla
+            contenedorTotal.innerHTML = `Total a Pagar: ${totalPagar.toFixed(2)}€`;
         };
-
-
-        const calcularTotales = () => {
-            const totalProductos = carrito.reduce((total, producto) => total + producto.cantidad, 0);
-
-
-            const totalPrecio = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-
-
-            return { totalProductos, totalPrecio: totalPrecio.toFixed(2) };
-        };
-
-
-        const vaciarCarrito = () => {
-            if (confirm('¿Vaciar todo el carrito?')) {
-                carrito = [];
-                renderizarCarrito();
-            }
-        };
-
-
-        const renderizarCarrito = () => {
-            const lista = document.getElementById('listaProductos');
-            const containerTotal = document.getElementById('totalContainer');
-
-
-            if (carrito.length === 0) {
-                lista.innerHTML = '<p style="text-align: center; color: #6c757d;">🛒 Carrito vacío. ¡Añade productos!</p>';
-                containerTotal.innerHTML = '';
-                return;
-            }
-
-
-            const productosHTML = carrito.map(producto => `
-        <div class="producto">
-          <strong>${producto.nombre}</strong>
-          <span style="float: right;">
-            ${producto.precio.toFixed(2)}€ x
-            <input type="number" value="${producto.cantidad}"
-                   min="1" max="99"
-                   onchange="cambiarCantidad(${producto.id}, this.value)"
-                   style="width: 60px; text-align: center;">
-            = ${(producto.precio * producto.cantidad).toFixed(2)}€
-          </span>
-          <br><br>
-          <button class="eliminar" onclick="eliminarProducto(${producto.id})">Eliminar</button>
-        </div>
-      `).join('');
-
-            lista.innerHTML = productosHTML;
-
-
-            const totales = calcularTotales();
-            containerTotal.innerHTML = `
-        <p>Productos: ${totales.totalProductos}</p>
-        <p class="total"> Total: ${totales.totalPrecio}€</p>
-        <button onclick="vaciarCarrito()" style="background: #ffc107; color: #212529;">Vaciar Carrito</button>
-      `;
-        };
-
-
-        renderizarCarrito();
     </script>
 </body>
-
 </html>
