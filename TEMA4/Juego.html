@@ -2,78 +2,201 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Resolver Laberinto</title>
+    <meta charset="UTF-8">
+    <title>Recursividad en Laberinto</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #aaa;
+            background-color: #eee;
+            transition: background-color 0.5s;
+        }
+
+        .pared {
+            background-color: #333;
+            color: white;
+        }
+
+        .inicio {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Verde */
+        .final {
+            background-color: #F44336;
+            color: white;
+        }
+
+        /* Rojo */
+        .camino {
+            background-color: #FFEB3B;
+        }
+
+        /* Amarillo para el camino encontrado */
+        .visitado {
+            background-color: #B3E5FC;
+        }
+
+        /* Azul claro para celdas visitadas pero sin éxito */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Laberinto</h1>
 
-    <pre id="laberinto-vista"></pre>
+    <h2>Laberinto Recursivo (Búsqueda en Profundidad)</h2>
 
-    <button onclick="comprobarSalida()">¿Hay salida?</button>
+    <table id="laberinto-tabla"></table>
+
+    <button onclick="iniciarBusqueda()">Resolver Laberinto</button>
     <p id="resultado"></p>
 
     <script>
-        //primero voy a crear el laberinto como a mi me de la gana
-        const laberinto = [
-            ["S", " ", " ", " "],
+        // Definición del laberinto (misma estructura)
+        const LABERINTO_DATA = [
+            ["S", " ", "X", "F"],
             ["X", " ", "X", " "],
-            [" ", " ", "X", " "],
-            ["X", "X", " ", "F"]
+            [" ", " ", " ", " "],
+            ["X", "X", " ", " "]
         ];
 
-        // esto es lo ultimo que he hecho pero lo pongo aqui pa q se vea el laberinto
-        //creo una funcion pa mostrarlo en el html
-        function mostrarLaberinto() {
-            const contenedor = document.getElementById('laberinto-vista');
-            // convierto el laberinto a texto
-            let texto = '';
-            //y ya po recorro el laberinto
-            for (let i = 0; i < laberinto.length; i++) {
-                texto += laberinto[i].join(' ') + '\n';
+        const FILAS = LABERINTO_DATA.length;
+        const COLUMNAS = LABERINTO_DATA[0].length;
+        let visitado; // Matriz de visitados
+
+        // --- 1. FUNCIÓN DE RENDERIZADO INICIAL ---
+        function crearTabla() {
+            const tabla = document.getElementById('laberinto-tabla');
+            tabla.innerHTML = '';
+
+            for (let i = 0; i < FILAS; i++) {
+                const fila = tabla.insertRow();
+                for (let j = 0; j < COLUMNAS; j++) {
+                    const celda = fila.insertCell();
+                    const valor = LABERINTO_DATA[i][j];
+                    celda.textContent = valor;
+                    celda.id = `celda-${i}-${j}`;
+
+                    if (valor === 'X') {
+                        celda.classList.add('pared');
+                    } else if (valor === 'S') {
+                        celda.classList.add('inicio');
+                    } else if (valor === 'F') {
+                        celda.classList.add('final');
+                    }
+                }
             }
-            contenedor.textContent = texto;
         }
 
-        // hago la funcion recursiva  pa ver si hay una salida o no
-        function resolverLaberinto(lab, x, y, visitado) {
-            // lo primeor que hago es comprobar límites
-            if (x < 0 || y < 0 || x >= lab.length || y >= lab[0].length) {
-                return false;
-            }
+        // --- 2. FUNCIÓN RECURSIVA CENTRAL ---
 
-            //en casoi de qu sea  pared que no siga
-            if (lab[x][y] === "X") {
-                return false;
-            }
-            // Si ya a pasado por hay no siga
-            if (visitado[x][y]) {
-                return false;
-            }
-            // pero en el caso de que sea la salida
-            //ahora si que me va a devolver true
-            if (lab[x][y] === "F") {
+        /**
+         * Determina si existe un camino desde (x, y) hasta 'F'.
+         * @param {number} x Coordenada de fila actual.
+         * @param {number} y Coordenada de columna actual.
+         * @returns {boolean} True si se encuentra el camino.
+         */
+        function resolverLaberinto(x, y) {
+
+            // 1. CASOS BASE (PARADA)
+            if (x < 0 || y < 0 || x >= FILAS || y >= COLUMNAS) return false; // Fuera de límites
+            if (LABERINTO_DATA[x][y] === 'X' || visitado[x][y]) return false; // Pared o ya visitado
+
+            // 2. CASO BASE (ÉXITO)
+            if (LABERINTO_DATA[x][y] === 'F') {
                 return true;
             }
 
-            // Marcar como visitado
-            visitado[x][y] = true;
+            // 3. PASO RECURSIVO
+            visitado[x][y] = true; // Marcar como visitado
+            const celdaHTML = document.getElementById(`celda-${x}-${y}`);
+            if (LABERINTO_DATA[x][y] !== 'S') {
+                celdaHTML.classList.add('visitado'); // Resaltar celdas visitadas
+            }
 
-            // ahora voy a probar en las 4 direcciones
-            // abajo, arriba, derecha, izquierda
-            /* lo que voy a hacer es ir casilla por casilla , si esta vacia la marco como que se puede pasar y
-             en caso de que no , po cambia de direccion*/
-            return (
-                resolverLaberinto(lab, x + 1, y, visitado) || // abajo
-                resolverLaberinto(lab, x - 1, y, visitado) || // arriba
-                resolverLaberinto(lab, x, y + 1, visitado) || // derecha
-                resolverLaberinto(lab, x, y - 1, visitado)    // izquierda
-            );
+            // Lógica de backtracking/llamadas
+
+            // Intentar las 4 direcciones (Arriba, Abajo, Izquierda, Derecha)
+            const direcciones = [
+                [-1, 0], // Arriba
+                [1, 0],  // Abajo
+                [0, -1], // Izquierda
+                [0, 1]   // Derecha
+            ];
+
+            for (const [dx, dy] of direcciones) {
+                if (resolverLaberinto(x + dx, y + dy)) {
+                    // Si el llamado recursivo encuentra la F:
+                    if (LABERINTO_DATA[x][y] !== 'S') {
+                        celdaHTML.classList.remove('visitado'); // Quitar color de "visitado"
+                        celdaHTML.classList.add('camino'); // Resaltar como parte del camino final
+                    }
+                    return true;
+                }
+            }
+
+            // 4. FRACASO DESDE ESTE PUNTO
+            return false;
         }
-        // Mostrar laberinto al cargar la página
-        mostrarLaberinto();
+
+        // --- 3. FUNCIÓN DE INICIO ---
+        function iniciarBusqueda() {
+            // Reinicializar
+            visitado = Array(FILAS).fill(0).map(() => Array(COLUMNAS).fill(false));
+
+            // Limpiar colores del laberinto (excepto S, F, X)
+            document.querySelectorAll('td').forEach(cell => {
+                cell.classList.remove('camino', 'visitado');
+            });
+
+            // Encontrar inicio 'S'
+            let startX, startY;
+            for (let i = 0; i < FILAS; i++) {
+                for (let j = 0; j < COLUMNAS; j++) {
+                    if (LABERINTO_DATA[i][j] === 'S') {
+                        startX = i;
+                        startY = j;
+                        break;
+                    }
+                }
+            }
+
+            const encontrado = resolverLaberinto(startX, startY);
+            const resultadoElement = document.getElementById('resultado');
+
+            if (encontrado) {
+                resultadoElement.textContent = "¡Éxito! Se encontró un camino a 'F'. Las celdas amarillas lo muestran.";
+                resultadoElement.style.color = 'green';
+            } else {
+                resultadoElement.textContent = "Fracaso. No existe camino a 'F'.";
+                resultadoElement.style.color = 'red';
+            }
+        }
+
+        // Crear la tabla al cargar la página
+        crearTabla();
     </script>
+
 </body>
 
 </html>
