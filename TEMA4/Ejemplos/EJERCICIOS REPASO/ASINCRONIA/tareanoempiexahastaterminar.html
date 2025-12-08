@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 1: Secuencial</title>
+</head>
+<body>
+    <h2>Ejercicio 4 - Var 1: Ejecución Secuencial (Waterfall)</h2>
+    <p>La tarea B espera a la A. El tiempo total es la suma de todas.</p>
+    <ul id="lista"></ul>
+    <p><strong>Final:</strong> <span id="final">Esperando...</span></p>
+
+    <script>
+        function procesarSecuencial(tareas, callbackFinal) {
+            const resultados = [];
+
+            // Función recursiva interna para manejar el orden
+            function ejecutarUna(indice) {
+                // CASO BASE: Si ya no quedan tareas (índice fuera de rango)
+                if (indice >= tareas.length) {
+                    callbackFinal(resultados);
+                    return;
+                }
+
+                const tareaActual = tareas[indice];
+
+                setTimeout(() => {
+                    console.log(`Tarea ${tareaActual.id} completada`);
+                    
+                    // Visual
+                    const li = document.createElement('li');
+                    li.innerText = `Tarea ${tareaActual.id} completada`;
+                    document.getElementById('lista').appendChild(li);
+
+                    // Guardamos resultado
+                    resultados.push(tareaActual.id);
+
+                    // TRAMPA: Llamamos a la SIGUIENTE tarea solo cuando esta acaba
+                    ejecutarUna(indice + 1);
+
+                }, tareaActual.duracion);
+            }
+
+            // Iniciamos con la primera tarea (índice 0)
+            ejecutarUna(0);
+        }
+
+        const misTareas = [
+            {id: 'A', duracion: 1000}, // Tarda 1 seg
+            {id: 'B', duracion: 500},  // Espera a A, luego tarda 0.5 seg
+            {id: 'C', duracion: 200}   // Espera a B, luego tarda 0.2 seg
+        ];
+
+        procesarSecuencial(misTareas, (res) => {
+            document.getElementById('final').innerText = JSON.stringify(res);
+        });
+    </script>
+</body>
+</html>

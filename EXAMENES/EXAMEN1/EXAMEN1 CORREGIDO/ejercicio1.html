@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1: Pirámide Invertida</title>
+    
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Ejercicio 1: Pirámide Invertida</h1>
+        <p>Introduce un número (ej: 5) para ver la pirámide descendente:</p>
+        
+        <input type="number" id="inputNumero" value="5" min="1">
+        <button onclick="ejecutarDibujo()">Dibujar</button>
+
+        <div id="tuContenedor"></div>
+    </div>
+
+    <script>
+        /**
+         * Crea un dibujo de estrellas descendente (invertido).
+         * @param {number} max - El número de estrellas inicial.
+         * @returns {string} - La cadena de texto con el dibujo (HTML).
+         */
+        function dibujo(max) {
+            let resultado = ""; // Inicializamos la variable vacía
+
+            // BUCLE DESCENDENTE
+            // 1. Inicialización: let i = max (Empezamos arriba, ej: 5)
+            // 2. Condición: i > 0 (Mientras sea mayor que 0)
+            // 3. Actualización: i-- (Restamos 1 en cada vuelta)
+            for (let i = max; i > 0; i--) {
+                // .repeat(i) pone 'i' asteriscos. Ej: si i=5 -> "*****"
+                resultado += "*".repeat(i) + "<br>"; 
+            }
+
+            return resultado; // Devolvemos el string construido
+        }
+
+        // Esta función se activa al pulsar el botón
+        function ejecutarDibujo() {
+            // 1. Cogemos el valor del input
+            const valorInput = document.getElementById("inputNumero").value;
+            
+            // Convertimos a número entero
+            const numero = parseInt(valorInput);
+
+            // 2. Llamamos a tu función lógica
+            const dibujoFinal = dibujo(numero);
+
+            // 3. Pintamos en el HTML
+            const elementoHTML = document.getElementById("tuContenedor"); 
+            
+            if (elementoHTML) {
+                // Usamos innerHTML porque el resultado contiene etiquetas <br>
+                elementoHTML.innerHTML = `${dibujoFinal} <br> <span style='color:white; font-family:Arial; font-size:12px'>(Resultado generado para el número ${numero})</span>`;
+            } else {
+                console.log("Error: No se encontró el contenedor.");
+            }
+        }
+
+        // (Opcional) Ejecutar automáticamente al abrir la página con el valor 5
+        window.onload = ejecutarDibujo;
+
+    </script>
+</body>
+</html>

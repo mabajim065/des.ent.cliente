@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 3: Módulo Recursivo</title>
+</head>
+<body>
+    <h2>Ejercicio 2 - Var 3: Resto de División (Módulo)</h2>
+    <p>Calcula el resto de 14 / 4 (Debería sobrar 2) sin usar %.</p>
+    <div id="resultado"></div>
+
+    <script>
+        function resto(dividendo, divisor) {
+            // CASO BASE: Si el dividendo ya es menor que el divisor,
+            // eso es lo que sobra. Lo devolvemos tal cual.
+            if (dividendo < divisor) {
+                return dividendo;
+            }
+
+            // LLAMADA RECURSIVA:
+            // Le quitamos una vez el divisor y volvemos a preguntar "¿cuánto sobra?"
+            return resto(dividendo - divisor, divisor);
+        }
+
+        const a = 14;
+        const b = 4;
+        const res = resto(a, b); // 14 - 4 = 10 -> 10 - 4 = 6 -> 6 - 4 = 2 (Stop)
+        
+        document.getElementById("resultado").innerText = `El resto de ${a}/${b} es: ${res}`;
+    </script>
+</body>
+</html>

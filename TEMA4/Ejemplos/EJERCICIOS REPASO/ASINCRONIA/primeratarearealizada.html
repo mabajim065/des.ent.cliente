@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 4: First Win</title>
+</head>
+<body>
+    <h2>Ejercicio 4 - Var 4: La ganadora (Race)</h2>
+    <p>El callback final se dispara solo con la primera tarea que termine.</p>
+    <h3 id="ganador">Ganador: ???</h3>
+
+    <script>
+        function carreraDeTareas(tareas, callbackFinal) {
+            let yaHayGanador = false;
+
+            tareas.forEach(tarea => {
+                setTimeout(() => {
+                    // TRAMPA: Si ya ganó alguien, ignoramos al resto
+                    if (yaHayGanador) return;
+
+                    yaHayGanador = true;
+                    console.log(`Ganó ${tarea.id}`);
+                    callbackFinal(tarea.id);
+
+                }, tarea.duracion);
+            });
+        }
+
+        const competidores = [
+            {id: 'Tortuga', duracion: 1000},
+            {id: 'Liebre', duracion: 200}, // Ganará esta
+            {id: 'Caracol', duracion: 2000}
+        ];
+
+        carreraDeTareas(competidores, (ganador) => {
+            document.getElementById('ganador').innerText = `¡Ganador: ${ganador}!`;
+            document.getElementById('ganador').style.color = "green";
+        });
+    </script>
+</body>
+</html>

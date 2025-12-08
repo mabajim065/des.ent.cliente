@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 4: Sumar Dígitos</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Ejercicio 2 - Var 4: Sumar Dígitos</h2>
+    <p>Suma los dígitos individuales de un número (Ej: 123 -> 1+2+3 = 6)</p>
+    <div id="resultado" style="background:#eee; padding:10px;"></div>
+
+    <script>
+        function sumarDigitos(n) {
+            // PASO 1: Caso Base
+            // Si el número es menor que 10, es un solo dígito, así que lo devolvemos.
+            if (n < 10) {
+                return n;
+            }
+
+            // PASO 2: Matemáticas
+            // n % 10 nos da el último dígito (ej: 452 % 10 = 2)
+            const ultimoDigito = n % 10;
+            
+            // Math.floor(n / 10) nos quita el último dígito (ej: 452 / 10 = 45.2 -> 45)
+            const restoDelNumero = Math.floor(n / 10);
+
+            // PASO 3: Recursión
+            return ultimoDigito + sumarDigitos(restoDelNumero);
+        }
+
+        // PRUEBA
+        const numero = 942; // 9 + 4 + 2 = 15
+        const res = sumarDigitos(numero);
+
+        console.log(`Suma de dígitos de ${numero} es ${res}`);
+        document.getElementById("resultado").innerText = `Entrada: ${numero} \nResultado: ${res}`;
+    </script>
+</body>
+</html>

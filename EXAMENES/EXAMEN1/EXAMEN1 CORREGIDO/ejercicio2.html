@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>2º DAW Mar de Cádiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f5f5f5; }
+        h1 { text-align: center; color: #333; }
+        ul { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 0 5px #aaa; list-style: none; }
+        li { margin: 5px 0; padding: 5px; border-bottom: 1px solid #eee; }
+        
+        /* Contenedor de botones para que se vea ordenado */
+        .controles { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        button {
+            padding: 10px 15px; border-radius: 8px; border: none;
+            background-color: #e684ff; color: white; cursor: pointer;
+            font-size: 14px; transition: background 0.3s;
+        }
+        button:hover { background-color: #de95ff; }
+        button:active { transform: scale(0.98); }
+    </style>
+</head>
+
+<body>
+
+    <h1>Gestión de 2º DAW</h1>
+
+    <ul id="listamodulo"></ul>
+
+    <div class="controles">
+        <button onclick="mostrarmodulo()">1. Ver todos</button>
+        <button onclick="contarmodulo()">2. Contar</button>
+        <button onclick="añadirmodulo()">3. Añadir</button>
+        <button onclick="borrarmodulo()">4. Borrar</button>
+        <button onclick="abreviatura()">5. Ver Abreviatura</button>
+        <button onclick="consulta()">6. ¿Existe?</button>
+        <button onclick="editarmodulo()">7. Editar</button>
+    </div>
+
+    <script>
+        // 1. Inicializamos el Map
+        const modulos = new Map([
+            ["cliente", 1],
+            ["servidor", 2],
+            ["diseño", 3],
+            ["proyecto", 4]
+        ]);
+
+        const lista = document.getElementById("listamodulo");
+
+        // --- FUNCIONES ---
+
+        // 1. MOSTRAR
+        function mostrarmodulo() {
+            lista.innerHTML = ""; // Limpiamos la lista
+            // Recorremos el mapa: (valor, clave) -> ojo que forEach en Map da (valor, clave)
+            modulos.forEach((horas, nombre) => {
+                const li = document.createElement("li");
+                // Pongo mayúscula la primera letra por estética
+                li.textContent = `Módulo: ${nombre.toUpperCase()} - Horas/Código: ${horas}`;
+                lista.appendChild(li);
+            });
+        }
+
+        // 2. CONTAR
+        function contarmodulo() {
+            alert(`Actualmente hay ${modulos.size} módulos en el grado.`);
+        }
+
+        // 3. AÑADIR
+        function añadirmodulo() {
+            // .toLowerCase() para evitar duplicados por mayúsculas
+            const nombre = prompt("Introduce el nombre del módulo:").toLowerCase();
+            const num = parseInt(prompt("Introduce el número de horas/código:"), 10);
+
+            if (!nombre || isNaN(num)) {
+                alert("Datos inválidos. Inténtalo de nuevo.");
+                return;
+            }
+
+            // CORRECCIÓN: Usabas 'ciudades', debe ser 'modulos'
+            if (modulos.has(nombre)) {
+                alert("Este módulo ya existe.");
+            } else {
+                modulos.set(nombre, num);
+                alert(`${nombre} añadido correctamente.`);
+                mostrarmodulo();
+            }
+        }
+
+        // 4. BORRAR
+        function borrarmodulo() {
+            const nombre = prompt("Introduce el nombre del módulo que quieres quitar:").toLowerCase();
+            // CORRECCIÓN: El nombre de la función en el HTML estaba mal (decía borrarCiudad)
+            if (modulos.has(nombre)) {
+                modulos.delete(nombre);
+                alert(`${nombre} ha sido eliminado.`);
+                mostrarmodulo();
+            } else {
+                alert("Ese módulo no existe.");
+            }
+        }
+
+        // 5. ABREVIATURA
+        function abreviatura() {
+            const nombre = prompt("¿De qué módulo quieres ver la abreviatura?").toLowerCase();
+            
+            if (modulos.has(nombre)) {
+                // Tu lógica corregida:
+                let visible = "";
+                if (nombre.length > 3) {
+                    visible = nombre.substring(0, 3);
+                } else {
+                    visible = nombre.substring(0, 1);
+                }
+                alert(`La abreviatura protegida es: ${visible}...`);
+            } else {
+                alert("El módulo no está en la lista, no puedo abreviarlo.");
+            }
+        }
+
+        // 6. CONSULTAR (EXISTE)
+        function consulta() {
+            // CORRECCIÓN: No creamos un Map nuevo, usamos el global 'modulos'
+            const nombre = prompt("Introduce el nombre a buscar:").toLowerCase();
+            
+            if (modulos.has(nombre)) {
+                alert(`SÍ existe el módulo: ${nombre}`);
+            } else {
+                alert(`NO existe el módulo: ${nombre}`);
+            }
+        }
+
+        // 7. EDITAR (Esta función te faltaba)
+        function editarmodulo() {
+            const nombre = prompt("¿Qué módulo quieres editar?").toLowerCase();
+
+            if (modulos.has(nombre)) {
+                const nuevoNum = parseInt(prompt(`Introduce el nuevo valor para ${nombre}:`), 10);
+                if (!isNaN(nuevoNum)) {
+                    modulos.set(nombre, nuevoNum); // .set sobrescribe si ya existe
+                    alert("Editado correctamente.");
+                    mostrarmodulo();
+                } else {
+                    alert("Valor numérico incorrecto.");
+                }
+            } else {
+                alert("No puedo editar un módulo que no existe.");
+            }
+        }
+
+        // Al cargar la página
+        // CORRECCIÓN: 'mostrarCiudades' no existe, es 'mostrarmodulo'
+        window.onload = mostrarmodulo;
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 2: Array de Objetos</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Variación 2: Procesar Array de Objetos</h2>
+    <p>El input simula datos de una base de datos (id + texto).</p>
+    <pre id="resultado" style="background: #f4f4f4; padding: 10px;"></pre>
+
+    <script>
+        function procesarObjetos(items) {
+            let totalVocales = 0;
+            const vocalesRegex = /[aeiouáéíóúü]/i;
+
+            // 'items' es una lista de objetos, no de strings
+            const palabrasNuevas = items.map(item => {
+                
+                // CAMBIO CRÍTICO: Debemos extraer el string del objeto
+                const palabraReal = item.mensaje; 
+
+                // El resto de la lógica se aplica sobre 'palabraReal'
+                for (let letra of palabraReal) {
+                    if (vocalesRegex.test(letra)) totalVocales++;
+                }
+
+                return palabraReal.charAt(0).toUpperCase() + palabraReal.slice(1).toLowerCase();
+            });
+
+            return {
+                palabrasProcesadas: palabrasNuevas,
+                totalVocales: totalVocales
+            };
+        }
+
+        // PRUEBA: Nota que ahora son objetos con llaves {}
+        const entrada = [
+            { id: 1, mensaje: "hola" }, 
+            { id: 2, mensaje: "mUndo" },
+            { id: 3, mensaje: "javascript" }
+        ];
+        
+        const salida = procesarObjetos(entrada);
+
+        document.getElementById("resultado").innerText = 
+            "Entrada: " + JSON.stringify(entrada, null, 2) + "\n\n" +
+            "Salida: " + JSON.stringify(salida, null, 2);
+    </script>
+</body>
+</html>

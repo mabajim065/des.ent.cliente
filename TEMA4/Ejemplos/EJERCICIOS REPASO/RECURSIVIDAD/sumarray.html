@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 2: Sumar Array Recursivo</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Ejercicio 2 - Var 2: Sumar Array</h2>
+    <p>Suma todos los elementos de un array sin usar bucles.</p>
+    <div id="resultado" style="background:#eee; padding:10px;"></div>
+
+    <script>
+        function sumarArray(arr) {
+            // PASO 1: Caso Base
+            // Si el array está vacío, no hay nada que sumar, devolvemos 0.
+            if (arr.length === 0) {
+                return 0;
+            }
+
+            // PASO 2: Llamada Recursiva
+            // Tomamos el primer número (arr[0]) y lo sumamos 
+            // al resultado de la función con el RESTO del array.
+            // .slice(1) crea una copia del array desde la posición 1 hasta el final.
+            return arr[0] + sumarArray(arr.slice(1));
+        }
+
+        // PRUEBA
+        const lista = [10, 20, 5, 2]; // Total: 37
+        const res = sumarArray(lista);
+
+        console.log(`Suma de [${lista}] es ${res}`);
+        document.getElementById("resultado").innerText = `Entrada: [${lista}] \nResultado: ${res}`;
+    </script>
+</body>
+</html>

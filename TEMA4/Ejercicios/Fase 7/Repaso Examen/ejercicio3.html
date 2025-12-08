@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Callbacks y Arrows</title>
+</head>
+<body>
+    <h1>Ejercicio 3: Filtrar y Transformar</h1>
+    <div id="output"></div>
+
+    <script>
+        const filtrarYTransformar = (arr, filtro, transformacion) => {
+            // 1. Primero filtramos el array original usando la función filtro
+            const filtrados = arr.filter(filtro);
+            
+            // 2. Luego transformamos los elementos que quedaron usando 'transformacion'
+            const resultado = filtrados.map(transformacion);
+
+            return resultado;
+        };
+
+        const numeros = [1, 2, 3, 4, 5, 6];
+
+        // Definimos las funciones anónimas
+        const esPar = n => n % 2 === 0;       //solo pares
+        const alCuadrado = n => n * n;        //elevar al cuadrado
+
+        
+        const resultadoFinal = filtrarYTransformar(numeros, esPar, alCuadrado);
+
+        console.log("Original:", numeros);
+        console.log("Resultado:", resultadoFinal);
+        
+        document.getElementById("output").innerText = 
+            `Entrada: [${numeros}] \nSalida: [${resultadoFinal}]`;
+    </script>
+</body>
+</html>

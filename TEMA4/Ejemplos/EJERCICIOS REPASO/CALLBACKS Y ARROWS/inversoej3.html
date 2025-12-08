@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 1: Transformar y luego Filtrar</title>
+</head>
+<body>
+    <h2>Ejercicio 3 - Var 1: Orden Inverso</h2>
+    <p>1. Transforma todo. <br> 2. Filtra el resultado.</p>
+    <div id="resultado"></div>
+
+    <script>
+        // Note el cambio de nombre: transformarYFiltrar
+        const transformarYFiltrar = (arr, transformacion, filtro) => {
+            
+            // PASO 1: Primero aplicamos el MAP (Transformación)
+            // Esto cambia los valores ANTES de decidir si los guardamos
+            const transformados = arr.map(transformacion);
+            
+            // PASO 2: Luego aplicamos el FILTER sobre los datos YA transformados
+            const resultado = transformados.filter(filtro);
+
+            return resultado;
+        };
+
+        const numeros = [2, 3, 4, 5]; 
+
+        // Transformación: Multiplicar por 3
+        const porTres = n => n * 3; // [6, 9, 12, 15]
+        
+        // Filtro: Solo los mayores de 10
+        const mayoresDeDiez = n => n > 10; 
+
+        // Ejecución
+        const final = transformarYFiltrar(numeros, porTres, mayoresDeDiez);
+        // Debería quedar [12, 15] (porque 6 y 9 son eliminados DESPUÉS de multiplicar)
+
+        document.getElementById("resultado").innerText = `Salida: [${final}]`;
+    </script>
+</body>
+</html>

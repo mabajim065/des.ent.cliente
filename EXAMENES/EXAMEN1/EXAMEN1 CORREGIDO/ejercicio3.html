@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Tipos de Datos y Ordenación</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; color: #333; }
+        h1 { color: #2c3e50; }
+        .box { border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9; margin-bottom: 20px; }
+        .error { color: #d9534f; font-weight: bold; background-color: #f2dede; padding: 10px; border: 1px solid #ebccd1; }
+        .success { color: #3c763d; }
+        code { background-color: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Resultados del Script</h1>
+    <!-- Ejercicio 3 [4 puntos]: Solicitar con 6 elementos, dos valores booleanos, dos valores
+numéricos y dos cadenas de caracteres. Realizar un script que devuelva en la propia
+página web la siguiente información:
+- Validar el tipo de datos que se introducen.
+- Si alguno de los elementos es igual a nulo deberemos pedir al usuario que
+vuelva a introducir todos los valores nuevamente.
+- Determinar cuál de los dos elementos de texto es mayor.
+- Determinar el resultado de dos operaciones lógicas realizadas con los
+elementos booleanos
+- Determinar el resultado de dos operaciones aritméticas realizadas con los
+elementos numéricos.
+- Crea un nuevo array que ordene los valores de forma que estén primero los dos
+booleanos, a continuación las dos cadenas y finalmente los dos números cada
+par de ellos ordenados de mayor a menor, y muéstralo por pantalla.
+Por ejemplo, a partir de los elementos introducidos se crea el siguiente array:
+valores = [true, null, false, "hola", "adiós", 2];
+Los valores no son válidos vuelve a introducirlos:
+valores = [true, 5, false, "hola", "adiós", 2];
+Debería pintar en la página HTML:
+- La cadena mayor es adiós.
+- La operación and es false y la operación or es true.
+- La suma de los dos números es 7 y la resta es 3.
+- valores_ordenados = [true, false, "adiós","hola", 5, 2]
+-->
+    
+    <div id="resultado"></div>
+
+    <script>
+        // --- 1. DATOS DE ENTRADA ---
+        // Modifica estos valores para probar los errores (ej: pon un null)
+        const valores = [true, 5, false, "hola", "adiós", 2];
+
+        // Obtenemos el div donde pintaremos el resultado
+        const pantalla = document.getElementById("resultado");
+
+        // --- 2. FUNCIÓN PRINCIPAL ---
+        function analizarDatos(arr) {
+            
+            // A) VALIDACIÓN DE NULOS
+            if (arr.includes(null)) {
+                pantalla.innerHTML = `<p class="error">Error: Se ha encontrado un valor 'null'. Por favor, vuelve a introducir todos los valores.</p>`;
+                return; // Detenemos la ejecución aquí
+            }
+
+            // B) SEPARACIÓN POR TIPOS
+            // Usamos .filter() para crear 3 arrays distintos
+            let booleanos = arr.filter(item => typeof item === 'boolean');
+            let numeros   = arr.filter(item => typeof item === 'number');
+            let cadenas   = arr.filter(item => typeof item === 'string');
+
+            // C) VALIDACIÓN DE CANTIDAD DE DATOS
+            // El ejercicio pide estrictamente 2 de cada tipo
+            if (booleanos.length !== 2 || numeros.length !== 2 || cadenas.length !== 2) {
+                pantalla.innerHTML = `<p class="error">Error: El formato no es válido. Debe haber exactamente 2 booleanos, 2 números y 2 cadenas.</p>`;
+                return;
+            }
+
+            // --- 3. OPERACIONES ---
+
+            // D) DETERMINAR TEXTO MAYOR
+            // Comparamos lexicográficamente (alfabéticamente)
+            let mayorTexto = cadenas[0] > cadenas[1] ? cadenas[0] : cadenas[1];
+
+            // E) OPERACIONES LÓGICAS
+            let resultadoAND = booleanos[0] && booleanos[1];
+            let resultadoOR  = booleanos[0] || booleanos[1];
+
+            // F) OPERACIONES ARITMÉTICAS
+            let suma  = numeros[0] + numeros[1];
+            let resta = numeros[0] - numeros[1];
+
+            // --- 4. ORDENACIÓN Y ARRAY FINAL ---
+            
+            // Ordenamos cada grupo de MAYOR a MENOR (Descendente)
+            
+            // Booleanos: true (1) va antes que false (0)
+            booleanos.sort((a, b) => b - a); 
+            
+            // Números: Resta b - a para orden descendente
+            numeros.sort((a, b) => b - a);
+            
+            // Cadenas: localeCompare compara strings correctamente (incluyendo acentos)
+            // b.localeCompare(a) ordena de Z a A (Mayor a menor)
+            cadenas.sort((a, b) => b.localeCompare(a));
+
+            // Creamos el array final uniendo los grupos: Booleanos, Cadenas, Números
+            const valoresOrdenados = [...booleanos, ...cadenas, ...numeros];
+
+            // --- 5. MOSTRAR RESULTADOS EN HTML ---
+            pantalla.innerHTML = `
+                <div class="box">
+                    <p><strong>Datos de entrada:</strong> <code>[${arr.join(", ")}]</code></p>
+                    <hr>
+                    <p>1. La cadena mayor es: <strong>${mayorTexto}</strong>.</p>
+                    <p>2. Operaciones lógicas: AND es <strong>${resultadoAND}</strong> | OR es <strong>${resultadoOR}</strong>.</p>
+                    <p>3. Operaciones aritméticas: La suma es <strong>${suma}</strong> y la resta es <strong>${resta}</strong>.</p>
+                    <p>4. Array ordenado (Bool, Str, Num): <br> 
+                       <code>[${valoresOrdenados.map(v => typeof v === 'string' ? `"${v}"` : v).join(", ")}]</code>
+                    </p>
+                </div>
+            `;
+        }
+
+        // Ejecutamos la función
+        analizarDatos(valores);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 1: División por Restas</title>
+</head>
+<body>
+    <h2>Ejercicio 2 - Var 1: División Entera (Recursiva)</h2>
+    <p>Calcula a / b sin usar el símbolo de división, solo restas.</p>
+    <div id="resultado"></div>
+
+    <script>
+        function dividir(dividendo, divisor) {
+            // CASO BASE: Si el número que nos queda es MENOR que el divisor,
+            // ya no podemos dividir más. El resultado de esta parte es 0.
+            if (dividendo < divisor) {
+                return 0;
+            }
+
+            // LLAMADA RECURSIVA:
+            // 1 (porque hemos podido restar una vez) 
+            // + el resultado de dividir lo que sobra (dividendo - divisor)
+            return 1 + dividir(dividendo - divisor, divisor);
+        }
+
+        const a = 20;
+        const b = 5;
+        const res = dividir(a, b); // Debería dar 4
+        
+        document.getElementById("resultado").innerText = `${a} / ${b} = ${res}`;
+    </script>
+</body>
+</html>

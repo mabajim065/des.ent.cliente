@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 4: Filter, Map y Reduce</title>
+</head>
+<body>
+    <h2>Ejercicio 3 - Var 4: Pipeline Completo (Suma Final)</h2>
+    <p>Filtra pares, elévalos al cuadrado y SUMA el total.</p>
+    <div id="resultado"></div>
+
+    <script>
+        // Ahora recibimos 3 funciones o hacemos la reducción fija al final
+        const procesarYSumar = (arr, filtro, transformacion) => {
+            
+            const filtrados = arr.filter(filtro);     // Paso 1
+            const transformados = filtrados.map(transformacion); // Paso 2
+            
+            // PASO 3: Reducir a un solo valor (Suma total)
+            // (a, b) => a + b es el acumulador
+            // 0 es el valor inicial
+            const sumaTotal = transformados.reduce((acumulador, valorActual) => {
+                return acumulador + valorActual;
+            }, 0);
+
+            return sumaTotal; // Devolvemos un NÚMERO, no un array
+        };
+
+        const datos = [1, 2, 3, 4]; 
+        // Pares: 2, 4
+        // Cuadrados: 4, 16
+        // Suma: 4 + 16 = 20
+
+        const final = procesarYSumar(datos, n => n % 2 === 0, n => n * n);
+
+        document.getElementById("resultado").innerText = `Suma final: ${final}`;
+    </script>
+</body>
+</html>

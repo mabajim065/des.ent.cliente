@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 3: Invertir y Consonantes</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Variación 3: Invertir Palabras y Contar Consonantes</h2>
+    <pre id="resultado" style="background: #f4f4f4; padding: 10px;"></pre>
+
+    <script>
+        function invertirYContar(words) {
+            let totalConsonantes = 0;
+            // CAMBIO 1: Regex que busca letras que NO sean vocales
+            const consonantesRegex = /[bcdfghjklmnñpqrstvwxyz]/i;
+
+            const palabrasInvertidas = words.map(palabra => {
+                // Contar consonantes
+                for (let letra of palabra) {
+                    if (consonantesRegex.test(letra)) {
+                        totalConsonantes++;
+                    }
+                }
+
+                // CAMBIO 2: Lógica para invertir string
+                // split: rompe en array, reverse: voltea, join: une
+                return palabra.split('').reverse().join('');
+            });
+
+            return {
+                invertidas: palabrasInvertidas,
+                consonantes: totalConsonantes
+            };
+        }
+
+        // PRUEBA
+        const entrada = ["Casa", "Perro", "Gato"];
+        const salida = invertirYContar(entrada);
+
+        document.getElementById("resultado").innerText = 
+            "Entrada: " + JSON.stringify(entrada) + "\n\n" +
+            "Salida: " + JSON.stringify(salida, null, 2);
+    </script>
+</body>
+</html>

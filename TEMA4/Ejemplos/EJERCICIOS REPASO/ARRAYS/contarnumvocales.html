@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 1: Conteo Detallado</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Variación 1: Conteo Detallado de Vocales</h2>
+    <p>Mira la consola (F12) o el resultado abajo.</p>
+    <pre id="resultado" style="background: #f4f4f4; padding: 10px;"></pre>
+
+    <script>
+        function capitalizarYContarDetalle(words) {
+            // CAMBIO 1: En lugar de "let total = 0", usamos un objeto acumulador
+            let conteo = { a: 0, e: 0, i: 0, o: 0, u: 0 };
+
+            const palabrasNuevas = words.map(palabra => {
+                const palabraLower = palabra.toLowerCase(); // Normalizamos para buscar
+
+                for (let letra of palabraLower) {
+                    // CAMBIO 2: Verificamos si la letra es una clave de nuestro objeto (a,e,i,o,u)
+                    if (conteo.hasOwnProperty(letra)) {
+                        conteo[letra]++; // Sumamos 1 a esa vocal específica
+                    }
+                }
+
+                // Capitalizar (Igual que el ejercicio original)
+                return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+            });
+
+            return {
+                palabras: palabrasNuevas,
+                reporteVocales: conteo // Devolvemos el objeto detallado
+            };
+        }
+
+        // PRUEBA
+        const entrada = ["Murciélago", "Ana", "Oso"];
+        const salida = capitalizarYContarDetalle(entrada);
+
+        document.getElementById("resultado").innerText = 
+            "Entrada: " + JSON.stringify(entrada) + "\n\n" +
+            "Salida: " + JSON.stringify(salida, null, 2);
+    </script>
+</body>
+</html>

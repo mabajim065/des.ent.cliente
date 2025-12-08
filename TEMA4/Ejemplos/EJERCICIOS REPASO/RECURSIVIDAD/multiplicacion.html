@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 1: Factorial (Multiplicación)</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h2>Ejercicio 2 - Var 1: Factorial</h2>
+    <p>Calcula el producto de 1 a N (Ej: 4! = 1 * 2 * 3 * 4 = 24)</p>
+    <div id="resultado" style="background:#eee; padding:10px;"></div>
+
+    <script>
+        function factorial(n) {
+            // PASO 1: Caso Base
+            // TRAMPA: Si n es 0 o 1, devolvemos 1.
+            // Si devolviéramos 0, cualquier multiplicación por 0 daría 0.
+            if (n <= 1) {
+                return 1;
+            }
+
+            // PASO 2: Llamada Recursiva
+            // En lugar de sumar (+), multiplicamos (*)
+            // n * (resultado del anterior)
+            return n * factorial(n - 1);
+        }
+
+        // PRUEBA
+        const numero = 5; // 5 * 4 * 3 * 2 * 1 = 120
+        const res = factorial(numero);
+        
+        console.log(`Factorial de ${numero} es ${res}`);
+        document.getElementById("resultado").innerText = `Entrada: ${numero} \nResultado: ${res}`;
+    </script>
+</body>
+</html>

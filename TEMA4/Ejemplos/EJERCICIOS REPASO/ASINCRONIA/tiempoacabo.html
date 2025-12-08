@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 3: Timeout Global</title>
+</head>
+<body>
+    <h2>Ejercicio 4 - Var 3: Tiempo Límite</h2>
+    <p>Límite global: 250ms. Las tareas lentas serán ignoradas.</p>
+    <ul id="lista"></ul>
+
+    <script>
+        function procesarConLimite(tareas, tiempoLimite, callbackFinal) {
+            const resultados = [];
+            let tiempoAgotado = false;
+            let tareasTerminadas = 0;
+
+            // 1. Configurar el TEMPORIZADOR MAESTRO
+            setTimeout(() => {
+                tiempoAgotado = true;
+                console.log("¡TIEMPO AGOTADO!");
+                // Llamamos al final con lo que tengamos hasta ahora
+                callbackFinal(resultados, "Tiempo excedido");
+            }, tiempoLimite);
+
+            // 2. Lanzar tareas normales
+            tareas.forEach(tarea => {
+                setTimeout(() => {
+                    // TRAMPA: Antes de hacer nada, preguntar si ya se acabó el tiempo
+                    if (tiempoAgotado) {
+                        console.log(`Tarea ${tarea.id} descartada (muy lenta)`);
+                        return; 
+                    }
+
+                    console.log(`Tarea ${tarea.id} a tiempo`);
+                    resultados.push(tarea.id);
+                    
+                    const li = document.createElement('li');
+                    li.innerText = `A tiempo: ${tarea.id}`;
+                    document.getElementById('lista').appendChild(li);
+
+                    tareasTerminadas++;
+                    
+                    // Si todas acaban antes del límite, llamamos al final y cancelamos el timer maestro (opcional pero buena práctica)
+                    if (tareasTerminadas === tareas.length) {
+                        tiempoAgotado = true; // Para evitar doble llamada
+                        callbackFinal(resultados, "Todo completado a tiempo");
+                    }
+
+                }, tarea.duracion);
+            });
+        }
+
+        const misTareas = [
+            {id: 'Rápida', duracion: 100},
+            {id: 'Media', duracion: 200},
+            {id: 'Lenta', duracion: 500} // Esta debería fallar
+        ];
+
+        // Límite de 250ms
+        procesarConLimite(misTareas, 250, (res, mensaje) => {
+            console.log(mensaje, res);
+            document.getElementById('lista').innerHTML += `<strong>${mensaje}: ${JSON.stringify(res)}</strong>`;
+        });
+    </script>
+</body>
+</html>

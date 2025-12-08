@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1 Arrays</title>
+</head>
+<body>
+    <h1>Ejercicio 1: Capitalizar y Contar Vocales</h1>
+    <div id="resultado"></div>
+
+    <script>
+        function capitalizarYContarVocales(words) {
+            let totalVocales = 0;
+            // Definimos las vocales (incluyendo acentos por si acaso, dado el ejemplo "Árbol")
+            const vocalesRegex = /[aeiouáéíóúü]/i; 
+
+            const palabrasNuevas = words.map(palabra => {
+                // 1. Contar vocales en la palabra actual
+                for (let letra of palabra) {
+                    if (vocalesRegex.test(letra)) {
+                        totalVocales++;
+                    }
+                }
+
+                // 2. Capitalizar: Primera letra mayúscula Y resto minúscula
+                // charAt(0) toma la primera letra, slice(1) toma desde la segunda hasta el final
+                return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+            });
+
+            // 3. Devolver el objeto solicitado
+            return {
+                palabras: palabrasNuevas,
+                totalVocales: totalVocales
+            };
+        }
+
+        //hacemos la prueba con yo oor ejemplo el del enunciao
+        const entrada = ["hola", "mUndo", "árbol", "PIrrAmiDe"];
+        const resultado = capitalizarYContarVocales(entrada);
+
+        console.log("Entrada:", entrada);
+        console.log("Salida:", resultado);
+        
+        // Mostrar en pantalla
+        document.getElementById("resultado").innerText = JSON.stringify(resultado, null, 2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2 - Recursividad</title>
+</head>
+<body>
+    <h1>Ejercicio 2: Suma Recursiva</h1>
+    <p>Resultado de sumar hasta 5: <span id="res1"></span></p>
+    <p>Resultado de sumar hasta 0: <span id="res2"></span></p>
+
+    <script>
+        function sumarHasta(n) {
+            // 1. Caso Base: Si n es 0 o menor, devolvemos 0 y paramos la recursión.
+            if (n <= 0) {
+                return 0;
+            }
+
+            // 2. Llamada Recursiva: n mas el resultado de la función con (n-1)
+            return n + sumarHasta(n - 1);
+        }
+
+        const resultado5 = sumarHasta(5);
+        const resultado0 = sumarHasta(0); 
+
+        console.log("Suma hasta 5:", resultado5);
+        console.log("Suma hasta 0:", resultado0);
+
+        document.getElementById("res1").innerText = resultado5;
+        document.getElementById("res2").innerText = resultado0;
+    </script>
+</body>
+</html>

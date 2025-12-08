@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 4 Asincronía</title>
+</head>
+<body>
+    <h1>Ejercicio 4:</h1>
+    <ul id="lista-tareas"></ul>
+    <p><strong>Resultado final (Callback):</strong> <span id="final">Esperando...</span></p>
+
+    <script>
+        function procesarTareas(tareas, callbackFinal) {
+            const resultados = [];
+            let tareasCompletadas = 0;
+
+            tareas.forEach(tarea => {
+                // 1. Simular asincronía con setTimeout
+                setTimeout(() => {
+                    // 2. Esta parte se ejecuta cuando pasa el tiempo de la tarea
+                    console.log(`Tarea ${tarea.id} completada`);
+                    
+                    // pa q se muestre en el html
+
+                    const li = document.createElement('li');
+                    li.innerText = `Tarea ${tarea.id} completada (${tarea.duracion}ms)`;
+                    document.getElementById('lista-tareas').appendChild(li);
+
+                    // 3. Guardamos el ID en el array de resultados.
+                    // esto ocurre cuando la tarea termina asique el orden será cronológico.
+                    resultados.push(tarea.id);
+                    tareasCompletadas++;
+
+                    // 4. Verificamos si esta fue la última tarea en terminar
+                    if (tareasCompletadas === tareas.length) {
+                        callbackFinal(resultados);
+                    }
+
+                }, tarea.duracion); // Usamos la duración de cada objeto
+            });
+        }
+
+    
+        const misTareas = [
+            {id: 'A', duracion: 300},
+            {id: 'B', duracion: 100},
+            {id: 'C', duracion: 200}
+        ];
+
+        // Definimos el callback final que recibirá el array ordenado
+        const miCallbackFinal = (resultado) => {
+            console.log("Todas las tareas terminaron. Orden:", resultado);
+            document.getElementById('final').innerText = JSON.stringify(resultado);
+        };
+
+       
+        procesarTareas(misTareas, miCallbackFinal);
+    </script>
+</body>
+</html>
