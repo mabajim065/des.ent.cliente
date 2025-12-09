@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 4 - Asincronía</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; background: #ffc107; color: #333; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        #log { background: #333; color: #0f0; padding: 10px; margin-top: 10px; border-radius: 4px; font-family: monospace; height: 150px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 4: Descargas Asíncronas</h1>
+        <p><strong>Enunciado:</strong> Simula la descarga de varios archivos con tiempos aleatorios. Avisa cuando TODOS hayan terminado.</p>
+        
+        <button onclick="iniciarDescargas()">Iniciar Simulación</button>
+        <div id="log">Esperando inicio...</div>
+    </div>
+
+    <script>
+        function log(msg) {
+            const div = document.getElementById('log');
+            div.innerHTML += `> ${msg}<br>`;
+            div.scrollTop = div.scrollHeight; // Auto-scroll
+        }
+
+        // --- TU CÓDIGO AQUÍ ---
+        function simularDescarga(archivos, callbackFinal) {
+            let completados = 0;
+            document.getElementById('log').innerHTML = "INICIANDO...<br>";
+
+            archivos.forEach(archivo => {
+                const tiempo = Math.floor(Math.random() * 2000) + 500; // Entre 0.5s y 2.5s
+
+                setTimeout(() => {
+                    log(`Archivo '${archivo}' completado (${tiempo}ms)`);
+                    completados++;
+                    
+                    // Comprobación clave: ¿Han terminado todos?
+                    if (completados === archivos.length) {
+                        callbackFinal(completados);
+                    }
+                }, tiempo);
+            });
+        }
+
+        // --- PRUEBA ---
+        function iniciarDescargas() {
+            const misArchivos = ['foto.jpg', 'documento.pdf', 'video.mp4'];
+            
+            simularDescarga(misArchivos, (total) => {
+                log(`--------------------------`);
+                log(`¡ÉXITO! Se descargaron ${total} archivos.`);
+            });
+        }
+    </script>
+</body>
+</html>

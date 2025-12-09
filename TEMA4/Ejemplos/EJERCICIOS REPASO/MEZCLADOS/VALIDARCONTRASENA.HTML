@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 5 - Filtros</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; background: #6610f2; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        #resultado { background: #e9ecef; padding: 10px; margin-top: 10px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 5: Validar Passwords</h1>
+        <p><strong>Enunciado:</strong> Filtra un array de contraseñas. Solo valen las que tengan más de 8 caracteres Y contengan una '@'.</p>
+        
+        <button onclick="ejecutarPrueba()">Validar Lista</button>
+        <div id="resultado">...</div>
+    </div>
+
+    <script>
+        // --- TU CÓDIGO AQUÍ ---
+        function validarPasswords(lista) {
+            return lista.filter(pass => {
+                const longitudCorrecta = pass.length > 8;
+                const tieneArroba = pass.includes('@');
+                return longitudCorrecta && tieneArroba;
+            });
+        }
+
+        // --- PRUEBA ---
+        function ejecutarPrueba() {
+            const passwords = ['123', 'admin', 'usuario@seguro.com', 'claveMuyLargaSinSimbolo'];
+            const validas = validarPasswords(passwords);
+            
+            document.getElementById('resultado').innerHTML = 
+                `<strong>Lista original:</strong> ${passwords.join(', ')}<br><br>` +
+                `<strong>Válidas:</strong> ${validas.join(', ')}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Callbacks</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; background: #17a2b8; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        #resultado { background: #e9ecef; padding: 10px; margin-top: 10px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 3: Transformar SI...</h1>
+        <p><strong>Enunciado:</strong> Recorre un array y aplica una transformación SOLO si el elemento cumple una condición (usando funciones flecha).</p>
+        
+        <button onclick="ejecutarPrueba()">Probar con [2, 5, 8, 11]</button>
+        <div id="resultado">...</div>
+    </div>
+
+    <script>
+        // --- TU CÓDIGO AQUÍ ---
+        const transformarSi = (arr, condicion, operacion) => {
+            return arr.map(elemento => {
+                // Operador ternario: ¿Cumple condición? ? Haz operación : Déjalo igual
+                return condicion(elemento) ? operacion(elemento) : elemento;
+            });
+        };
+
+        // --- PRUEBA ---
+        function ejecutarPrueba() {
+            const numeros = [2, 5, 8, 11];
+            
+            // Definimos las funciones anónimas aquí mismo
+            const esMayorQueCinco = n => n > 5;
+            const multiplicarPorDiez = n => n * 10;
+
+            const res = transformarSi(numeros, esMayorQueCinco, multiplicarPorDiez);
+            
+            document.getElementById('resultado').innerText = 
+                `Entrada: [${numeros}] \n` +
+                `Condición: > 5 \n` +
+                `Transformación: * 10 \n` +
+                `Resultado: [${res}]`;
+        }
+    </script>
+</body>
+</html>

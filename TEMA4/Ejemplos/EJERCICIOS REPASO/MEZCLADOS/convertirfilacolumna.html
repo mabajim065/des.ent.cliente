@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio - Matrices</title>
+    <style>body{font-family:sans-serif;padding:20px;background:#f0f2f5;}.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1);max-width:600px;margin:0 auto;}</style>
+</head>
+<body>
+    <div class="card">
+        <h2>Ejercicio 1: Transponer Matriz</h2>
+        <p>Convierte las filas en columnas.</p>
+        <button onclick="probar()">Transponer [[1,2,3],[4,5,6],[7,8,9]]</button>
+        <pre id="resultado" style="background:#333;color:#eee;padding:10px;margin-top:10px;"></pre>
+    </div>
+
+    <script>
+        // --- TU CÓDIGO ---
+        function transponerMatriz(matriz) {
+            // Creamos una nueva matriz vacía
+            let nuevaMatriz = [];
+            
+            for (let i = 0; i < matriz.length; i++) {
+                nuevaMatriz[i] = [];
+                for (let j = 0; j < matriz.length; j++) {
+                    // Aquí ocurre la magia: asignamos [j][i] en lugar de [i][j]
+                    nuevaMatriz[i][j] = matriz[j][i];
+                }
+            }
+            return nuevaMatriz;
+        }
+
+        // --- PRUEBA ---
+        function probar() {
+            const input = [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9]
+            ];
+            
+            const output = transponerMatriz(input);
+            
+            // Formatear para ver mejor
+            const texto = output.map(row => JSON.stringify(row)).join('\n');
+            document.getElementById('resultado').innerText = texto;
+        }
+    </script>
+</body>
+</html>

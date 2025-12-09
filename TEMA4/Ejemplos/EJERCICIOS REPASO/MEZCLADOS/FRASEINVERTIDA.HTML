@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1 - Arrays y Strings</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #0056b3; }
+        #resultado { background: #e9ecef; padding: 10px; margin-top: 10px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 1: Frases Invertidas</h1>
+        <p><strong>Enunciado:</strong> Haz una función que reciba frases, las invierta y cuente cuántas palabras largas (> 5 letras) hay en total.</p>
+        
+        <button onclick="ejecutarPrueba()">Ejecutar Prueba</button>
+        
+        <div id="resultado">Aquí saldrá el resultado...</div>
+    </div>
+
+    <script>
+        // --- TU CÓDIGO AQUÍ ---
+        function analizarFrases(frases) {
+            let totalLargas = 0;
+            
+            const frasesInvertidas = frases.map(frase => {
+                // Contar palabras largas
+                const palabras = frase.split(" ");
+                palabras.forEach(palabra => {
+                    if (palabra.length > 5) totalLargas++;
+                });
+
+                // Invertir la frase
+                return frase.split("").reverse().join("");
+            });
+
+            return {
+                frasesInvertidas: frasesInvertidas,
+                contadorLargas: totalLargas
+            };
+        }
+
+        // --- PRUEBA ---
+        function ejecutarPrueba() {
+            const input = ["Hola mundo", "Programacion es genial"];
+            const output = analizarFrases(input);
+            
+            // Mostrar en pantalla
+            document.getElementById('resultado').innerHTML = 
+                `<strong>Entrada:</strong> ${JSON.stringify(input)} <br><br>` +
+                `<strong>Salida:</strong> ${JSON.stringify(output, null, 2)}`;
+        }
+    </script>
+</body>
+</html>

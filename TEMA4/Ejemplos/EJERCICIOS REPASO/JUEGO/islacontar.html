@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contador de Islas Recursivo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f8ff;
+        }
+
+        h2 { color: #333; }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #fff;
+            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 4px;
+        }
+
+        /* Definición de estados visuales */
+        .agua {
+            background-color: #2196F3; /* Azul */
+            color: transparent;
+        }
+
+        .tierra {
+            background-color: #4CAF50; /* Verde */
+            color: transparent;
+        }
+
+        /* Cuando la recursividad procesa la celda */
+        .procesado {
+            background-color: #FF9800; /* Naranja */
+            color: white;
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: #555; }
+        
+        #resultado {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Contador de Islas (Algoritmo de Inundación)</h2>
+    <p>El algoritmo recorre la cuadrícula. Al encontrar tierra, usa recursividad para marcar toda la isla conectada.</p>
+
+    <table id="mapa-tabla"></table>
+
+    <button onclick="contarIslas()">Iniciar Conteo</button>
+    <p id="resultado">Islas encontradas: 0</p>
+
+    <script>
+        // 1 = Tierra, 0 = Agua
+        // Tenemos 3 islas distintas en este mapa
+        const MAPA_DATA = [
+            [1, 1, 0, 0, 0, 1],
+            [1, 1, 0, 0, 0, 1],
+            [0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 1, 0],
+            [0, 1, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0]
+        ];
+
+        const FILAS = MAPA_DATA.length;
+        const COLUMNAS = MAPA_DATA[0].length;
+        let visitado; 
+
+        // --- 1. RENDERIZADO ---
+        function crearMapa() {
+            const tabla = document.getElementById('mapa-tabla');
+            tabla.innerHTML = '';
+
+            for (let i = 0; i < FILAS; i++) {
+                const fila = tabla.insertRow();
+                for (let j = 0; j < COLUMNAS; j++) {
+                    const celda = fila.insertCell();
+                    const esTierra = MAPA_DATA[i][j] === 1;
+                    
+                    celda.id = `celda-${i}-${j}`;
+                    // Asignamos clases CSS según los datos
+                    celda.classList.add(esTierra ? 'tierra' : 'agua');
+                    celda.textContent = esTierra ? 'T' : 'A';
+                }
+            }
+        }
+
+        // --- 2. LÓGICA RECURSIVA (Flood Fill) ---
+
+        /**
+         * Función recursiva que "hunde" la isla marcándola como visitada/procesada
+         */
+        function explorarIsla(x, y, numeroIsla) {
+            // A. CASOS BASE (Condiciones de parada)
+            // 1. Fuera de límites
+            if (x < 0 || y < 0 || x >= FILAS || y >= COLUMNAS) return;
+            // 2. Es agua
+            if (MAPA_DATA[x][y] === 0) return;
+            // 3. Ya fue visitado (ya procesamos esta parte de la isla)
+            if (visitado[x][y]) return;
+
+            // B. PROCESAR CELDA ACTUAL
+            visitado[x][y] = true; // Marcamos en memoria
+            
+            // Actualización visual
+            const celda = document.getElementById(`celda-${x}-${y}`);
+            celda.classList.remove('tierra');
+            celda.classList.add('procesado');
+            celda.textContent = numeroIsla; // Ponemos el número de la isla
+
+            // C. LLAMADA RECURSIVA (A los 4 vecinos)
+            // El algoritmo se expande en todas direcciones buscando más tierra conectada
+            explorarIsla(x + 1, y, numeroIsla); // Abajo
+            explorarIsla(x - 1, y, numeroIsla); // Arriba
+            explorarIsla(x, y + 1, numeroIsla); // Derecha
+            explorarIsla(x, y - 1, numeroIsla); // Izquierda
+        }
+
+        // --- 3. FUNCIÓN PRINCIPAL (Loop + Trigger) ---
+        async function contarIslas() {
+            // Reiniciar estado
+            visitado = Array(FILAS).fill(0).map(() => Array(COLUMNAS).fill(false));
+            crearMapa(); // Reset visual
+            
+            let contadorIslas = 0;
+
+            // Recorremos toda la matriz celda por celda
+            for (let i = 0; i < FILAS; i++) {
+                for (let j = 0; j < COLUMNAS; j++) {
+                    
+                    // Si encontramos tierra que NO ha sido visitada, es una NUEVA isla
+                    if (MAPA_DATA[i][j] === 1 && !visitado[i][j]) {
+                        contadorIslas++;
+                        
+                        // Disparamos la recursividad para encontrar toda la extensión de ESTA isla
+                        explorarIsla(i, j, contadorIslas);
+                        
+                        // Pequeña pausa solo para efecto visual (opcional)
+                        await new Promise(r => setTimeout(r, 200));
+                    }
+                }
+            }
+
+            const resultadoElem = document.getElementById('resultado');
+            resultadoElem.textContent = `Proceso terminado. Islas encontradas: ${contadorIslas}`;
+            resultadoElem.style.color = '#e91e63';
+        }
+
+        // Inicializar
+        crearMapa();
+
+    </script>
+</body>
+</html>

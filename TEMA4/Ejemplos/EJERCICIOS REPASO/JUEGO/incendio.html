@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulación de Incendio</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 { margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        td {
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            border: 1px solid #444;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* ESTADOS */
+        .arbol { background-color: #2e7d32; cursor: pointer; } /* Verde */
+        .roca  { background-color: #616161; } /* Gris */
+        .fuego { 
+            background-color: #d32f2f; /* Rojo */
+            animation: parpadeo 0.5s infinite alternate;
+            box-shadow: 0 0 10px #d32f2f;
+        }
+        .ceniza { background-color: #000; color: #333; } /* Negro */
+
+        @keyframes parpadeo {
+            from { opacity: 1; }
+            to { opacity: 0.7; }
+        }
+
+        .controls { margin-top: 10px; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #e65100;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover { background: #ff6d00; }
+        button:disabled { background: #555; cursor: not-allowed; }
+
+        #stats { margin-top: 10px; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <h2>Simulación Forestal</h2>
+    
+    <div class="controls">
+        <button id="btn-iniciar" onclick="iniciarSimulacion()">🔥 INICIAR INCENDIO</button>
+        <button onclick="location.reload()">🔄 REINICIAR</button>
+    </div>
+
+    <table id="bosque"></table>
+    <div id="stats">Turno: 0 | Árboles quemados: 0</div>
+
+    <script>
+        // 0 = Ceniza/Vacio, 1 = Árbol, 2 = Fuego, 3 = Roca
+        // Mapa inicial
+        let BOSQUE = [
+            [1, 1, 1, 1, 1, 3, 1, 1],
+            [1, 1, 3, 1, 1, 3, 1, 1],
+            [1, 1, 3, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 3, 1, 3, 1],
+            [1, 2, 1, 1, 1, 1, 1, 1], // Nota el '2' aquí (Fuego inicial)
+            [1, 1, 1, 3, 3, 3, 1, 1],
+            [3, 3, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 3, 1, 1]
+        ];
+
+        const FILAS = BOSQUE.length;
+        const COLS = BOSQUE[0].length;
+        let turno = 0;
+        let quemadosTotal = 0;
+        let simulando = false;
+
+        // --- RENDERIZADO ---
+        function dibujarBosque() {
+            const tabla = document.getElementById('bosque');
+            tabla.innerHTML = ''; // Limpiar
+
+            for (let i = 0; i < FILAS; i++) {
+                const fila = tabla.insertRow();
+                for (let j = 0; j < COLS; j++) {
+                    const celda = fila.insertCell();
+                    const estado = BOSQUE[i][j];
+
+                    // Asignar clases visuales
+                    if (estado === 1) { celda.className = 'arbol'; celda.innerText = '🌲'; }
+                    else if (estado === 2) { celda.className = 'fuego'; celda.innerText = '🔥'; }
+                    else if (estado === 3) { celda.className = 'roca'; celda.innerText = '🪨'; }
+                    else { celda.className = 'ceniza'; celda.innerText = '⚫'; }
+                }
+            }
+            document.getElementById('stats').innerText = `Turno: ${turno} | Árboles quemados: ${quemadosTotal}`;
+        }
+
+        // --- LÓGICA DE PROPAGACIÓN (Paso a Paso) ---
+        function siguienteTurno() {
+            // Creamos una copia del estado actual para calcular el siguiente
+            // (No podemos modificar el array mientras lo leemos o el fuego viajaría instantáneamente)
+            let nuevosFocos = []; // Guardará coordenadas donde prender fuego
+            let focosAExtinguir = []; // Guardará coordenadas donde el fuego se apaga
+
+            let hayCambios = false;
+
+            for (let i = 0; i < FILAS; i++) {
+                for (let j = 0; j < COLS; j++) {
+                    
+                    // Si encontramos FUEGO en este turno:
+                    if (BOSQUE[i][j] === 2) {
+                        // 1. Este fuego se apagará en el siguiente turno (se convierte en ceniza)
+                        focosAExtinguir.push({x: i, y: j});
+
+                        // 2. Buscamos vecinos ARBOLES (1) para quemarlos
+                        const direcciones = [
+                            [-1, 0], [1, 0], [0, -1], [0, 1] // Arriba, Abajo, Izq, Der
+                        ];
+
+                        direcciones.forEach(([dx, dy]) => {
+                            const ni = i + dx;
+                            const nj = j + dy;
+
+                            // Verificar límites
+                            if (ni >= 0 && ni < FILAS && nj >= 0 && nj < COLS) {
+                                // SI EL VECINO ES UN ÁRBOL (1), LO AGREGAMOS A LA LISTA DE QUEMA
+                                if (BOSQUE[ni][nj] === 1) {
+                                    nuevosFocos.push({x: ni, y: nj});
+                                    hayCambios = true;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            // --- APLICAR CAMBIOS ---
+            
+            // 1. Apagar fuegos viejos (convertir a 0)
+            focosAExtinguir.forEach(coord => {
+                BOSQUE[coord.x][coord.y] = 0; // Ceniza
+            });
+
+            // 2. Encender nuevos fuegos (convertir a 2)
+            // Usamos un Set o lógica extra para no quemar el mismo dos veces, 
+            // aunque asignar 2 a un 2 no afecta.
+            nuevosFocos.forEach(coord => {
+                // Solo si sigue siendo árbol (para evitar conflictos raros)
+                if (BOSQUE[coord.x][coord.y] === 1) {
+                    BOSQUE[coord.x][coord.y] = 2; 
+                    quemadosTotal++;
+                }
+            });
+
+            turno++;
+            dibujarBosque();
+
+            // --- RECURSIVIDAD CON TIEMPO (Loop) ---
+            if (hayCambios) {
+                setTimeout(siguienteTurno, 600); // Llamada recursiva cada 600ms
+            } else {
+                simulando = false;
+                document.getElementById('btn-iniciar').innerText = "FIN DE SIMULACIÓN";
+            }
+        }
+
+        function iniciarSimulacion() {
+            if (simulando) return;
+            simulando = true;
+            document.getElementById('btn-iniciar').disabled = true;
+            siguienteTurno();
+        }
+
+        // Dibujo inicial
+        dibujarBosque();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio - HOF Sensores</title>
+    <style>body{font-family:sans-serif;padding:20px;background:#f0f2f5;}.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1);max-width:600px;margin:0 auto;}</style>
+</head>
+<body>
+    <div class="card">
+        <h2>Ejercicio 3: Análisis de Sensores</h2>
+        <p>Limpia datos, transforma y calcula promedio.</p>
+        <button onclick="probar()">Analizar Datos</button>
+        <div id="resultado" style="margin-top:15px; font-family:monospace;"></div>
+    </div>
+
+    <script>
+        // --- TU CÓDIGO ---
+        const analizarTemperaturas = (lecturas) => {
+            // 1. Filtrar basura (solo números y menores a 50)
+            const validos = lecturas.filter(dato => typeof dato === 'number' && dato < 50);
+            
+            // 2. Transformar a Fahrenheit
+            const fahrenheit = validos.map(c => c * 1.8 + 32);
+
+            // 3. Reducir para sumar (para luego hacer promedio)
+            if (fahrenheit.length === 0) return 0;
+            const suma = fahrenheit.reduce((acum, val) => acum + val, 0);
+            
+            return suma / fahrenheit.length;
+        };
+
+        // --- PRUEBA ---
+        function probar() {
+            const sensores = [10, null, 20, "error", 100, 30]; 
+            // Validos: 10, 20, 30
+            // F: 50, 68, 86
+            // Promedio esperado: 68
+            
+            const media = analizarTemperaturas(sensores);
+            
+            document.getElementById('resultado').innerHTML = 
+                `Entrada: ${JSON.stringify(sensores)}<br>` +
+                `Promedio Fahrenheit: <strong>${media}</strong>`;
+        }
+    </script>
+</body>
+</html>
