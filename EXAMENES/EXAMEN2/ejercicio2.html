@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ejercicio 2</title>
+</head>
+<div class="caja-input">
+        <h3>dar los numeros</h3>
+        <input type="number" id="n" placeholder=" el numero que quiero multiplicar">
+        <input type="number" id="num" placeholder="cuantas veces lo quiero multiplica">
+         <button onclick="hacerpoten()">hacer potencial</button>
+    </div>
+
+<body>
+    <h2>Ejercicio 2calcular la potencia </h2>
+    <script>
+    const hacerpoten = () => {
+            const numero = document.getElementById('n');
+            const poten = document.getElementById('num');}
+
+        function potencial(n) {
+            //Caso Base
+            // pq cunado tu elevas un nuemro a cero sim¡emore es uno
+            if (n == 0) {
+                return 1;
+            }
+            return n * potencial(num - 1);
+        }
+
+        //pa pobarlo
+        const numero = 5; 
+        const resultado = potencial(numero);
+        
+        console.log(`el potencial  de ${numero} es ${resultado}`);
+        document.getElementById("resultado").innerText =
+         `Entrada: ${n} 
+         \nnumpotencia: ${num}
+         \nResultado: ${res}`;
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ejercicio 1</title>
+</head>
+
+<body>
+    <h1>ejercicio 1 Adivina la oalabra</h1>
+    <div class="container">
+        <input type="text" id="array" placeholder="mete 8 palabras que tu quieras">
+        <button onclick="comprobar()">Comprobar</button>
+
+        
+        <div id="resultados"></div>
+    </div>
+
+    <script>
+     //la plabara q he puesto a adivinar
+        const contrasena = "EXAMENDEMARIA";
+
+
+        function comprobar() {
+      
+            const resultadosDiv = document.getElementById("resultados");
+            resultadosDiv.innerHTML = "";
+            const array = document.getElementById("array").value;
+
+
+            // Guardamos todos los intentos en un array para pasarlo en bucle
+            const intentos = [
+                { nombre: "array", palabra: array }
+            ];
+// Creo la plabra aleatoria
+            const palabraaleatoria = (max)  => Math.floor(Math.random() * max) + 1;
+
+            //pa ponerlo to en mayuscula
+            function ponerMayusculas() {
+
+            var texto = document.getElementById("array").value;
+
+            //con esto vamos a separar la cadena  por palabras
+            var array = texto.split(" ");
+
+            // recorro el array
+            for (var i = 0; i < array.length; i++) {
+                var array = array[i];
+
+                //si no esta vacia ps la cambio a mayuscula
+                if (array.length > 0) {
+                    array[i] = array.charAt(0).toUpperCase() + array.slice(6);
+                }
+            }
+            var resultado = array.join(" ");}
+
+            intentos.forEach(j => {
+                const resultado = calcularPuntuacion(j.palabra);
+                resultadosDiv.innerHTML += `
+                    <div class="resultado">
+                        <strong>${j.nombre}</strong><br>
+                        Palabra: ${j.palabra}<br>
+                        Letras acertadas: ${resultado.acertadas.join(", ") || "Ninguna"}<br>
+                    </div>
+                `;
+
+            });
+  //ara hago lo de que si el usurio no esta acertando le vayan apareciendo pistas de la palabra
+
+            if (intentos==1){
+                print("E");
+            }else if (intentos==2){
+                print("EX");
+            }else if (intentos==3){
+                print("EXA");
+            }else if (intentos==4){
+                print("EXAM");
+            }else if (intentos==5){
+                print("EXAME");
+            }else if (intentos==6){
+                print("EXAMEN");
+            }else if (intentos==7){
+                print("EXAMEND");
+            }else if (intentos==8){
+                print("EXAMENDE");
+            }else if (intentos==9){
+                print("EXAMENDEM");
+            }else if (intentos==10){
+                print("EXAMENDEMA");
+            }else if (intentos==11){
+                print("EXAMENDEMAR");
+            }else if (intentos==12){
+                print("EXAMENDEMARI");
+            }else{
+                print("EXAMENDEMARIA")
+            }
+        }
+
+      
+    </script>
+</body>
+
+</html>
