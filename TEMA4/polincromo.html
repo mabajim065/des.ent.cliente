@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Palíndromo Recursivo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #resultado {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Detector de Palíndromos</h2>
+
+    <input type="text" id="palabra" placeholder="Escribe algo...">
+    <button onclick="verificar()">¿Es palíndromo?</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        // La función recursiva
+        function esPalindromo(str) {
+            // Caso base: si queda 0 o 1 letra, terminamos con éxito
+            if (str.length <= 1) return true;
+
+            // Si los extremos no coinciden, no es palíndromo
+            if (str[0] !== str[str.length - 1]) return false;
+
+            // Recursión: cortamos extremos y volvemos a llamar
+            return esPalindromo(str.slice(1, -1));
+        }
+
+        // Función para conectar con el botón del HTML
+        function verificar() {
+            const input = document.getElementById('palabra').value;
+            const resElemento = document.getElementById('resultado');
+
+            // Limpiamos el texto (minúsculas y quitamos espacios)
+            const textoLimpio = input.toLowerCase().replace(/\s/g, "");
+
+            if (textoLimpio === "") {
+                resElemento.innerText = "Escribe algo primero.";
+                return;
+            }
+
+            // Llamamos a la lógica y mostramos resultado
+            const resultado = esPalindromo(textoLimpio);
+
+            resElemento.innerText = resultado
+                ? `✅ "${input}" es palíndromo.`
+                : `❌ "${input}" NO es palíndromo.`;
+        }
+    </script>
+
+</body>
+
+</html>
