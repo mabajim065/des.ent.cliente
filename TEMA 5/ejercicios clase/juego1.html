@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Juego de Palabras</title>
+</head>
+
+<body>
+
+
+    <script>
+        //palabras es el array
+        let palabras = [];
+        for (let i = 0; i < 8; i++) {
+            let palabra;
+            do {
+                palabra = prompt("Introduce una palabra (mínimo 6 letras):");
+            } while (palabra.length < 6);
+            // Guardamos la palabra en mayúsculas en el array de palabras
+            palabras.push(palabra.toUpperCase());
+        }
+
+        let posicionAleatoria = Math.floor(Math.random() * palabras.length);
+        let palabraSecreta = palabras[posicionAleatoria];
+        let intentos = 1; // Número de letras que se muestran
+        let acertado = false; // Controla si el usuario gana
+        while (!acertado && intentos <= palabraSecreta.length) {
+            // Mostramos pista parcial
+            let pista = palabraSecreto.substring(0, intentos);
+            let intentoUsuario = prompt(
+                "Pista: " + pista + "\nIntroduce la palabra completa:"
+            ).toUpperCase();
+            if (intentoUsuario === palabraSecreta) {
+                acertado = true;
+            } else {
+                intentos++;
+            }
+        }
+        if (acertado) {
+            alert("¡Has ganado! La palabra era: " + palabraSecreta);
+        } else {
+            alert("Has perdido. La palabra era: " + palabraSecreta);
+        }
+    </script>
+</body>
+
+</html>
