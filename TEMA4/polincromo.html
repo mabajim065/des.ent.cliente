@@ -4,30 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Palíndromo Recursivo</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        input {
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #resultado {
-            font-weight: bold;
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-    </style>
 </head>
 
 <body>
@@ -69,8 +45,8 @@
             const resultado = esPalindromo(textoLimpio);
 
             resElemento.innerText = resultado
-                ? `✅ "${input}" es palíndromo.`
-                : `❌ "${input}" NO es palíndromo.`;
+                ? `"${input}" es palíndromo.`
+                : `"${input}" NO es palíndromo.`;
         }
     </script>
 
