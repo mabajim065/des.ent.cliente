@@ -9,115 +9,113 @@
         <input type="text" id="inputCapital">
         <button onclick="agregarCapital()">Guardar</button>
 
-        <p id="mensaje-error" style="color: red;"></p>
+        <p id="mensaje-error""></p>
     </div>
 
-    <div id="fase-juego" style="display: none;">
+    <div id=" fase-juego"">
         <p>Adivina la capital secreta</p>
 
-        <div id="pista-box" style="font-size: 20px; color: blue; margin: 10px 0;"></div>
+        <div id="pista-box"></div>
 
         <br>
         <input type="text" id="inputIntento" placeholder="escribela aqui">
         <button onclick="comprobarIntento()">Adivinar</button>
         <p id="mensaje-juego"></p>
     </div>
-
-    <script>
-        // Variables que tengo que tengo que usar 
-        let capitales = [];
-        let capitalSecreta = "";
-        // esta la he puesto para ver si van a coge dinero al final o no  
-        let intentosFallidos = 0;
-
-        //funcion para meter toas las capitales
-        function agregarCapital() {
-            let input = document.getElementById("inputCapital");
-            //el .trim sirve para quita todos los espacio del princio y del final
-            let nombre = input.value.trim();
-
-            // Aquí el código fallaba porque no encontraba el ID "mensaje-error"
-            let mensajeError = document.getElementById("mensaje-error");
-
-            //comprobamos que sea de mas de 5 letras
-            if (nombre.length < 5) {
-                mensajeError.innerText = "Error: La capital  tiene que  tener al menos 5 letras.";
-                return;
-            }
-
-            mensajeError.innerText = "";
-            capitales.push(nombre);
-            input.value = "";
-
-            // una vezzz ya hemos metido 6 cuidades iniciamos el juego
-            if (capitales.length === 6) {
-                iniciarJuego();
-            }
-        }
-
-        //inicio el juego
-        function iniciarJuego() {
-            // lo convierto todo en minusculas para evitar problemas  de como se hallan escrito
-            for (let i = 0; i < capitales.length; i++) {
-                capitales[i] = capitales[i].toLowerCase();
-            }
-
-            // Elegir aleatoria con el math.random
-            let indiceAleatorio = Math.floor(Math.random() * capitales.length);
-            capitalSecreta = capitales[indiceAleatorio];
-
-            // esto lo necesito para que cambie de la primera parte de que esta metiendo las capitales a la segunda parte de adivinar la capital
-            document.getElementById("fase-registro").style.display = "none";
-            document.getElementById("fase-juego").style.display = "block";
-
-            // Aquí el código fallaba porque no encontraba el ID "pista-box"
-            // He puesto "_ " con espacio para que se vean mejor los guiones
-            document.getElementById("pista-box").innerText = "_ ".repeat(capitalSecreta.length);
-        }
-
-        function comprobarIntento() {
-            let respuesta = document.getElementById("inputIntento").value.toLowerCase();
-            let mensaje = document.getElementById("mensaje-juego");
-
-            // en caso de que acierte po hacemos un if 
-            if (respuesta === capitalSecreta) {
-                let premio = 0;
-                //esto en caso de acertar a la primera gana 500, a la segunda 300 y a la tercera 100
-                if (intentosFallidos === 0) {
-                    premio = 500;
-                }
-                else if (intentosFallidos === 1) {
-                    premio = 300;
-                }
-                else if (intentosFallidos === 2) {
-                    premio = 100;
-                }
-
-                let textoPremio = premio > 0 ? `\n¡Has ganado ${premio} euros!` : "";
-                alert("muy bien has acertado" + textoPremio);
-                location.reload();
-                return;
-            }
-
-            //si todo esto no ocurre es pq se ha equivocao
-            intentosFallidos++;
-
-            // reviso si ha perdiod
-            if (intentosFallidos >= capitalSecreta.length) {
-                alert("has perdidio. La capital era: " + capitalSecreta);
-                location.reload();
-            } else {
-                // si no ha perdido todavia le vamos a ir dando pistas hasta que se quede sin intentos
-                let parteVisible = capitalSecreta.substring(0, intentosFallidos);
-                // He puesto "_ " con espacio para que no salga una linea continua _______
-                let guionesRestantes = "_ ".repeat(capitalSecreta.length - intentosFallidos);
-                //le enseño la pista
-                document.getElementById("pista-box").innerText = parteVisible + guionesRestantes;
-                mensaje.innerText = "Incorrecto. Intento #" + (intentosFallidos + 1);
-            }
-        }
-    </script>
 </body>
+<script>
+    // Variables que tengo que tengo que usar 
+    let capitales = [];
+    let capitalSecreta = "";
+    // esta la he puesto para ver si van a coge dinero al final o no  
+    let intentosFallidos = 0;
 
+    //funcion para meter toas las capitales
+    function agregarCapital() {
+        let input = document.getElementById("inputCapital");
+        //el .trim sirve para quita todos los espacio del princio y del final
+        let nombre = input.value.trim();
+
+        // Aquí el código fallaba porque no encontraba el ID "mensaje-error"
+        let mensajeError = document.getElementById("mensaje-error");
+
+        //comprobamos que sea de mas de 5 letras
+        if (nombre.length < 5) {
+            mensajeError.innerText = "Error: La capital  tiene que  tener al menos 5 letras.";
+            return;
+        }
+
+        mensajeError.innerText = "";
+        capitales.push(nombre);
+        input.value = "";
+
+        // una vezzz ya hemos metido 6 cuidades iniciamos el juego
+        if (capitales.length === 6) {
+            iniciarJuego();
+        }
+    }
+
+    //inicio el juego
+    function iniciarJuego() {
+        // lo convierto todo en minusculas para evitar problemas  de como se hallan escrito
+        for (let i = 0; i < capitales.length; i++) {
+            capitales[i] = capitales[i].toLowerCase();
+        }
+
+        // Elegir aleatoria con el math.random
+        let indiceAleatorio = Math.floor(Math.random() * capitales.length);
+        capitalSecreta = capitales[indiceAleatorio];
+
+        // esto lo necesito para que cambie de la primera parte de que esta metiendo las capitales a la segunda parte de adivinar la capital
+        document.getElementById("fase-registro").style.display = "none";
+        document.getElementById("fase-juego").style.display = "block";
+
+        // Aquí el código fallaba porque no encontraba el ID "pista-box"
+        // He puesto "_ " con espacio para que se vean mejor los guiones
+        document.getElementById("pista-box").innerText = "_ ".repeat(capitalSecreta.length);
+    }
+
+    function comprobarIntento() {
+        let respuesta = document.getElementById("inputIntento").value.toLowerCase();
+        let mensaje = document.getElementById("mensaje-juego");
+
+        // en caso de que acierte po hacemos un if 
+        if (respuesta === capitalSecreta) {
+            let premio = 0;
+            //esto en caso de acertar a la primera gana 500, a la segunda 300 y a la tercera 100
+            if (intentosFallidos === 0) {
+                premio = 500;
+            }
+            else if (intentosFallidos === 1) {
+                premio = 300;
+            }
+            else if (intentosFallidos === 2) {
+                premio = 100;
+            }
+
+            let textoPremio = premio > 0 ? `\n¡Has ganado ${premio} euros!` : "";
+            alert("muy bien has acertado" + textoPremio);
+            location.reload();
+            return;
+        }
+
+        //si todo esto no ocurre es pq se ha equivocao
+        intentosFallidos++;
+
+        // reviso si ha perdiod
+        if (intentosFallidos >= capitalSecreta.length) {
+            alert("has perdidio. La capital era: " + capitalSecreta);
+            location.reload();
+        } else {
+            // si no ha perdido todavia le vamos a ir dando pistas hasta que se quede sin intentos
+            let parteVisible = capitalSecreta.substring(0, intentosFallidos);
+            // He puesto "_ " con espacio para que no salga una linea continua _______
+            let guionesRestantes = "_ ".repeat(capitalSecreta.length - intentosFallidos);
+            //le enseño la pista
+            document.getElementById("pista-box").innerText = parteVisible + guionesRestantes;
+            mensaje.innerText = "Incorrecto. Intento #" + (intentosFallidos + 1);
+        }
+    }
+</script>
 
 </html>
