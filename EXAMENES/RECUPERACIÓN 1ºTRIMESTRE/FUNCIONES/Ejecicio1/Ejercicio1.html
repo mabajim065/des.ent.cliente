@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1: Arrays y Caracteres</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .resultado { background: #f4f4f4; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+    <h2>Ejercicio 1: Capitalizar y Contar Vocales</h2>
+    <p>Mira el resultado a continuación:</p>
+    
+    <pre id="pantalla" class="resultado">Calculando...</pre>
+
+    <script>
+        
+
+        [cite_start]/* Función solicitada en el Ejercicio 1 [cite: 3]
+           Recibe un array de palabras.
+           [cite_start]Devuelve: { palabras: [...], totalVocales: N } [cite: 6]
+        */
+        function capitalizarYContarVocales(words) {
+            
+            let palabrasProcesadas = [];
+            let contadorVocales = 0;
+            [cite_start]// Definimos las vocales estándar (sin tildes para coincidir con el ejemplo del PDF que da 9) [cite: 5, 10]
+            const vocales = "aeiou"; 
+
+            for (let palabra of words) {
+                
+                [cite_start]// 1. CAPITALIZAR: Primera letra mayúscula + resto minúscula [cite: 4]
+                // charAt(0) coge la primera, slice(1) coge desde la segunda hasta el final.
+                let primeraLetra = palabra.charAt(0).toUpperCase();
+                let restoPalabra = palabra.slice(1).toLowerCase();
+                let palabraArreglada = primeraLetra + restoPalabra;
+                
+                palabrasProcesadas.push(palabraArreglada);
+
+                [cite_start]// 2. CONTAR VOCALES [cite: 5]
+                // Pasamos a minúscula para comparar fácil
+                let palabraMinuscula = palabra.toLowerCase();
+                
+                for (let letra of palabraMinuscula) {
+                    // Si la letra está en la lista "aeiou", suma 1
+                    if (vocales.includes(letra)) {
+                        contadorVocales++;
+                    }
+                }
+            }
+
+            // Devolvemos el objeto final
+            return {
+                palabras: palabrasProcesadas,
+                totalVocales: contadorVocales
+            };
+        }
+
+        // --- PRUEBA CON EL EJEMPLO DEL PDF ---
+        const entrada = ["hola", "mUndo", "árbol", "PIrrAmiDe"]; [cite_start]// [cite: 8]
+        const resultado = capitalizarYContarVocales(entrada);
+
+        // Mostramos en la Consola (F12)
+        console.log("Entrada:", entrada);
+        console.log("Salida:", resultado);
+
+        // Mostramos en la pantalla del navegador para que lo veas fácil
+        document.getElementById('pantalla').innerText = JSON.stringify(resultado, null, 2);
+    </script>
+
+</body>
+</html>
