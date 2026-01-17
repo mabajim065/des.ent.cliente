@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Examen 5: Palíndromos</title>
+</head>
+<body>
+    <h1>¿Es un Palíndromo?</h1>
+    <p>Escribe una palabra para ver si se lee igual al revés.</p>
+    
+    <input type="text" id="palabraInput" placeholder="Ej: radar">
+    <button onclick="verificar()">Comprobar</button>
+    
+    <div id="resultado" style="margin-top: 10px; font-weight: bold;"></div>
+
+    <script>
+        function verificar() {
+            let input = document.getElementById("palabraInput");
+            let mensaje = document.getElementById("resultado");
+
+            // 1. Limpiar el texto: Quitar espacios y poner mayúsculas
+            // (Para que "Ana" sea igual a "ANA")
+            let textoOriginal = input.value.trim().toUpperCase();
+
+            if (textoOriginal === "") {
+                mensaje.innerText = "Escribe algo primero.";
+                return;
+            }
+
+            // 2. Darle la vuelta al texto
+            // .split('') -> Convierte "HOLA" en ["H","O","L","A"]
+            // .reverse() -> Lo cambia a ["A","L","O","H"]
+            // .join('')  -> Lo junta en "ALOH"
+            let textoInvertido = textoOriginal.split('').reverse().join('');
+
+            // 3. Comparar
+            if (textoOriginal === textoInvertido) {
+                mensaje.style.color = "green";
+                mensaje.innerText = "¡SÍ! Es un palíndromo.";
+            } else {
+                mensaje.style.color = "red";
+                mensaje.innerText = "No lo es. Al revés se lee: " + textoInvertido;
+            }
+        }
+    </script>
+</body>
+</html>

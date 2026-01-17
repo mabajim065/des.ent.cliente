@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Potencia Recursiva (Arrow Function)</title>
+</head>
+<body>
+
+    <h1>Calculadora de Potencias (Modo Flecha =>)</h1>
+    <p>Este código usa sintaxis moderna (ES6).</p>
+
+    <label>Base:</label>
+    <input type="number" id="base" placeholder="Ej: 2">
+    <br><br>
+
+    <label>Exponente:</label>
+    <input type="number" id="exp" placeholder="Ej: 3">
+    <br><br>
+
+    <button onclick="ejecutarCalculo()">Calcular</button>
+
+    <h3>Resultado: <span id="resultado">...</span></h3>
+
+    <script>
+        // ================================================================
+        // LA FUNCIÓN FLECHA (ARROW FUNCTION) RECURSIVA
+        // ================================================================
+        
+        /* EXPLICACIÓN DE LA SINTAXIS:
+           1. 'const calcularPotencia': Guardamos la función en una constante.
+           2. '(b, e) =>': Recibimos base (b) y exponente (e).
+           3. '? :' (Operador Ternario): Es un "if/else" resumido.
+              - La estructura es: (CONDICIÓN) ? (SI ES VERDAD) : (SI ES FALSO)
+        */
+
+        const calcularPotencia = (b, e) => e === 0 ? 1 : b * calcularPotencia(b, e - 1);
+
+        // TRADUCCIÓN AL CASTELLANO:
+        // "Si e es igual a 0, devuelve 1. 
+        //  Si no ( : ), devuelve b multiplicado por la función con e-1".
+
+
+        // ================================================================
+        // FUNCIÓN PARA GESTIONAR EL BOTÓN (PUENTE)
+        // ================================================================
+        // También la hacemos tipo flecha para mantener el estilo moderno.
+        
+        const ejecutarCalculo = () => {
+            
+            // 1. Obtener datos
+            let b = parseInt(document.getElementById("base").value);
+            let e = parseInt(document.getElementById("exp").value);
+
+            // 2. Validar
+            if (isNaN(b) || isNaN(e)) {
+                alert("Introduce números válidos");
+                return;
+            }
+
+            // 3. Llamar a nuestra función flecha recursiva
+            let res = calcularPotencia(b, e);
+
+            // 4. Mostrar resultado
+            console.log(`Flecha: ${b}^${e} = ${res}`); // Uso de Template String (``)
+            document.getElementById("resultado").innerText = res;
+        }
+
+    </script>
+</body>
+</html>

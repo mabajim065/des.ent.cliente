@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Variación 1: Número Secreto</title>
+</head>
+<body>
+    <h1>Adivina el Número Secreto</h1>
+    <p>El número está entre 1 y 100.</p>
+    
+    <input type="number" id="inputUsuario" placeholder="Pon un número">
+    <button onclick="comprobar()">Probar suerte</button>
+    
+    <div id="mensaje" style="margin-top: 20px; font-weight: bold;"></div>
+    <div id="intentos" style="color: grey;"></div>
+
+    <script>
+        // VARIABLE GLOBAL: El número a adivinar
+        const NUMERO_SECRETO = 42; 
+        let contadorFallos = 0;
+
+        function comprobar() {
+            // 1. Obtener y CONVERTIR a número (¡Importante!)
+            let valorInput = document.getElementById("inputUsuario").value;
+            let numeroUsuario = parseInt(valorInput);
+            
+            let divMensaje = document.getElementById("mensaje");
+            let divIntentos = document.getElementById("intentos");
+
+            // Validación: Si no es un número (NaN)
+            if (isNaN(numeroUsuario)) {
+                divMensaje.innerText = "Por favor, escribe un número válido.";
+                divMensaje.style.color = "orange";
+                return;
+            }
+
+            // 2. Lógica de GANAR
+            if (numeroUsuario === NUMERO_SECRETO) {
+                divMensaje.innerText = "¡Correcto! El número era el " + NUMERO_SECRETO;
+                divMensaje.style.color = "green";
+                return; 
+            }
+
+            // 3. Lógica de FALLAR (Pistas Mayor/Menor)
+            contadorFallos = contadorFallos + 1;
+            divIntentos.innerText = "Intentos usados: " + contadorFallos;
+            divMensaje.style.color = "red";
+
+            if (numeroUsuario < NUMERO_SECRETO) {
+                divMensaje.innerText = "Fallaste. El secreto es MAYOR.";
+            } else {
+                divMensaje.innerText = "Fallaste. El secreto es MENOR.";
+            }
+        }
+    </script>
+</body>
+</html>

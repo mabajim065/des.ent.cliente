@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Variación 3: Sumatorio Flecha</title>
+</head>
+<body>
+    <h1>Sumatorio Recursivo (Arrow)</h1>
+    <p>Suma todos los números desde N hasta 1.</p>
+    
+    <input type="number" id="num" placeholder="Ej: 5">
+    <button onclick="ejecutar()">Sumar</button>
+    <h3>Total: <span id="res">0</span></h3>
+
+    <script>
+        // ==========================================
+        // ARROW FUNCTION + TERNARIO (? :)
+        // ==========================================
+        
+        // Si n es 1, devuelve 1. 
+        // Si no, devuelve n + la función(n-1).
+        const sumatorio = n => n === 1 ? 1 : n + sumatorio(n - 1);
+
+        // ==========================================
+        // GESTIÓN DEL BOTÓN
+        // ==========================================
+        const ejecutar = () => {
+            let n = parseInt(document.getElementById("num").value);
+            
+            // Validación rápida
+            if (isNaN(n) || n < 1) {
+                alert("Pon un número mayor a 0"); 
+                return;
+            }
+
+            let total = sumatorio(n);
+            document.getElementById("res").innerText = total;
+        }
+    </script>
+</body>
+</html>

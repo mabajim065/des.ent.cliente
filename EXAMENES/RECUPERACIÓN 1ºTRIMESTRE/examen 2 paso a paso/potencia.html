@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Potencia Recursiva Interactiva</title>
+</head>
+<body>
+
+    <h1>Calculadora de Potencias (Recursiva)</h1>
+    <p>Introduce los datos para calcular la potencia:</p>
+
+    <label>Base:</label>
+    <input type="number" id="inputBase" placeholder="Ej: 2">
+    <br><br>
+
+    <label>Exponente:</label>
+    <input type="number" id="inputExponente" placeholder="Ej: 3">
+    <br><br>
+
+    <button onclick="gestionarCalculo()">¡Calcular Ahora!</button>
+
+    <hr>
+
+    <h3>Resultado: <span id="resultadoTexto">Esperando datos...</span></h3>
+
+
+    <script>
+
+        /**
+         * FUNCIÓN 1: calcularPotencia(base, exponente)
+         * ----------------------------------------------------------------
+         * Esta es la función PURA que hace los cálculos matemáticos.
+         * No sabe nada de HTML ni de inputs, solo recibe números y devuelve un número.
+         */
+        function calcularPotencia(base, exponente) {
+            
+            // --- CASO BASE (El Freno) ---
+            // Si el exponente es 0, paramos.
+            // Devolvemos 1 porque cualquier número elevado a 0 es 1.
+            // (Si devolviéramos 0, al multiplicar el resultado final sería 0).
+            if (exponente === 0) {
+                return 1;
+            }
+
+            // --- CASO RECURSIVO (El Bucle) ---
+            // Multiplicamos la base por el resultado de llamar a la función
+            // otra vez, pero con un exponente más pequeño (exponente - 1).
+            // Ejemplo: 2^3 = 2 * (2^2)
+            return base * calcularPotencia(base, exponente - 1);
+        }
+
+
+        /**
+         * FUNCIÓN 2: gestionarCalculo()
+         * ----------------------------------------------------------------
+         * Esta función sirve de PUENTE entre el HTML y la lógica matemática.
+         * Se ejecuta cuando haces clic en el botón.
+         */
+        function gestionarCalculo() {
+            // 1. Obtener lo que el usuario escribió en las cajas (inputs)
+            // Usamos 'document.getElementById(...).value'
+            let valorBase = document.getElementById("inputBase").value;
+            let valorExp = document.getElementById("inputExponente").value;
+
+            // 2. Convertir texto a números enteros
+            // Lo que viene del HTML siempre es texto, hay que pasarlo a números (parseInt)
+            // para poder hacer matemáticas.
+            let numeroBase = parseInt(valorBase);
+            let numeroExp = parseInt(valorExp);
+
+            // 3. Validar que no estén vacíos
+            if (isNaN(numeroBase) || isNaN(numeroExp)) {
+                alert("Por favor, escribe números válidos en ambas casillas.");
+                return; // Cortamos la ejecución aquí si hay error
+            }
+
+            // 4. Validar que el exponente no sea negativo (para este ejercicio básico)
+            // La recursividad simple se rompería con negativos (bucle infinito hacia abajo).
+            if (numeroExp < 0) {
+                alert("Para este ejercicio, usa exponentes positivos o 0.");
+                return;
+            }
+
+            // 5. ¡LLAMADA A LA RECURSIVIDAD!
+            // Aquí usamos la función matemática que definimos arriba.
+            let resultadoFinal = calcularPotencia(numeroBase, numeroExp);
+
+            // 6. Mostrar el resultado en la pantalla
+            console.log("Calculando: " + numeroBase + " elevado a " + numeroExp + " = " + resultadoFinal);
+            document.getElementById("resultadoTexto").innerText = resultadoFinal;
+        }
+
+    </script>
+</body>
+</html>

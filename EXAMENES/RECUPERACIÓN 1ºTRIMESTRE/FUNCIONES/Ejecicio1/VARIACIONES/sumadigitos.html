@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Examen 6: Suma de Dígitos</title>
+</head>
+<body>
+    <h1>Suma de Dígitos Recursiva</h1>
+    <p>Si escribes 452, calculará 4+5+2.</p>
+
+    <input type="number" id="numInput" placeholder="Ej: 452">
+    <button onclick="calcular()">Sumar Cifras</button>
+    
+    <h3 id="txtResultado"></h3>
+
+    <script>
+        // --- FUNCIÓN MATEMÁTICA ---
+        function sumarDigitos(n) {
+            // CASO BASE: Si el número es menor que 10, ya solo queda una cifra.
+            // La devolvemos directamente.
+            if (n < 10) {
+                return n;
+            }
+
+            // CASO RECURSIVO:
+            // 1. Cogemos el último dígito (n % 10)
+            // 2. Sumamos el resultado de llamar a la función con el resto (n / 10)
+            // Math.floor es necesario para quitar decimales.
+            return (n % 10) + sumarDigitos(Math.floor(n / 10));
+        }
+
+        // --- FUNCIÓN DEL BOTÓN ---
+        function calcular() {
+            let valor = parseInt(document.getElementById("numInput").value);
+
+            if (isNaN(valor) || valor < 0) {
+                alert("Pon un número entero positivo.");
+                return;
+            }
+
+            let total = sumarDigitos(valor);
+            document.getElementById("txtResultado").innerText = "La suma es: " + total;
+        }
+    </script>
+</body>
+</html>
