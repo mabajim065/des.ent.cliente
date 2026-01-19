@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ejercicio tipos de datos</title>
+</head>
+<body>
+    <h1>Ejercicio de tipos de datos</h1>
+    <div id="cadenaMayor"></div>
+    <br>
+    <div id="operacionBooleanos"></div>
+    <br>
+    <div id="operacionNumericos"></div>
+    <br>
+    <div id="arrayOrdenado"></div>
+
+<script>
+    // aviso de lo que se va a pedir
+    alert("Vas a introducir 6 valores: 2 booleanos (true/false), 2 numeros y 2 cadenas (texto).");
+
+    // aqui guardo si los datos estan bien y el array
+    let elementosCorrectos = false;
+    let elementos = [];
+
+    // bucle hasta que el usuario meta los valores bien
+    while (!elementosCorrectos) {
+        let entrada = prompt("Introduce 6 valores separados por comas. Ejemplo: true,false,23,12,hola,adios");
+
+        // si pulsa cancelar meto unos valores por defecto
+        if (entrada === null) {
+            alert("Entrada cancelada. Se usaran valores por defecto.");
+            elementos = ["true","false","10","5","hola","adios"];
+            elementosCorrectos = true;
+        } else {
+            // separo los valores y quito espacios
+            elementos = entrada.split(",").map(e => e.trim());
+
+            // compruebo que haya 6 y que ninguno este vacio
+            if (elementos.length === 6 && !elementos.includes("")) {
+                let booleanos = [];
+                let numeros = [];
+                let cadenas = [];
+
+                // aqui separo cada tipo de dato
+                for (let i = 0; i < elementos.length; i++) {
+                    let e = elementos[i].toLowerCase();
+                    if (e === "true" || e === "false") {
+                        booleanos.push(e);
+                    } else if (!isNaN(e)) {
+                        numeros.push(Number(e));
+                    } else {
+                        cadenas.push(elementos[i]);
+                    }
+                }
+
+                // si hay 2 de cada tipo ya esta bien
+                if (booleanos.length === 2 && numeros.length === 2 && cadenas.length === 2) {
+                    elementosCorrectos = true;
+                } else {
+                    alert("Debes poner exactamente 2 booleanos, 2 numeros y 2 textos.");
+                }
+            } else {
+                alert("Debes introducir 6 valores separados por comas y sin dejar vacios.");
+            }
+        }
+    }
+
+    // vuelvo a separar los tipos para usarlos despues
+    let booleanos = [];
+    let numeros = [];
+    let cadenas = [];
+
+    for (let i = 0; i < elementos.length; i++) {
+        let e = elementos[i].toLowerCase();
+        if (e === "true" || e === "false") {
+            booleanos.push(e);
+        } else if (!isNaN(e)) {
+            numeros.push(Number(e));
+        } else {
+            cadenas.push(elementos[i]);
+        }
+    }
+
+    // miro cual texto es mayor
+    let textoMayor;
+    if (cadenas[0] > cadenas[1]) {
+        textoMayor = cadenas[0];
+    } else {
+        textoMayor = cadenas[1];
+    }
+    document.getElementById("cadenaMayor").innerHTML = "El texto mayor es: " + textoMayor;
+
+    let b1;
+    if (booleanos[0] === "true") {
+        b1 = true;
+    } else {
+        b1 = false;
+    }
+
+    let b2;
+    if (booleanos[1] === "true") {
+        b2 = true;
+    } else {
+        b2 = false;
+    }
+
+    // hago operaciones AND y OR
+    let andResultado;
+    if (b1 && b2) {
+        andResultado = true;
+    } else {
+        andResultado = false;
+    }
+
+    let orResultado;
+    if (b1 || b2) {
+        orResultado = true;
+    } else {
+        orResultado = false;
+    }
+
+    document.getElementById("operacionBooleanos").innerHTML = "AND: " + andResultado + "<br>OR: " + orResultado;
+
+    // hago suma y resta
+    let suma = numeros[0] + numeros[1];
+    let resta = numeros[0] - numeros[1];
+    document.getElementById("operacionNumericos").innerHTML = "Suma: " + suma + " | Resta: " + resta;
+
+</script>
+</body>
+</html>

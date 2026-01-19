@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ejercicio de bucles</h1>
+    <div id="resultado"></div>
+    <script>
+        // Enu nciado:
+        // Escribe en javascript un programa que pida un numero por teclado y con el contruir el siguiente patron usando bucles
+        // Por ejemplo si introducimos 5 se de pintar:
+        // * * * * *
+        //   * * * *
+        //     * * *
+        //       * *
+        //         *
+        
+        // Le pedimos al usuario un númer
+        let numero = parseInt(prompt("Introduce un numero:"));
+
+        // Recorremos desde 0 hasta el número introducido
+        for (let i = 0; i < numero; i++) {
+        
+        // Creamos una variable vacia para guardar la linea
+        let linea = "";
+
+        console.log("Linea " + (i + 1));
+        
+        // Añadimos los asteriscos que faltan en cada fila con un espacio tambien
+        for (let k = i; k < numero; k++) {
+            linea += "* ";
+        }
+        
+        // Mostramos la línea en el documento
+        document.getElementById("resultado").innerHTML += linea + "<br>";
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gestión de Modulos</h1>
+    
+    <div id="totalModulos"></div>
+
+    <div id="tablaModulo"></div>
+
+    <div id="abreviaturaModulos"></div>
+
+    <br>
+    <button id="mostrarTotalModulos">Total Modulos</button>
+    <button id="mostrarModulos">Mostrar Modulos</button>
+    <button id="mostrarAbreviaturas">Mostrar Abreviaturas</button>
+    <button id="comprobarSiEstaDaw">Esta DAW?</button>
+    
+    <script>
+        // Enunciado
+        // Utiliza la estructura de map para almacenar informacion sobre modulos impartidos en segundo de DAW
+        // en el ies mar de cadiz (como minimo debes incluir 4 modulos).
+        // no estan permitidas las conversiones de tipos de mapas a otras estructuras.
+        // Por ejemplo: ("DWEC", "Desarrollo web en entorno cliente")
+        // Añade la informacion con posterioridad a la creacion de la estructura:
+        // a) Muestra cuantos modulos hay almacenados
+        // b) Muestra el contenido de la estructura 
+        // c) Devuelve ñas abreviaturas de todos los modulos gurdados
+        // d) Devuelve el nombre completo de todos los modulos.
+        // e) consulta si esta el modulo "DAW"
+        // f) si no esta, cambia el nombre completo de todos los modulo añadiendo un 2 al final
+        // g) si esta, eliminalo y vuelve a mostrar todos los modulos para comprobar el borrado
+        /*
+        3.Almacenar en un Map los nombres de ciudades como clave y la cantidad de habitantes como
+        valores. Mostrar en una lista HTML que se debe crear en forma dinámica inmediatamente luego que
+        se carga la página.
+        Se debe implementar estas opciones
+        1. El usuario puede ver todas las ciudades y sus habitantes
+        */
+
+        // Creamos el Map con los modulos
+        const modulos = new Map([
+            ["DWEC", "Desarrollo web en entorno cliente"],
+            ["DWES", "Desarrollo web en entorno servidor"],
+            ["ING", "Ingles"],
+            ["DISINWEB", "Diseño de interfaces web"],
+            ["DAWEB", "Despliegue de aplicaciones web"]
+        ]);
+
+        const botonMostrarModulos = document.getElementById("mostrarModulos");
+        const botonMostrarTotalModulos = document.getElementById("mostrarTotalModulos");
+        const botonMostrarAbreviaturas = document.getElementById("mostrarAbreviaturas");
+        const botonComprobar = document.getElementById("comprobarSiEstaDaw");
+
+        // b) Mostramos el contenido de la estructura
+        function mostrarModulos() {
+             // Inicializamos la tabla con los encabezados
+            let tablaHTML = "<table><thead><tr><th>Siglas</th><th>Nombre Completo</th></tr></thead><tbody>";
+
+            // Recorremos todas las ciudades del Map
+            modulos.forEach((nombreCompleto, siglas) => {
+                // Por cada elemento, metemos una fila (<tr>) con dos celdas (<td>)
+                    tablaHTML += "<tr>";
+                    tablaHTML += "<td>" + siglas + "</td>"; 
+                    tablaHTML += "<td>" + nombreCompleto + "</td>";
+                    tablaHTML += "</tr>";
+            });
+
+            // Cerramos la tabla y la mostramos en el HTML
+            tablaHTML += "</tbody></table>";
+            document.getElementById("tablaModulo").innerHTML = tablaHTML;
+        }
+
+        // a) Mostrar cuantos modulos hay almacenados
+        function totalModulos() {
+            // Obtenemos cuántas ciudades hay en el Map con .size
+            let totalModulos = modulos.size;
+            // Mostramos el total en el HTML
+            document.getElementById("totalModulos").innerHTML = "El total de módulos que existen son: " + totalModulos + "<br><br>";
+        }
+        
+        // c) Devuelve las abreviaturas de todos los modulos guardados
+        function abreviaturaModulos() {
+            let abreviaturas = "Abreviaturas de los módulos: ";
+            // Recorremos todas las ciudades del Map
+            modulos.forEach((nombreCompleto, siglas) => {
+                abreviaturas += siglas + ", ";
+            });
+            // Mostramos las abreviaturas en el HTML
+            document.getElementById("abreviaturaModulos").innerHTML =  "<br>" + abreviaturas;
+        }
+
+        // e) Comprobar si el modulo DAW esta en el Map, si no esta cambiar el nombre completo de todos los modulos
+        // añadiendo un 2 al final
+        function comprobarSiEstaDaw() {
+            // Si el Map tiene la clave "DAW"
+            if (modulos.has("DAW")) {
+                // Mostramos un mensaje
+                alert("El módulo DAW está en el mapa.");
+                // f) Cambiamos el nombre completo del modulo añadiendo un 2 al final
+                let nombreActual = modulos.get("DAW");
+                modulos.delete("DAW");
+                // Actualizamos la tabla para ver el cambio
+                mostrarModulos();
+                abreviaturaModulos();
+                totalModulos();
+                listaModulos();
+            } else {
+                alert("El módulo DAW no está en el mapa.");
+                // Cambiamos el nombre completo de todos los módulos añadiendo un 2 al final
+                modulos.forEach((nombreCompleto, siglas) => {
+                    modulos.set(siglas, nombreCompleto + " 2");
+                });
+                // Actualizamos la tabla para ver el cambio
+                mostrarModulos();
+                listaModulos();
+            }
+        }
+        // Llamamos a las funciones para que todo se muestre al cargar la página
+        botonMostrarModulos.addEventListener('click', mostrarModulos);
+        botonMostrarTotalModulos.addEventListener('click', totalModulos);
+        botonMostrarAbreviaturas.addEventListener('click', abreviaturaModulos);
+        botonComprobar.addEventListener('click', comprobarSiEstaDaw);
+
+    </script>
+</body>
+</html>
