@@ -26,8 +26,8 @@
         let intentos = 1; // Número de letras que se muestran
         let acertado = false; // Controla si el usuario gana
         while (!acertado && intentos <= palabraSecreta.length) {
-            // Mostramos pista parcial
-            let pista = palabraSecreto.substring(0, intentos);
+            // Mostramos pista poco a poco
+            let pista = palabraSecreta.substring(0, intentos);
             let intentoUsuario = prompt(
                 "Pista: " + pista + "\nIntroduce la palabra completa:"
             ).toUpperCase();
