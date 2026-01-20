@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Var 2: Objetos</title>
+</head>
+<body>
+    <h2>Ejercicio 3 - Var 2: Filtrar y Transformar Objetos</h2>
+    <p>Filtra animales peligrosos y devuelve solo sus nombres en mayúscula.</p>
+    <pre id="resultado"></pre>
+
+    <script>
+        const filtrarYTransformar = (arr, filtro, transformacion) => {
+            
+            const filtrados = arr.filter(filtro);
+            const resultado = filtrados.map(transformacion);
+            return resultado;
+        };
+
+        // DATOS DE PRUEBA (Objetos)
+        const animales = [
+            { palabra: "León", peligroso: true },
+            { PALA: "Oveja", peligroso: false },
+            { nombre: "Tigre", peligroso: true }
+        ];
+
+        // 1. FILTRO: Recibe un objeto 'a', devuelve true si es peligroso
+        const esPeligroso = a => a.peligroso === true;
+
+        // 2. TRANSFORMACIÓN: Recibe objeto 'a', devuelve SOLO el nombre en mayúsculas
+        // TRAMPA: Aquí cambiamos de Objeto -> String
+        const obtenerNombreGritando = a => a.nombre.toUpperCase() + "!!!";
+
+        const final = filtrarYTransformar(animales, esPeligroso, obtenerNombreGritando);
+
+        document.getElementById("resultado").innerText = JSON.stringify(final);
+        // Salida esperada: ["LEÓN!!!", "TIGRE!!!"]
+    </script>
+</body>
+</html>

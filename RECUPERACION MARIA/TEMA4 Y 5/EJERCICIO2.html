@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ejercicio 2</title>
+</head>
+<body>
+    <h2>Ejercicio 2 Filtrar y Transformar palabras</h2>
+    <p> Quédate solo con las palabras que tengan más de 5 letras.
+</p>
+    <pre id="resultado"></pre>
+
+    <script>
+        const filtrarYTransformar = (arr, filtro, transformacion) => {
+            
+            const filtrados = arr.filter(filtro);
+            const resultado = filtrados.map(transformacion);
+            return resultado;
+        };
+
+        // hacemos el array con los datos 
+        const palabras = [
+            { nombre: "casa", letrasmas5: false },
+            { nombre: "revolucion", letrasmas5: true },
+            { nombre: "sol", letrasmas5: true },
+            { nombre: "elefante", letrasmas5: true },
+            { nombre: "luz", letrasmas5: false },
+            { nombre: "teclado", letrasmas5: true }
+        ];
+
+        // veo si tiene mas de 5 letras
+        const masde5 = a => a.letrasmas5 === true;
+
+        const obtenernombremayus = a => a.nombre.toUpperCase() ;
+
+        const final = filtrarYTransformar(palabras, masde5, obtenernombremayus);
+
+        document.getElementById("resultado").innerText = JSON.stringify(final);
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ejercicio 2</title>
+</head>
+<body>
+    <h2>sacar solo los numeros de un array</h2>
+    
+</p>
+    <pre id="resultado"></pre>
+
+    <script>
+        const filtrarYTransformar = (arr, filtro, transformacion) => {
+            
+            const filtrados = arr.filter(filtro);
+            const resultado = filtrados.map(transformacion);
+            return resultado;
+        };
+
+        // hacemos el array con los datos 
+        const palabras = [
+            { nombre: "web" },
+            { num: 10},
+            { nombre: "true" },
+            { nombre: "cliente" },
+            { num: 30 },
+            { num: 20 }
+        ];
+
+        // veo si tiene mas de 5 letras
+        const esnumero = a => a.num === num;
+
+        const obtenernombremayus = a => a.nombre.toUpperCase() ;
+
+       let nummayor;
+    if (cadenas[0] > cadenas[1]) {
+        nummayor = cadenas[0];
+    } else {
+        nummayor = cadenas[1];
+    }
+    document.getElementById("cadenaMayor").innerHTML = "El numero  mayor es: " + nummayor;
+
+
+        document.getElementById("resultado").innerText = JSON.stringify(final);
+        
+    </script>
+</body>
+</html>

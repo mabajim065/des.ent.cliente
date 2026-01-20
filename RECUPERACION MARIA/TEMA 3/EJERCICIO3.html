@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gestión de Modulos</h1>
+    
+    <div id="totalModulos"></div>
+
+    <div id="tablaModulo"></div>
+
+    <div id="abreviaturaModulos"></div>
+
+    <br>
+
+    <button id="mostrarModulos">Mostrar Modulos</button>
+ 
+    
+    <script>
+       
+        // Creamos el Map con los productos
+       const modulos = new Map([
+            ["producto 1", "ropa" , "15,99", "p01"],
+            ["producto 2", "cosmetica", "20,35", "p02"],
+            ["producto  3", "ropa", "675,9","p03"],
+            ["producto 4", "comida", "1,99","p04"],
+            ["producto 5", "cosmetica", "9,99", "p05"]
+        ]);
+
+        const botonMostrarModulos = document.getElementById("mostrarModulos");
+      
+
+        // b) Mostramos el contenido de la estructura
+        function mostrarproductos() {
+             // Inicializamos la tabla con los encabezados
+            let tablaHTML = "<table><thead><tr><th>nombre</th><th>categoria</th><th>precio</th><th>id</th></tr></thead><tbody>";
+
+            // Recorremos todos los productosn del map
+            modulos.forEach((categoria, nombre, precio, id ) => {
+                
+                    tablaHTML += "<tr>";
+                    tablaHTML += "<td>" + nombre + "</td>"; 
+                    tablaHTML += "<td>" + categoria + "</td>";
+                    tablaHTML += "<td>" + precio + "</td>";
+                    tablaHTML += "<td>" + id + "</td>";
+
+                    tablaHTML += "</tr>";
+            });
+
+            // Cerramos la tabla y la mostramos en el HTML
+            tablaHTML += "</tbody></table>";
+            document.getElementById("tablaModulo").innerHTML = tablaHTML;
+        }
+        botonMostrarModulos.addEventListener('click', mostrarproductos);
+       
+    </script>
+</body>
+</html>

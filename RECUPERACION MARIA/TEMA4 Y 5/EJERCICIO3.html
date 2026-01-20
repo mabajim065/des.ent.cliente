@@ -1,0 +1,119 @@
+<html>
+
+<body>
+
+    <h1>Juego: el aorcado</h1>
+
+    <div id="fase-registro">
+        <p>Introduce 6 plabras que tu quieras para jugar:</p>
+        <input type="text" id="inputpalabra">
+        <p> dime su numero de letras</p>
+        <input type="number" id="inputnumber">
+        <button onclick="agregarCapital()">Guardar</button>
+
+        <p id="mensaje-error"></p>
+    </div>
+
+    <div id=" fase-juego">
+        <p>Adivina la palabra del aorcado</p>
+        <!-- caja para la pista  q sino no la puestra-->
+        <div id="pista-box"></div>
+        <br>
+        <input type="text" id="inputIntento" placeholder="escribela aqui">
+        <button onclick="comprobarIntento()">Adivinar</button>
+        <p id="mensaje-juego"></p>
+    </div>
+</body>
+<script>
+    // Variables que tengo que tengo que usar 
+    let palabras = [];
+    let palabrasecreta = "";
+    
+    let intentosFallidos = 0;
+
+    
+    function agregarCapital() {
+        let input = document.getElementById("inputpalabra");
+        
+        let nombre = input.value.trim();
+
+        
+        let mensajeError = document.getElementById("mensaje-error");
+
+        
+        if (nombre.length < 0) {
+            mensajeError.innerText = "Error, no has escrito nada ";
+            return;
+        }
+
+        mensajeError.innerText = "";
+        palabras.push(nombre);
+        input.value = "";
+
+        // una vezzz ya hemos metido 6 palabras iniciamos el juego
+        if (palabras.length === 6) {
+            iniciarJuego();
+        }
+    }
+
+
+    function iniciarJuego() {
+        
+        for (let i = 0; i < palabras.length; i++) {
+            palabras[i] = palabras[i].toLowerCase();
+        }
+
+      
+        let indiceAleatorio = Math.floor(Math.random() * palabras.length);
+        palabrasecreta = palabras[indiceAleatorio];
+
+        
+        document.getElementById("fase-registro").style.display = "none";
+        document.getElementById("fase-juego").style.display = "block";
+
+        
+        document.getElementById("pista-box").innerText = "_ ".repeat(palabrasecreta.length);
+    }
+
+    function comprobarIntento() {
+        let respuesta = document.getElementById("inputIntento").value.toLowerCase();
+        let mensaje = document.getElementById("mensaje-juego");
+
+        
+        if (respuesta === palabrasecreta) {
+            let textoPremio = 0;
+            
+            if (intentosFallidos === 0) {
+                textoPremio = 0;
+            }
+            else if (intentosFallidos === 1) {
+                textoPremio = 0;
+            }
+            else if (intentosFallidos === 2) {
+                textoPremio = 0;
+            }
+
+            alert("muy bien has acertado" + textoPremio);
+            location.reload();
+            return;
+        }
+
+        intentosFallidos++;
+
+       
+        if (intentosFallidos >= palabrasecreta.length) {
+            alert("has perdidio. La capital era: " + palabrasecreta);
+            location.reload();
+        } else {
+           
+            let parteVisible = palabrasecreta.substring(0, intentosFallidos);
+            
+            let guionesRestantes = "_ ".repeat(palabrasecreta.length - intentosFallidos);
+           
+            document.getElementById("pista-box").innerText = parteVisible + guionesRestantes;
+            mensaje.innerText = "Incorrecto. Intento #" + (intentosFallidos + 1);
+        }
+    }
+</script>
+
+</html>
