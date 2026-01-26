@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Validación de Escenarios Laborales</title>
+</head>
+
+<body>
+
+    <h2>Registro de Producto</h2>
+
+    <div class="campo">
+        <label>Código de Producto (Ej: PAN-0045):</label>
+        <input type="text" id="codigoInput" placeholder="MAY-0000">
+        <p id="msgCodigo"></p>
+    </div>
+
+    <div class="campo">
+        <label>Fecha (DD/MM/AAAA):</label>
+        <input type="text" id="fechaInput" placeholder="31/12/2023">
+        <div class="resultado">
+            <strong>Formato para MySQL:</strong> <span id="fechaMySQL">-</span>
+        </div>
+    </div>
+
+    <script>
+
+        const inputCod = document.getElementById('codigoInput');
+        const regexCod = /^[A-Z]{3}-\d{4}$/;
+
+        inputCod.addEventListener('input', () => {
+            if (regexCod.test(inputCod.value)) {
+                inputCod.style.borderColor = "green";
+            } else {
+                inputCod.style.borderColor = "red";
+            }
+        });
+
+
+        const inputFecha = document.getElementById('fechaInput');
+        const outputFecha = document.getElementById('fechaMySQL');
+        const regexFecha = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+        inputFecha.addEventListener('input', () => {
+            const valor = inputFecha.value;
+            if (regexFecha.test(valor)) {
+                // Aplicamos el reemplazo usando los grupos de captura
+                const fechaTransformada = valor.replace(regexFecha, '$3-$2-$1');
+                outputFecha.textContent = fechaTransformada;
+            } else {
+                outputFecha.textContent = "Esperando formato correcto...";
+            }
+        });
+    </script>
+
+</body>
+
+</html>
