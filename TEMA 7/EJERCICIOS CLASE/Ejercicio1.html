@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Notas - Estilo Original</title>
+    <style>
+        
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background-color: #f4f7f6; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        
+        .form-group { margin-bottom: 10px; }
+        input[type="text"], input[type="number"], input[type="tel"] { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        
+        .botones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+        button { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; min-width: 120px; }
+        
+        .btn-add { background-color: #007bff; }
+        .btn-download { background-color: #28a745; }
+        .btn-upload { background-color: #fd7e14; }
+        .btn-clear { background-color: #dc3545; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        .suspenso { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gestor de Alumnos</h2>
+    
+    <form id="formAlumno">
+        <div class="form-group">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="text" id="apellidos" placeholder="Apellidos" required>
+        </div>
+        
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <input type="number" id="edad" placeholder="Edad" min="1" required style="flex: 1;">
+            <input type="number" id="nota" placeholder="Nota (0-10)" min="0" max="10" step="0.1" required style="flex: 1;">
+        </div>
+
+        <div class="form-group">
+            <input type="tel" id="movil" placeholder="Móvil (6XXXXXXXX)" 
+                   pattern="^6\d{8}$" maxlength="9" 
+                   title="Debe empezar por 6 y tener 9 dígitos" required>
+        </div>
+
+        <div class="botones">
+            <button type="submit" class="btn-add">💾 Guardar</button>
+            <button type="button" id="btnBorrar" class="btn-clear">🗑️ Borrar Todo</button>
+        </div>
+    </form>
+    
+    <hr>
+
+    <div class="botones">
+        <button type="button" onclick="descargarJSON()" class="btn-download">⬇️ Descargar JSON</button>
+        <button type="button" onclick="document.getElementById('inputArchivo').click()" class="btn-upload">⬆️ Cargar JSON</button>
+        <input type="file" id="inputArchivo" accept=".json" style="display: none;">
+    </div>
+
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Nota</th>
+                <th>Móvil</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+    </table>
+</div>
+
+<script>
+    // 1. Cargar datos del LocalStorage [cite: 307, 327]
+    let alumnos = JSON.parse(localStorage.getItem('alumnos_db')) || [];
+    const cuerpo = document.getElementById('cuerpo');
+
+    renderizar();
+
+    // 2. Lógica de Guardado (Síncrono)
+    document.getElementById('formAlumno').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nuevo = {
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value,
+            edad: document.getElementById('edad').value,
+            nota: parseFloat(document.getElementById('nota').value),
+            movil: document.getElementById('movil').value
+        };
+        
+        alumnos.push(nuevo);
+        guardarYSincronizar(); // Guarda y actualiza la lista abajo [cite: 318, 326]
+        this.reset();
+    });
+
+    // 3. Descargar JSON (Serialización) [cite: 342, 345, 362]
+    function descargarJSON() {
+        const datosStr = JSON.stringify(alumnos, null, 2);
+        const blob = new Blob([datosStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "notas_alumnos.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // 4. Cargar JSON (FileReader con eventos, sin async) [cite: 373, 381, 382]
+    document.getElementById('inputArchivo').addEventListener('change', function(e) {
+        const archivo = e.target.files[0];
+        if (!archivo) return;
+
+        const lector = new FileReader();
+        lector.onload = function(evento) {
+            try {
+                alumnos = JSON.parse(evento.target.result);
+                guardarYSincronizar();
+            } catch (err) {
+                alert("Error al cargar el archivo JSON.");
+            }
+        };
+        lector.readAsText(archivo);
+        e.target.value = ''; 
+    });
+
+    // Utilidades
+    function guardarYSincronizar() {
+        localStorage.setItem('alumnos_db', JSON.stringify(alumnos));
+        renderizar();
+    }
+
+    function renderizar() {
+        cuerpo.innerHTML = ""; // Limpiar antes de pintar
+        alumnos.forEach((alum) => {
+            const tr = document.createElement('tr');
+            const claseNota = alum.nota < 5 ? 'suspenso' : ''; // Estilo condicional original [cite: 69]
+
+            tr.innerHTML = `
+                <td>${alum.nombre} ${alum.apellidos}</td>
+                <td class="${claseNota}">${alum.nota}</td>
+                <td>${alum.movil}</td>
+                <td>${alum.nota >= 5 ? 'Aprobado' : 'Suspenso'}</td>
+            `;
+            cuerpo.appendChild(tr);
+        });
+    }
+
+    document.getElementById('btnBorrar').addEventListener('click', () => {
+        if(confirm("¿Borrar todo?")) {
+            alumnos = [];
+            guardarYSincronizar(); 
+        }
+    });
+</script>
+
+</body>
+</html>
