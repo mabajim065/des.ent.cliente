@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2 - Catálogo</title>
+</head>
+<body>
+    <h2>Catálogo de Productos</h2>
+    
+    <button id="btnCargar">Cargar todos los productos</button>
+    <button id="btnFiltrar">Filtrar por stock bajo ( < 10 )</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Marca</th>
+            </tr>
+        </thead>
+        <tbody id="listaProductos"></tbody>
+    </table>
+
+    <script>
+        let productosMemoria = []; // Guardamos los productos aquí para filtrar luego 
+        const cuerpo = document.getElementById('listaProductos');
+
+        // 1. Función async para obtener productos [cite: 12]
+        async function obtenerProductos() {
+            try {
+                const res = await fetch('https://dummyjson.com/products'); 
+                if (!res.ok) throw new Error("Error en la red"); 
+                
+                const datos = await res.json(); 
+                productosMemoria = datos.products; // El JSON tiene un array llamado "products" 
+                pintarTabla(productosMemoria);
+            } catch (error) {
+                console.error("Fallo al cargar:", error); 
+        }
+        }
+
+        // 2. Función para pintar la tabla 
+        function pintarTabla(lista) {
+            cuerpo.innerHTML = ""; // Limpiar tabla 
+            lista.forEach(p => {
+                const fila = `<tr>
+                    <td>${p.title}</td>
+                    <td>${p.price}€</td>
+                    <td>${p.stock}</td>
+                    <td>${p.brand || 'N/A'}</td>
+                </tr>`;
+                cuerpo.innerHTML += fila;
+            });
+        }
+
+        // 3. Lógica del botón de filtro 
+        document.getElementById('btnFiltrar').addEventListener('click', () => {
+            const bajoStock = productosMemoria.filter(p => p.stock < 10);
+            pintarTabla(bajoStock);
+        });
+
+        document.getElementById('btnCargar').addEventListener('click', obtenerProductos);
+    </script>
+</body>
+</html>

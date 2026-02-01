@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Buscador</title>
+</head>
+<body>
+    <h2>Buscador de Productos</h2>
+
+    <input type="text" id="inputBusqueda" placeholder="Escribe un producto (ej: phone)">
+    <button id="btnBuscar">Buscar</button>
+
+    <div id="mensajeError" style="color: red;"></div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Descuento</th>
+            </tr>
+        </thead>
+        <tbody id="resultadosBusqueda"></tbody>
+    </table>
+
+    <script>
+        const btn = document.getElementById('btnBuscar');
+        const input = document.getElementById('inputBusqueda');
+        const tabla = document.getElementById('resultadosBusqueda');
+        const errorDiv = document.getElementById('mensajeError');
+
+        // 2. Función de búsqueda con fetch
+        async function buscar() {
+            const valor = input.value;
+            errorDiv.innerText = ""; 
+            tabla.innerHTML = "";
+
+            try {
+                // URL con parámetro de búsqueda [cite: 17]
+                const res = await fetch(`https://dummyjson.com/products/search?q=${valor}`);
+                const datos = await res.json();
+
+                // 4. Reto: Si no hay resultados 
+                if (datos.products.length === 0) {
+                    errorDiv.innerText = "No se encontraron productos que coincidan con tu búsqueda";
+                    return;
+                }
+
+                // 3. Pintar resultados 
+                datos.products.forEach(p => {
+                    const fila = `<tr>
+                        <td><img src="${p.thumbnail}" width="50"></td>
+                        <td>${p.title}</td>
+                        <td>${p.description.substring(0, 50)}...</td>
+                        <td>${p.discountPercentage}%</td>
+                    </tr>`;
+                    tabla.innerHTML += fila;
+                });
+
+            } catch (err) {
+                console.error("Error en la búsqueda:", err); 
+            }
+        }
+
+        btn.addEventListener('click', buscar);
+    </script>
+</body>
+</html>

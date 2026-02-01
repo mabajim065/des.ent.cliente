@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1 - PokeAPI</title>
+</head>
+<body>
+
+    <h2>Mi Equipo Pokémon</h2>
+    
+    <button id="btnCargar">Cargar Equipo</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Experiencia Base</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPokemon"></tbody>
+    </table>
+
+    <script>
+        // 1. Crear un array de IDs
+        const equipoIds = [1, 4, 7, 25, 133, 150];
+        
+        const btn = document.getElementById('btnCargar');
+        const cuerpoTabla = document.getElementById('tablaPokemon');
+
+        // Función asíncrona para manejar las peticiones 
+        async function cargarEquipo() {
+            // Limpiamos la tabla antes de empezar
+            cuerpoTabla.innerHTML = "";
+
+            // 2. Recorrer el array con un bucle for...of 
+            for (const id of equipoIds) {
+                try {
+                    // 3. Dentro del bucle, usar await fetch para obtener los datos 
+                    // Obtenemos primero la respuesta y luego la desempaquetamos como JSON 
+                    const respuesta = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                    
+                    if (!respuesta.ok) throw new Error("No se pudo obtener el Pokémon");
+                    
+                    const pokemon = await respuesta.json(); 
+
+                    // 4. Añadir una fila a la tabla con foto, nombre y experiencia 
+                    const fila = `
+                        <tr>
+                            <td><img src="${pokemon.sprites.front_default}" alt="${pokemon.name}"></td>
+                            <td>${pokemon.name}</td>
+                            <td>${pokemon.base_experience}</td>
+                        </tr>
+                    `;
+                    cuerpoTabla.innerHTML += fila;
+
+                } catch (error) {
+                    console.error("Error al cargar Pokémon:", error);
+                }
+            }
+        }
+
+        // Evento al pulsar el botón 
+        btn.addEventListener('click', cargarEquipo);
+
+    </script>
+</body>
+</html>
