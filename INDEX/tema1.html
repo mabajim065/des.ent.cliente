@@ -1,45 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tema 1 María Abascal Jiménez - Desarrollo de Aplicaciones Web." />
-    <meta name="author" content="María Abascal Jiménez" />
-    <title>Tema 1 - María Abascal Jiménez</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Quicksand:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../INDEX/temas.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 1 | Arquitecturas</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="temas.css"> 
 </head>
-
 <body>
 
-    <header>
-        <h1>TEMA 1: Selecciónde arquitecturas</h1>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-glass">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">M. Abascal<span style="color:#d68c9f">.</span></a>
+            <a href="../index.html" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver al Inicio
+            </a>
+        </div>
+    </nav>
+
+    <header class="container page-header">
+        <span class="badge bg-light text-dark border mb-2">Fundamentos</span>
+        <h1>Tema 1: Selección de Arquitecturas</h1>
+        <div class="divider"></div>
+        <p class="text-muted">Conceptos básicos y estructura inicial.</p>
     </header>
 
-    <main class="content">
-        <img src="../INDEX/imagenes/imagentema1.png" alt="imagen tema 1" />
+    <main class="container mb-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-4">
+                <div class="image-card sticky-top" style="top: 100px; z-index: 1;">
+                    <img src="imagenes/imagentema1.png" alt="Imagen Tema 1" class="img-fluid">
+                    <p class="mt-3 text-muted small fst-italic">Esquema de arquitecturas web</p>
+                </div>
+            </div>
 
-        <nav>
-            <ul>
-                <li><a href="../TEMA1/Ejercicios/html/ejercicio1.html">EJERCICIO 1</a></li>
-                <li><a href="../TEMA1/Ejercicios/html/Ejercicio2.html">EJERCICIO 2</a></li>
-                <li><a href="../TEMA1/Ejercicios/html/ejercicio3.html">EJERCICIO 3</a></li>
-                <li><a href="../TEMA1/Ejercicios/html/ejercicio4.html">EJERCICIO 4</a></li>
-                <li><a href="../TEMA1/Ejercicios/html/ejercicio5.html">EJERCICIO 5</a></li>
-                <li><a href="../TEMA1/Ejercicios/htmlTEMA1/ejemplos/Ejemplo2.html">EJEMPLO 2</a></li>
-                <li><a href="../index.html">INICIO</a></li>
-            </ul>
-        </nav>
+            <div class="col-lg-8">
+                <h3 class="h5 fw-bold mb-4">Listado de Prácticas</h3>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/html/ejercicio1.html" class="exercise-card">
+                            <i class="fa-regular fa-file-code exercise-icon"></i>
+                            <span class="exercise-title">Ejercicio 1</span>
+                            <span class="exercise-desc">Práctica inicial de estructura.</span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/html/Ejercicio2.html" class="exercise-card">
+                            <i class="fa-regular fa-file-code exercise-icon"></i>
+                            <span class="exercise-title">Ejercicio 2</span>
+                            <span class="exercise-desc">Continuación de fundamentos.</span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/html/ejercicio3.html" class="exercise-card">
+                            <i class="fa-regular fa-file-code exercise-icon"></i>
+                            <span class="exercise-title">Ejercicio 3</span>
+                            <span class="exercise-desc">Desarrollo de componentes.</span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/html/ejercicio4.html" class="exercise-card">
+                            <i class="fa-regular fa-file-code exercise-icon"></i>
+                            <span class="exercise-title">Ejercicio 4</span>
+                            <span class="exercise-desc">Estructuras avanzadas.</span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/html/ejercicio5.html" class="exercise-card">
+                            <i class="fa-regular fa-file-code exercise-icon"></i>
+                            <span class="exercise-title">Ejercicio 5</span>
+                            <span class="exercise-desc">Práctica final del bloque.</span>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <a href="../TEMA1/Ejercicios/htmlTEMA1/ejemplos/Ejemplo2.html" class="exercise-card border-warning">
+                            <i class="fa-solid fa-lightbulb exercise-icon text-warning"></i>
+                            <span class="exercise-title">Ejemplo 2</span>
+                            <span class="exercise-desc">Caso práctico de estudio.</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <footer>
+    <footer class="text-center text-muted small">
         &copy; 2025 María Abascal Jiménez 💖
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

@@ -1,105 +1,247 @@
+/* --- CONFIGURACIÓN Y VARIABLES --- */
 :root {
-    --rosa-principal: #f5cadc;
-    --rosa-oscuro: #d48daa;
-    --rosa-suave: #fef8fb;
-    --blanco: #ffffff;
-    --gris-texto: #343a40;
+    /* Paleta Rose Gold Professional */
+    --primary-rose: #d68c9f;       /* Rosa palo elegante */
+    --primary-gradient: linear-gradient(135deg, #d68c9f 0%, #b5657b 100%);
+    --bg-body: #fdfbfb;            /* Blanco cálido */
+    --text-dark: #2c3e50;          /* Azul grisáceo oscuro (más pro que el negro) */
+    --text-muted: #6c757d;
+    --white: #ffffff;
+    
+    /* Efectos */
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --shadow-soft: 0 10px 30px -10px rgba(214, 140, 159, 0.2);
+    --shadow-hover: 0 20px 40px -10px rgba(214, 140, 159, 0.3);
+    
+    /* Fuentes */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* GENERAL */
 body {
-    font-family: 'Quicksand', sans-serif;
-    background-color: var(--rosa-suave);
-    color: var(--gris-texto);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    animation: fadeIn 1s ease-in;
+    font-family: var(--font-body);
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    overflow-x: hidden;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* --- ANIMACIONES --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* HEADER */
-.header-custom {
-    background: linear-gradient(135deg, var(--rosa-principal), var(--blanco));
-    color: var(--gris-texto);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+.fade-in-up {
+    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0; /* Empieza invisible */
 }
 
-.header-custom h1 {
-    font-family: 'Playfair Display', serif;
-    color: var(--gris-texto);
-}
-
-.header-custom p {
-    color: rgba(0, 0, 0, 0.6);
-    font-weight: 500;
-}
-
-/* INTRO SECTION */
-.intro {
-    background-color: var(--blanco);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+/* --- NAVBAR (Barra de Navegación) --- */
+.navbar-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1rem 0;
     transition: all 0.3s ease;
 }
 
-.intro:hover {
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
-    transform: translateY(-3px);
+.navbar-brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.navbar-brand .dot {
+    color: var(--primary-rose);
+    font-size: 2rem;
+    line-height: 0;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    min-height: 90vh; /* Ocupa casi toda la pantalla */
+    padding-top: 80px;
+    position: relative;
+    background: radial-gradient(circle at top right, #fff0f5 0%, transparent 40%);
+}
+
+.hero-text h1 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+    color: var(--text-dark);
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+}
+
+.badge-custom {
+    background-color: rgba(214, 140, 159, 0.15);
+    color: #b5657b;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Imagen con fondo abstracto */
+.blob-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background: var(--primary-rose);
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+    filter: blur(40px);
 }
 
 .profile-img {
-    width: 240px;
-    height: 240px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border-radius: 50%; /* Círculo perfecto */
+    border: 5px solid var(--white);
+    box-shadow: var(--shadow-soft);
+    z-index: 1;
+    transition: transform 0.3s ease;
 }
 
 .profile-img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(212, 141, 170, 0.3);
+    transform: scale(1.02);
 }
 
-/* BOTONES */
-.btn-custom {
-    background: linear-gradient(135deg, var(--rosa-oscuro), var(--rosa-principal));
-    color: var(--blanco);
-    border: none;
-    border-radius: 50px;
+/* --- BOTONES --- */
+.btn {
+    padding: 12px 28px;
+    border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-.btn-custom:hover {
-    background: var(--rosa-principal);
-    color: var(--gris-texto);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+.btn-primary-custom {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(214, 140, 159, 0.4);
 }
 
-/* FOOTER */
-.footer-custom {
-    background-color: var(--blanco);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(214, 140, 159, 0.5);
+    color: white;
+}
+
+.btn-outline-custom {
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    color: var(--text-dark);
+}
+
+.btn-outline-custom:hover {
+    background: white;
+    border-color: var(--primary-rose);
+    color: var(--primary-rose);
+}
+
+/* --- TARJETAS DE PROYECTOS --- */
+.section-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.03);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(214, 140, 159, 0.2);
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    background: rgba(214, 140, 159, 0.1);
+    color: var(--primary-rose);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+.link-arrow {
+    text-decoration: none;
+    color: var(--text-dark);
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.7);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    transition: gap 0.2s ease;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
+.link-arrow:hover {
+    color: var(--primary-rose);
+    gap: 12px; /* La flecha se mueve al hacer hover */
+}
+
+/* Tarjeta deshabilitada (para futuros temas) */
+.disabled-card {
+    opacity: 0.6;
+    background: #f9f9f9;
+    box-shadow: none;
+    cursor: default;
+}
+.disabled-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- FOOTER --- */
+.text-pink {
+    color: var(--primary-rose);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 991px) {
+    .hero-section {
+        text-align: center;
+        padding-top: 100px;
+    }
+    
+    .blob-bg {
+        width: 280px;
+        height: 280px;
+    }
+    
     .profile-img {
-        width: 180px;
-        height: 180px;
+        width: 250px;
+        height: 250px;
+        margin-top: 2rem;
     }
 }

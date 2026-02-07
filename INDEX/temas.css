@@ -1,149 +1,117 @@
+/* temas.css - Estilo Profesional Rose Gold */
 :root {
-    --rosa-principal: #f5cadc;
-    --rosa-oscuro: #d48daa;
-    --rosa-suave: #fef8fb;
-    --blanco: #ffffff;
-    --gris-texto: #343a40;
-    --dorado: #e5c07b;
-}
-
-/* GENERAL */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    --primary-rose: #d68c9f;
+    --rose-gradient: linear-gradient(135deg, #d68c9f 0%, #b5657b 100%);
+    --bg-body: #fdfbfb;
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --text-dark: #2c3e50;
+    --shadow-card: 0 10px 20px rgba(0,0,0,0.05);
 }
 
 body {
-    font-family: 'Quicksand', sans-serif;
-    background: linear-gradient(to bottom right, var(--rosa-suave), var(--blanco));
-    color: var(--gris-texto);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    animation: fadeIn 1s ease-in;
+    background-color: var(--bg-body);
+    /* Fondo sutil de puntos */
+    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 25px 25px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Navbar efecto cristal */
+.navbar-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* HEADER */
-header {
-    background: linear-gradient(135deg, var(--rosa-oscuro), var(--rosa-principal));
-    color: var(--gris-texto);
-    text-align: center;
-    padding: 50px 20px;
-    border-bottom: 4px solid var(--rosa-oscuro);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
-
-header h1 {
+.navbar-brand {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    letter-spacing: 1px;
-    color: var(--gris-texto);
+    font-weight: 700;
 }
 
-/* CONTENT / SECCIONES */
-.content {
-    max-width: 1000px;
-    margin: 60px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    padding: 0 20px;
-}
-
-.content img {
-    max-width: 450px;
-    border-radius: 25px;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.content img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(212, 141, 170, 0.3);
-}
-
-/* NAV */
-nav {
-    background-color: var(--blanco);
-    border-radius: 30px;
-    padding: 40px;
+/* Header del Tema */
+.page-header {
+    margin-top: 80px;
+    margin-bottom: 40px;
     text-align: center;
-    flex: 1;
-    min-width: 280px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    align-items: center;
+.page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
-nav li a {
-    text-decoration: none;
-    background: linear-gradient(135deg, var(--rosa-oscuro), var(--rosa-principal));
-    color: var(--blanco);
-    padding: 14px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    display: inline-block;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+.page-header .divider {
+    width: 60px;
+    height: 4px;
+    background: var(--rose-gradient);
+    margin: 15px auto;
+    border-radius: 2px;
 }
 
-nav li a:hover {
-    background-color: var(--dorado);
-    color: var(--gris-texto);
-    transform: translateY(-3px) scale(1.05);
-}
-
-/* FOOTER */
-footer {
-    background: linear-gradient(135deg, var(--rosa-principal), var(--rosa-suave));
-    color: var(--gris-texto);
+/* Tarjeta de la Imagen Principal */
+.image-card {
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
     text-align: center;
+}
+
+.image-card img {
+    border-radius: 15px;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Botones de Ejercicios (Estilo Tarjeta) */
+.exercise-card {
+    display: block;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
     padding: 20px;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-top: auto;
-    box-shadow: 0 -6px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    height: 100%; /* Para que todas midan lo mismo */
+    position: relative;
+    overflow: hidden;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
+.exercise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(214, 140, 159, 0.2);
+    border-color: var(--primary-rose);
+}
 
-    .content img {
-        max-width: 80%;
-    }
+/* Icono dentro de la tarjeta */
+.exercise-icon {
+    font-size: 1.5rem;
+    color: var(--primary-rose);
+    margin-bottom: 10px;
+    display: block;
+}
 
-    header h1 {
-        font-size: 2.3rem;
-    }
+.exercise-title {
+    font-weight: 700;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 5px;
+}
 
-    nav li a {
-        font-size: 1rem;
-        padding: 12px 24px;
-    }
+.exercise-desc {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 30px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    background: white;
 }
