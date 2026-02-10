@@ -6,7 +6,7 @@ const editIndexInput = document.getElementById('editIndex');
 // url
 const API_URL = 'servidor.php';
 
-// Variable para guardar de moento lo que descargue
+// Variable para guardar de momento lo que descargue
 let usuarios = [];
 
 // Cargar datos del servidor
