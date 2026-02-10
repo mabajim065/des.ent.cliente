@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Usuarios - Proyecto B</title>
-    <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; }
-        form { display: grid; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
-        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .btn-guardar { background-color: #28a745; color: white; cursor: pointer; border: none; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f8f9fa; }
-        .btn-borrar { background-color: #dc3545; color: white; border: none; padding: 5px; cursor: pointer; border-radius: 3px; }
-        .btn-editar { background-color: #ffc107; color: black; border: none; padding: 5px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
-    </style>
+
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Gestión de Usuarios (CRUD Completo)</h2>
-    
-    <form id="userForm">
-        <input type="hidden" id="editIndex" value="-1"> <input type="text" id="nombre" placeholder="Nombre completo" required>
-        <input type="email" id="correo" placeholder="Correo electrónico" required>
-        
-        <input type="text" id="movil" placeholder="Móvil (9 dígitos, empieza 6 o 7)" 
-               pattern="^[67]\d{8}$" title="Debe empezar por 6 o 7 y tener 9 dígitos" required>
-        
-        <input type="number" id="edad" placeholder="Edad" min="18" required>
-        
-        <select id="idioma" required>
-            <option value="">Selecciona Nivel de Idioma</option>
-            <option value="A1">A1</option>
-            <option value="B1">B1</option>
-            <option value="B2">B2</option>
-            <option value="C1">C1</option>
-        </select>
-        
-        <button type="submit" class="btn-guardar" id="btnSubmit">Guardar Usuario</button>
-    </form>
+    <div class="container">
+        <h2>Gestión de Usuarios (CRUD Completo)</h2>
 
-    <h3>Listado de Usuarios</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Móvil</th>
-                <th>Edad</th>
-                <th>Idioma</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="listaUsuarios">
+        <form id="userForm">
+            <input type="hidden" id="editIndex" value="-1"> <input type="text" id="nombre" placeholder="Nombre completo"
+                required>
+            <input type="email" id="correo" placeholder="Correo electrónico" required>
+
+            <input type="text" id="movil" placeholder="Móvil (9 dígitos, empieza 6 o 7)" pattern="^[67]\d{8}$"
+                title="Debe empezar por 6 o 7 y tener 9 dígitos" required>
+
+            <input type="number" id="edad" placeholder="Edad" min="18" required>
+
+            <select id="idioma" required>
+                <option value="">Selecciona Nivel de Idioma</option>
+                <option value="A1">A1</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="C1">C1</option>
+            </select>
+
+            <button type="submit" class="btn-guardar" id="btnSubmit">Guardar Usuario</button>
+        </form>
+
+        <h3>Listado de Usuarios</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Móvil</th>
+                    <th>Edad</th>
+                    <th>Idioma</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="listaUsuarios">
             </tbody>
-    </table>
-</div>
+        </table>
+    </div>
 
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>

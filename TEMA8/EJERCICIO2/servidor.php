@@ -1,81 +1,82 @@
-// Cargar datos al iniciar
-let usuarios = JSON.parse(localStorage.getItem('usuarios_db')) || [];
-const form = document.getElementById('userForm');
-const tabla = document.getElementById('listaUsuarios');
-const editIndexInput = document.getElementById('editIndex');
+<?php
+// Configuración de la conexión
+$servidor = "localhost";
+$usuario = "root";
+$password = "root";
+$base_datos = "curso_ajax";
 
-// Función para pintar la tabla
-function renderizarTabla() {
-    tabla.innerHTML = "";
-    usuarios.forEach((user, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${user.nombre}</td>
-            <td>${user.correo}</td>
-            <td>${user.movil}</td>
-            <td>${user.edad}</td>
-            <td>${user.idioma}</td>
-            <td>
-                <button class="btn-editar" onclick="prepararEdicion(${index})">Editar</button>
-                <button class="btn-borrar" onclick="borrarUsuario(${index})">Borrar</button>
-            </td>
-        `;
-        tabla.appendChild(tr);
-    });
+// conecto con la bs
+$conn = new mysqli($servidor, $usuario, $password, $base_datos);
+
+// si falla la conexión, aviso y paro todo
+if ($conn->connect_error) {
+    http_response_code(500);
+    die(json_encode(["error" => "No conecta a la BD: " . $conn->connect_error]));
 }
 
-// Guardar o Actualizar
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const index = parseInt(editIndexInput.value);
-    const nuevoUsuario = {
-        nombre: document.getElementById('nombre').value,
-        correo: document.getElementById('correo').value,
-        movil: document.getElementById('movil').value,
-        edad: document.getElementById('edad').value,
-        idioma: document.getElementById('idioma').value
-    };
+// preparo pa que el usuario q es json y que se pueda enra desde cualquier lao
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
-    if (index === -1) {
-        // Crear nuevo
-        usuarios.push(nuevoUsuario);
-    } else {
-        // Actualizar existente
-        usuarios[index] = nuevoUsuario;
-        editIndexInput.value = "-1";
-        document.getElementById('btnSubmit').textContent = "Guardar Usuario";
-    }
+// leer q nos piden y los datos que envian
+$metodo = $_SERVER['REQUEST_METHOD'];
+$cuerpo = file_get_contents("php://input");
+$datos = json_decode($cuerpo, true);
 
-    sincronizar();
-    form.reset();
-});
+// para ver q es lo que voya hacer
+switch ($metodo) {
+    case 'GET':
+        // pedir todos los usuarios a la tabla
+        $sql = "SELECT * FROM usuarios ORDER BY id DESC";
+        $resultado = $conn->query($sql);
 
-// Función para borrar (Requisito Proyecto B)
-function borrarUsuario(index) {
-    if(confirm("¿Seguro que quieres eliminar este registro?")) {
-        usuarios.splice(index, 1);
-        sincronizar();
-    }
+        $usuarios = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $usuarios[] = $fila;
+        }
+        echo json_encode($usuarios);
+        break;
+
+    case 'POST':
+        //mete nuevo usuario
+        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, movil, edad, idioma) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssis", $datos['nombre'], $datos['correo'], $datos['movil'], $datos['edad'], $datos['idioma']);
+
+        if ($stmt->execute()) {
+            echo json_encode(["mensaje" => "Guardado correctamente"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Error al guardar"]);
+        }
+        break;
+
+    case 'PUT':
+        // actualizar
+        $stmt = $conn->prepare("UPDATE usuarios SET nombre=?, correo=?, movil=?, edad=?, idioma=? WHERE id=?");
+        $stmt->bind_param("sssisi", $datos['nombre'], $datos['correo'], $datos['movil'], $datos['edad'], $datos['idioma'], $datos['id']);
+
+        if ($stmt->execute()) {
+            echo json_encode(["mensaje" => "Actualizado correctamente"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Error al actualizar"]);
+        }
+        break;
+
+    case 'DELETE':
+        // borrar
+        $stmt = $conn->prepare("DELETE FROM usuarios WHERE id=?");
+        $stmt->bind_param("i", $datos['id']);
+
+        if ($stmt->execute()) {
+            echo json_encode(["mensaje" => "Borrado correctamente"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Error al borrar"]);
+        }
+        break;
 }
 
-// Función para cargar datos en el formulario y editar (Requisito Proyecto B)
-function prepararEdicion(index) {
-    const user = usuarios[index];
-    document.getElementById('nombre').value = user.nombre;
-    document.getElementById('correo').value = user.correo;
-    document.getElementById('movil').value = user.movil;
-    document.getElementById('edad').value = user.edad;
-    document.getElementById('idioma').value = user.idioma;
-    
-    editIndexInput.value = index;
-    document.getElementById('btnSubmit').textContent = "Actualizar Datos";
-}
 
-function sincronizar() {
-    localStorage.setItem('usuarios_db', JSON.stringify(usuarios));
-    renderizarTabla();
-}
-
-// Primera carga
-renderizarTabla();
+$conn->close();
