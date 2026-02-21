@@ -1,26 +1,27 @@
 <?php
-// db.php - Módulo de conexión a la base de datos
-class Database {
-    private $host = "localhost";
-    private $db_name = "tienda_ropa";
-    private $username = "root"; // Pon tu usuario de MySQL (en XAMPP suele ser root)
-    private $password = "";     // Pon tu contraseña (en XAMPP suele estar vacío)
-    public $conn;
+/*
+ * ============================================================
+ *  db.php — Conexión a la base de datos tienda_ropa
+ * ============================================================
+ */
 
-    public function getConnection() {
-        $this->conn = null;
-        try {
-            // Utilizamos PDO porque permite mejor control de errores y sentencias preparadas
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8mb4");
-            // Configuramos PDO para que lance excepciones en caso de error
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $exception) {
-            http_response_code(500); // Código HTTP de Error Interno del Servidor
-            echo json_encode(["error" => "Error de conexión a BBDD: " . $exception->getMessage()]);
-            exit;
-        }
-        return $this->conn;
-    }
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', 'usuario');
+define('DB_NAME', 'tienda_ropa');
+define('DB_CHARSET', 'utf8');
+
+$conexion = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if ($conexion->connect_error) {
+    header("Content-Type: application/json; charset=UTF-8");
+    http_response_code(500);
+    echo json_encode([
+        "error"   => true,
+        "mensaje" => "Error de conexión: " . $conexion->connect_error
+    ]);
+    exit();
 }
+
+$conexion->set_charset(DB_CHARSET);
 ?>
