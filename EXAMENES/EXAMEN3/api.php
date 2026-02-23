@@ -1,11 +1,17 @@
 <?php
-/*
- *  API REST — TIENDA DE ROPA
- */
+/* ══════════════════════════════════════════════════
+ *  API REST — TIENDA DE ROPA (CRUD completo)
+ *
+ *  GET    api.php          → Listar todos
+ *  GET    api.php?id=1     → Obtener por ID
+ *  POST   api.php          → Crear producto
+ *  PUT    api.php?id=1     → Actualizar producto
+ *  DELETE api.php?id=1     → Eliminar producto
+ * ══════════════════════════════════════════════════ */
 
 /* ── CABECERAS CORS ── */
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -14,33 +20,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-/*  CONEXIÓN */
+/* ── CONEXIÓN ── */
 require_once 'db.php';
 
-/* MÉTODO E ID  */
+/* ── MÉTODO E ID ── */
 $metodo = $_SERVER['REQUEST_METHOD'];
 $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
-/* ENRUTADOR */
+/* ── ENRUTADOR ── */
 switch ($metodo) {
-    case 'GET':
-        obtenerProductos($conexion, $id);
-        break;
-    case 'POST':
-        crearProducto($conexion);
-        break;
-    case 'PUT':
-        actualizarProducto($conexion, $id);
-        break;
-    case 'DELETE':
-        eliminarProducto($conexion, $id);
-        break;
+    case 'GET':    obtenerProductos($conexion, $id); break;
+    case 'POST':   crearProducto($conexion);         break;
+    case 'PUT':    actualizarProducto($conexion, $id); break;
+    case 'DELETE': eliminarProducto($conexion, $id);  break;
     default:
         http_response_code(405);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Método $metodo no permitido"
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Método no permitido"]);
         break;
 }
 
@@ -48,11 +43,10 @@ $conexion->close();
 exit();
 
 
-/* ══════════════════════════════════════════════════════════
-   ██  GET — OBTENER PRODUCTOS
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+ *  GET — OBTENER PRODUCTOS
+ * ══════════════════════════════════════════════════ */
 function obtenerProductos($conexion, $id) {
-
     if ($id !== null) {
         $stmt = $conexion->prepare("SELECT * FROM productos WHERE id = ?");
         $stmt->bind_param("i", $id);
@@ -61,55 +55,39 @@ function obtenerProductos($conexion, $id) {
 
         if ($resultado->num_rows === 0) {
             http_response_code(404);
-            echo json_encode([
-                "error"   => true,
-                "mensaje" => "Producto con id=$id no encontrado"
-            ]);
+            echo json_encode(["error" => true, "mensaje" => "Producto no encontrado"]);
         } else {
-            http_response_code(200);
             echo json_encode($resultado->fetch_assoc());
         }
-
         $stmt->close();
         return;
     }
 
     $resultado = $conexion->query("SELECT * FROM productos ORDER BY id ASC");
     $productos = [];
-
     while ($fila = $resultado->fetch_assoc()) {
         $productos[] = $fila;
     }
-
-    http_response_code(200);
     echo json_encode($productos);
 }
 
 
-/* ══════════════════════════════════════════════════════════
-   ██  POST — CREAR PRODUCTO
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+ *  POST — CREAR PRODUCTO
+ * ══════════════════════════════════════════════════ */
 function crearProducto($conexion) {
-
     $datos = json_decode(file_get_contents("php://input"), true);
 
     if ($datos === null) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "El cuerpo de la petición no es JSON válido"
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "JSON inválido"]);
         return;
     }
 
     $errores = validarCampos($datos);
     if (!empty($errores)) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Errores de validación",
-            "errores" => $errores
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Errores de validación", "errores" => $errores]);
         return;
     }
 
@@ -119,102 +97,68 @@ function crearProducto($conexion) {
     $precio = (float)$datos['precio'];
     $email  = trim($datos['email_creador']);
 
-    // Comprobar código duplicado
-    $stmtCheck = $conexion->prepare("SELECT id FROM productos WHERE codigo = ?");
-    $stmtCheck->bind_param("s", $codigo);
-    $stmtCheck->execute();
-    if ($stmtCheck->get_result()->num_rows > 0) {
+    // Comprobar duplicado
+    $check = $conexion->prepare("SELECT id FROM productos WHERE codigo = ?");
+    $check->bind_param("s", $codigo);
+    $check->execute();
+    if ($check->get_result()->num_rows > 0) {
         http_response_code(409);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Ya existe un producto con el código '$codigo'"
-        ]);
-        $stmtCheck->close();
+        echo json_encode(["error" => true, "mensaje" => "Ya existe un producto con ese código"]);
+        $check->close();
         return;
     }
-    $stmtCheck->close();
+    $check->close();
 
-    $stmt = $conexion->prepare(
-        "INSERT INTO productos (codigo, nombre, talla, precio, email_creador)
-         VALUES (?, ?, ?, ?, ?)"
-    );
+    $stmt = $conexion->prepare("INSERT INTO productos (codigo, nombre, talla, precio, email_creador) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssds", $codigo, $nombre, $talla, $precio, $email);
 
     if ($stmt->execute()) {
-        $nuevoId = $conexion->insert_id;
         http_response_code(201);
         echo json_encode([
-            "error"   => false,
+            "error" => false,
             "mensaje" => "Producto creado correctamente",
-            "id"      => $nuevoId,
-            "datos"   => [
-                "id"            => $nuevoId,
-                "codigo"        => $codigo,
-                "nombre"        => $nombre,
-                "talla"         => $talla,
-                "precio"        => $precio,
-                "email_creador" => $email
-            ]
+            "datos" => ["id" => $conexion->insert_id, "codigo" => $codigo, "nombre" => $nombre, "talla" => $talla, "precio" => $precio, "email_creador" => $email]
         ]);
     } else {
         http_response_code(500);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Error al insertar: " . $stmt->error
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Error al insertar: " . $stmt->error]);
     }
-
     $stmt->close();
 }
 
 
-/* ══════════════════════════════════════════════════════════
-   ██  PUT — ACTUALIZAR PRODUCTO
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+ *  PUT — ACTUALIZAR PRODUCTO
+ * ══════════════════════════════════════════════════ */
 function actualizarProducto($conexion, $id) {
-
     if ($id === null) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Debes proporcionar ?id=X en la URL"
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Falta ?id=X"]);
         return;
     }
 
-    $stmtExiste = $conexion->prepare("SELECT id FROM productos WHERE id = ?");
-    $stmtExiste->bind_param("i", $id);
-    $stmtExiste->execute();
-    if ($stmtExiste->get_result()->num_rows === 0) {
+    $check = $conexion->prepare("SELECT id FROM productos WHERE id = ?");
+    $check->bind_param("i", $id);
+    $check->execute();
+    if ($check->get_result()->num_rows === 0) {
         http_response_code(404);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Producto con id=$id no encontrado"
-        ]);
-        $stmtExiste->close();
+        echo json_encode(["error" => true, "mensaje" => "Producto no encontrado"]);
+        $check->close();
         return;
     }
-    $stmtExiste->close();
+    $check->close();
 
     $datos = json_decode(file_get_contents("php://input"), true);
-
     if ($datos === null) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "El cuerpo de la petición no es JSON válido"
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "JSON inválido"]);
         return;
     }
 
     $errores = validarCampos($datos);
     if (!empty($errores)) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Errores de validación",
-            "errores" => $errores
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Errores de validación", "errores" => $errores]);
         return;
     }
 
@@ -225,147 +169,94 @@ function actualizarProducto($conexion, $id) {
     $email  = trim($datos['email_creador']);
 
     // Comprobar que el código no pertenezca a OTRO producto
-    $stmtDup = $conexion->prepare("SELECT id FROM productos WHERE codigo = ? AND id != ?");
-    $stmtDup->bind_param("si", $codigo, $id);
-    $stmtDup->execute();
-    if ($stmtDup->get_result()->num_rows > 0) {
+    $dup = $conexion->prepare("SELECT id FROM productos WHERE codigo = ? AND id != ?");
+    $dup->bind_param("si", $codigo, $id);
+    $dup->execute();
+    if ($dup->get_result()->num_rows > 0) {
         http_response_code(409);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "El código '$codigo' ya está asignado a otro producto"
-        ]);
-        $stmtDup->close();
+        echo json_encode(["error" => true, "mensaje" => "Código ya asignado a otro producto"]);
+        $dup->close();
         return;
     }
-    $stmtDup->close();
+    $dup->close();
 
-    $stmt = $conexion->prepare(
-        "UPDATE productos
-         SET codigo = ?, nombre = ?, talla = ?, precio = ?, email_creador = ?
-         WHERE id = ?"
-    );
+    $stmt = $conexion->prepare("UPDATE productos SET codigo=?, nombre=?, talla=?, precio=?, email_creador=? WHERE id=?");
     $stmt->bind_param("sssdsi", $codigo, $nombre, $talla, $precio, $email, $id);
 
     if ($stmt->execute()) {
-        http_response_code(200);
         echo json_encode([
-            "error"   => false,
-            "mensaje" => "Producto id=$id actualizado correctamente",
-            "datos"   => [
-                "id"            => $id,
-                "codigo"        => $codigo,
-                "nombre"        => $nombre,
-                "talla"         => $talla,
-                "precio"        => $precio,
-                "email_creador" => $email
-            ]
+            "error" => false,
+            "mensaje" => "Producto actualizado correctamente",
+            "datos" => ["id" => $id, "codigo" => $codigo, "nombre" => $nombre, "talla" => $talla, "precio" => $precio, "email_creador" => $email]
         ]);
     } else {
         http_response_code(500);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Error al actualizar: " . $stmt->error
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Error al actualizar"]);
     }
-
     $stmt->close();
 }
 
 
-/* ══════════════════════════════════════════════════════════
-   ██  DELETE — ELIMINAR PRODUCTO
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+ *  DELETE — ELIMINAR PRODUCTO
+ * ══════════════════════════════════════════════════ */
 function eliminarProducto($conexion, $id) {
-
     if ($id === null) {
         http_response_code(400);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Debes proporcionar ?id=X en la URL"
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Falta ?id=X"]);
         return;
     }
 
-    $stmtExiste = $conexion->prepare("SELECT id, nombre FROM productos WHERE id = ?");
-    $stmtExiste->bind_param("i", $id);
-    $stmtExiste->execute();
-    $resultado = $stmtExiste->get_result();
-
-    if ($resultado->num_rows === 0) {
+    $check = $conexion->prepare("SELECT id, nombre FROM productos WHERE id = ?");
+    $check->bind_param("i", $id);
+    $check->execute();
+    $res = $check->get_result();
+    if ($res->num_rows === 0) {
         http_response_code(404);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Producto con id=$id no encontrado"
-        ]);
-        $stmtExiste->close();
+        echo json_encode(["error" => true, "mensaje" => "Producto no encontrado"]);
+        $check->close();
         return;
     }
-
-    $productoEliminado = $resultado->fetch_assoc();
-    $stmtExiste->close();
+    $prod = $res->fetch_assoc();
+    $check->close();
 
     $stmt = $conexion->prepare("DELETE FROM productos WHERE id = ?");
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        http_response_code(200);
-        echo json_encode([
-            "error"   => false,
-            "mensaje" => "Producto '{$productoEliminado['nombre']}' (id=$id) eliminado correctamente"
-        ]);
+        echo json_encode(["error" => false, "mensaje" => "Producto '{$prod['nombre']}' eliminado"]);
     } else {
         http_response_code(500);
-        echo json_encode([
-            "error"   => true,
-            "mensaje" => "Error al eliminar: " . $stmt->error
-        ]);
+        echo json_encode(["error" => true, "mensaje" => "Error al eliminar"]);
     }
-
     $stmt->close();
 }
 
 
-/* ══════════════════════════════════════════════════════════
-   ██  VALIDACIÓN DE CAMPOS
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+ *  VALIDACIÓN
+ * ══════════════════════════════════════════════════ */
 function validarCampos($datos) {
-
     $errores = [];
     $tallasPermitidas = ['S', 'M', 'L', 'XL', 'XXL'];
 
-    if (!isset($datos['codigo']) || trim($datos['codigo']) === '') {
-        $errores[] = "El campo 'codigo' es obligatorio";
-    } elseif (strlen(trim($datos['codigo'])) !== 9) {
-        $errores[] = "El campo 'codigo' debe tener exactamente 9 caracteres";
-    }
+    if (!isset($datos['codigo']) || strlen(trim($datos['codigo'])) !== 9)
+        $errores[] = "El código debe tener exactamente 9 caracteres";
 
-    if (!isset($datos['nombre']) || trim($datos['nombre']) === '') {
-        $errores[] = "El campo 'nombre' es obligatorio";
-    } elseif (strlen(trim($datos['nombre'])) > 100) {
-        $errores[] = "El campo 'nombre' no puede superar los 100 caracteres";
-    }
+    if (!isset($datos['nombre']) || trim($datos['nombre']) === '')
+        $errores[] = "El nombre es obligatorio";
+    elseif (strlen(trim($datos['nombre'])) > 100)
+        $errores[] = "El nombre no puede superar 100 caracteres";
 
-    if (!isset($datos['talla']) || trim($datos['talla']) === '') {
-        $errores[] = "El campo 'talla' es obligatorio";
-    } elseif (!in_array(strtoupper(trim($datos['talla'])), $tallasPermitidas)) {
-        $errores[] = "El campo 'talla' debe ser: " . implode(', ', $tallasPermitidas);
-    }
+    if (!isset($datos['talla']) || !in_array(strtoupper(trim($datos['talla'])), $tallasPermitidas))
+        $errores[] = "Talla no válida. Permitidas: " . implode(', ', $tallasPermitidas);
 
-    if (!isset($datos['precio']) || $datos['precio'] === '') {
-        $errores[] = "El campo 'precio' es obligatorio";
-    } elseif (!is_numeric($datos['precio'])) {
-        $errores[] = "El campo 'precio' debe ser un número válido";
-    } elseif ((float)$datos['precio'] <= 0) {
-        $errores[] = "El campo 'precio' debe ser mayor que 0";
-    }
+    if (!isset($datos['precio']) || !is_numeric($datos['precio']) || (float)$datos['precio'] <= 0)
+        $errores[] = "El precio debe ser un número mayor que 0";
 
-    if (!isset($datos['email_creador']) || trim($datos['email_creador']) === '') {
-        $errores[] = "El campo 'email_creador' es obligatorio";
-    } elseif (!filter_var(trim($datos['email_creador']), FILTER_VALIDATE_EMAIL)) {
-        $errores[] = "El campo 'email_creador' no tiene formato de email válido";
-    }
+    if (!isset($datos['email_creador']) || !filter_var(trim($datos['email_creador']), FILTER_VALIDATE_EMAIL))
+        $errores[] = "Email no válido";
 
     return $errores;
 }
-
 ?>
