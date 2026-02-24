@@ -5,13 +5,15 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') { exit(0); }
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
 
 // EXAMEN: Conexión PDO (Asume XAMPP en Windows: root y sin clave)
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=tienda_ropa", "root", "usuario");
+    $conn = new PDO("mysql:host=localhost;dbname=tienda_ropa", "root", "root");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo json_encode(["error" => "Error de conexión: " . $e->getMessage()]);
     exit();
 }
@@ -45,8 +47,8 @@ switch ($method) {
             $stmt = $conn->prepare("INSERT INTO productos (codigo, nombre, talla, precio, email_creador) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$data['codigo'], $data['nombre'], $data['talla'], $data['precio'], $data['email_creador']]);
             echo json_encode(["mensaje" => "Producto creado con éxito", "id" => $conn->lastInsertId()]);
-        } catch(PDOException $e) {
-            http_response_code(400); 
+        } catch (PDOException $e) {
+            http_response_code(400);
             // Control de error si el código ya existe (UNIQUE en BD)
             if ($e->getCode() == 23000) echo json_encode(["error" => "El código de producto ya existe."]);
             else echo json_encode(["error" => $e->getMessage()]);
@@ -61,8 +63,9 @@ switch ($method) {
             $stmt = $conn->prepare("UPDATE productos SET codigo=?, nombre=?, talla=?, precio=?, email_creador=? WHERE id=?");
             $stmt->execute([$data['codigo'], $data['nombre'], $data['talla'], $data['precio'], $data['email_creador'], $data['id']]);
             echo json_encode(["mensaje" => "Producto actualizado con éxito"]);
-        } catch(PDOException $e) {
-            http_response_code(400); echo json_encode(["error" => $e->getMessage()]);
+        } catch (PDOException $e) {
+            http_response_code(400);
+            echo json_encode(["error" => $e->getMessage()]);
         }
         break;
 
@@ -74,9 +77,9 @@ switch ($method) {
             $stmt = $conn->prepare("DELETE FROM productos WHERE id=?");
             $stmt->execute([$data['id']]);
             echo json_encode(["mensaje" => "Producto borrado con éxito"]);
-        } catch(PDOException $e) {
-            http_response_code(400); echo json_encode(["error" => $e->getMessage()]);
+        } catch (PDOException $e) {
+            http_response_code(400);
+            echo json_encode(["error" => $e->getMessage()]);
         }
         break;
 }
-?>
