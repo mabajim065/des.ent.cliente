@@ -215,6 +215,88 @@ document.getElementById('lista-productos')?.addEventListener('click', async (e) 
 });
 
 // ==========================================
+// 5. EXPORTAR E IMPORTAR JSON
+// EXAMEN: BORRAR TODA ESTA SECCIÓN SI NO TE PIDEN DESCARGAR/CARGAR JSON
+// ==========================================
+
+// --- DESCARGAR JSON ---
+// Si te piden descargar la tabla filtrada en vez de toda la BD, cambia "estadoProductos" por "productosFiltrados"
+document.getElementById('btn-descargar-json')?.addEventListener('click', () => {
+    // 1. Convertimos nuestro array de objetos a una cadena de texto en formato JSON
+    // El "null, 2" es solo para que el JSON se descargue tabulado y bonito, no todo en una línea
+    const textoJSON = JSON.stringify(estadoProductos, null, 2); 
+    
+    // 2. Creamos un "Blob" (un archivo en la memoria temporal del navegador)
+    const archivoBlob = new Blob([textoJSON], { type: 'application/json' });
+    
+    // 3. Creamos un enlace (<a>) invisible en el HTML
+    const url = URL.createObjectURL(archivoBlob);
+    const enlaceDescarga = document.createElement('a');
+    enlaceDescarga.href = url;
+    enlaceDescarga.download = 'mis_productos.json'; // Nombre del archivo que se va a descargar
+    
+    // 4. Simulamos que el usuario hace click en el enlace para forzar la descarga y luego limpiamos
+    document.body.appendChild(enlaceDescarga);
+    enlaceDescarga.click();
+    document.body.removeChild(enlaceDescarga);
+    URL.revokeObjectURL(url); // Liberamos la memoria RAM
+});
+
+// --- CARGAR JSON ---
+document.getElementById('input-cargar-json')?.addEventListener('change', (e) => {
+    // 1. Cogemos el archivo que el usuario ha seleccionado
+    const archivo = e.target.files[0];
+    if (!archivo) return; // Si cancela la ventana, no hacemos nada
+
+    // 2. Usamos FileReader para leer el contenido del archivo
+    const lector = new FileReader();
+    
+    // 3. Le decimos qué hacer cuando termine de leer el archivo
+    lector.onload = async (evento) => {
+        try {
+            // Transformamos el texto del archivo a un array de JavaScript
+            const productosNuevos = JSON.parse(evento.target.result);
+            
+            // Si no es un array, lanzamos un error para ir al bloque catch
+            if (!Array.isArray(productosNuevos)) throw new Error("El JSON no es una lista");
+
+            // Avisamos al usuario de que la carga puede tardar si hay muchos
+            Swal.fire({ title: 'Cargando...', text: 'Insertando en la base de datos', showConfirmButton: false });
+
+            // 4. Recorremos el array y guardamos cada producto en la Base de Datos usando la API que ya tienes
+            let insertados = 0;
+            for (const producto of productosNuevos) {
+                try {
+                    // EXAMEN: El backend asignará el ID automáticamente. 
+                    // Si el producto falla (ej: código duplicado), lo ignoramos y seguimos con el siguiente
+                    await crearProducto(producto);
+                    insertados++;
+                } catch (err) {
+                    console.warn(`No se pudo insertar el producto ${producto.codigo}:`, err);
+                }
+            }
+            
+            // 5. Refrescamos la tabla y avisamos del resultado
+            Swal.fire('¡Terminado!', `Se han insertado ${insertados} productos nuevos en la BD.`, 'success');
+            cargarProductos(); // Tu función ya existente para recargar la tabla
+            
+            // Limpiamos el input file por si quiere volver a subir el mismo archivo
+            e.target.value = '';
+
+        } catch (error) {
+            Swal.fire('Error', 'El archivo no tiene un formato JSON válido.', 'error');
+            e.target.value = ''; // Limpiamos el input
+        }
+    };
+    
+    // Le ordenamos que empiece a leer el archivo como texto (esto dispara el onload de arriba)
+    lector.readAsText(archivo);
+});
+// ==========================================
+// FIN DE LA SECCIÓN DE EXPORTAR/IMPORTAR JSON
+// ==========================================
+
+// ==========================================
 // INICIALIZACIÓN
 // ==========================================
 // Cuando todo el HTML se haya cargado, arrancamos la aplicación pidiendo los datos

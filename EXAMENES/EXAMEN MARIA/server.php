@@ -26,7 +26,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
     case 'GET':
-        // 🚀 AHORA EL BACKEND ES TONTO: Solo trae todos los datos, sin filtrar nada.
+        // AHORA EL BACKEND ES TONTO: Solo trae todos los datos, sin filtrar nada.
         // Toda la responsabilidad de buscar por texto se la dejamos a JavaScript.
         $stmt = $conn->query("SELECT * FROM productos ORDER BY id DESC");
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
