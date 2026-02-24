@@ -1,0 +1,17 @@
+/* 1. Separar un poco todo de los bordes de la pantalla */
+body { font-family: sans-serif; padding: 20px; }
+section { padding: 20px; border: 1px solid #ccc; margin-bottom: 20px; }
+
+/* 2. Que los campos del formulario no estén pegados unos con otros */
+.grupo-input { margin-bottom: 10px; display: flex; flex-direction: column; }
+
+/* 3. Que los inputs ocupen todo el ancho sin romper la página */
+input, select { padding: 8px; box-sizing: border-box; }
+
+/* 4. Darle un aspecto decente a los botones rápidamente */
+button { padding: 8px 12px; cursor: pointer; margin-top: 5px; }
+
+/* 5. La tabla: que ocupe todo y tenga la cuadrícula típica */
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+th { background: #eee; }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Vanilla JS Modular</title>
+    <style>
+        /* Un poco de estilo básico para que no se vea roto */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .btn-borrar { color: white; background: red; border: none; padding: 5px 10px; cursor: pointer; }
+        .btn-editar { background: #ffc107; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px;}
+    </style>
+</head>
+<body>
+
+    <h1>Gestión de Usuarios</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaUsuarios">
+            </tbody>
+    </table>
+
+    <div style="margin-top: 20px; padding: 20px; background: #eee;">
+        <h3>Nuevo / Editar Usuario</h3>
+        <form id="formUsuario">
+            <input type="hidden" name="id" id="userId">
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
+            <input type="email" name="correo" id="correo" placeholder="Correo" required>
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+
+    <script type="module" src="main.js"></script>
+    
+
+</body>
+</html>
